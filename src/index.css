@@ -1,0 +1,271 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #7b5cff;
+  --color-brand-strong: #8f44ff;
+  --color-panel: rgba(11, 14, 24, 0.86);
+  --color-panel-border: rgba(255, 255, 255, 0.06);
+  --color-copy: #adb5d8;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(123, 92, 255, 0.75) rgba(7, 9, 16, 0.95);
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    font-family: Inter, "Segoe UI", sans-serif;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(85, 100, 255, 0.08), transparent 18%),
+      radial-gradient(circle at 85% 22%, rgba(123, 92, 255, 0.1), transparent 16%),
+      linear-gradient(180deg, #080a14 0%, #05070e 100%);
+    color: #e8ecff;
+  }
+
+  body[data-loading='true'] {
+    overflow: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: linear-gradient(180deg, rgba(10, 12, 22, 0.98), rgba(6, 8, 15, 0.98));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(123, 92, 255, 0.78), rgba(94, 66, 215, 0.74));
+    border-radius: 999px;
+    border: 2px solid rgba(6, 8, 15, 0.98);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(136, 108, 255, 0.9), rgba(105, 76, 229, 0.85));
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(circle at center, black 30%, transparent 88%);
+    opacity: 0.3;
+  }
+
+  #contact input:-webkit-autofill,
+  #contact input:-webkit-autofill:hover,
+  #contact input:-webkit-autofill:focus,
+  #contact input:-webkit-autofill:active,
+  #contact textarea:-webkit-autofill,
+  #contact textarea:-webkit-autofill:hover,
+  #contact textarea:-webkit-autofill:focus,
+  #contact textarea:-webkit-autofill:active {
+    -webkit-text-fill-color: #e8ecff !important;
+    -webkit-box-shadow: 0 0 0 1000px #111420 inset !important;
+    box-shadow: 0 0 0 1000px #111420 inset !important;
+    background-color: #111420 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    caret-color: #e8ecff !important;
+    transition: background-color 99999s ease-in-out 0s, color 99999s ease-in-out 0s;
+  }
+
+  #contact input:-moz-autofill,
+  #contact textarea:-moz-autofill {
+    color: #e8ecff !important;
+    box-shadow: 0 0 0 1000px #111420 inset !important;
+    background-color: #111420 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    caret-color: #e8ecff !important;
+  }
+
+  #contact input:autofill,
+  #contact textarea:autofill {
+    color: #e8ecff !important;
+    background-color: #111420 !important;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  @property --spin-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  @keyframes target-ring-spin {
+    to {
+      --spin-angle: 360deg;
+    }
+  }
+
+  .target-ring {
+    position: relative;
+    isolation: isolate;
+    transition: border-color 220ms ease;
+  }
+
+  .target-ring:target {
+    border-color: transparent;
+  }
+
+  .target-ring:target::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    z-index: -1;
+    background: conic-gradient(
+      from var(--spin-angle),
+      rgba(123, 92, 255, 0.25) 0deg,
+      rgba(123, 92, 255, 0.35) 60deg,
+      rgba(123, 92, 255, 1) 120deg,
+      rgba(123, 92, 255, 0.35) 180deg,
+      rgba(123, 92, 255, 1) 240deg,
+      rgba(123, 92, 255, 0.35) 300deg,
+      rgba(123, 92, 255, 0.25) 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: target-ring-spin 1.8s linear infinite;
+    box-shadow: 0 0 24px rgba(123, 92, 255, 0.45);
+  }
+
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.18;
+    }
+  }
+
+  .animate-blink {
+    animation: blink 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes code-char {
+    0%,
+    14% {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+    15%,
+    90% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-1px);
+    }
+  }
+
+  @keyframes writing {
+    0%,
+    10% {
+      width: 0ch;
+      opacity: 0;
+    }
+    24% {
+      width: 1ch;
+      opacity: 1;
+    }
+    38% {
+      width: 2ch;
+      opacity: 1;
+    }
+    52%,
+    80% {
+      width: 3ch;
+      opacity: 1;
+    }
+    100% {
+      width: 0ch;
+      opacity: 0;
+    }
+  }
+
+  .typing-shell {
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+
+  .typing-text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 0.12em solid rgba(123, 255, 120, 1);
+    width: 0ch;
+    animation:
+      writing 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+      cursor-blink 0.9s ease-in-out infinite;
+  }
+
+  .coding-text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-variant-ligatures: none;
+  }
+
+  .coding-text .char {
+    opacity: 0;
+    animation: code-char 2s ease-in-out infinite;
+  }
+
+  .coding-text .c1 {
+    animation-delay: 0s;
+  }
+
+  .coding-text .c2 {
+    animation-delay: 0.2s;
+  }
+
+  .coding-text .c3 {
+    animation-delay: 0.32s;
+  }
+
+  @keyframes cursor-blink {
+    0%,
+    100% {
+      border-right-color: rgba(123, 255, 120, 1);
+    }
+    50% {
+      border-right-color: rgba(123, 255, 120, 0.15);
+    }
+  }
+
+}
