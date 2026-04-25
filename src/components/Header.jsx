@@ -62,11 +62,34 @@ function Header({ brandName }) {
     const updateActiveByScroll = () => {
       const lock = navLockRef.current
       if (lock.active) {
+        const targetSection = document.querySelector(lock.target)
+        if (targetSection) {
+          const targetTop = targetSection.offsetTop
+          const currentTop = window.scrollY + 112
+          if (Math.abs(currentTop - targetTop) <= 24) {
+            lock.active = false
+          } else {
+            return
+          }
+        } else {
+          lock.active = false
+        }
+      }
+
+      if (lock.active) {
         return
       }
 
       const scrollMarker = window.scrollY + 180
+      const viewportBottom = window.scrollY + window.innerHeight
+      const pageBottom = document.documentElement.scrollHeight
       let current = sections[0]
+
+      if (viewportBottom >= pageBottom - 8) {
+        const lastSection = sections[sections.length - 1]
+        setActiveHref(`#${lastSection.id}`)
+        return
+      }
 
       for (const section of sections) {
         if (scrollMarker >= section.offsetTop - 1) {

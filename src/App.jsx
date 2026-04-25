@@ -50,7 +50,7 @@ function App() {
         <AboutContactSection contactItems={contactItems} />
       </main>
 
-      <footer className="mx-auto mt-20 w-[min(1180px,calc(100%-32px))] border-t border-white/8 pt-10 pb-16 text-[0.95rem] text-[#9aa3cb] max-md:w-[min(100%-20px,1180px)] max-md:mt-14 max-md:pt-8 max-md:pb-12">
+      <footer className="mx-auto mt-32 w-[min(1180px,calc(100%-32px))] border-t border-white/8 pt-10 pb-16 text-[0.95rem] text-[#9aa3cb] max-md:w-[min(100%-20px,1180px)] max-md:mt-24 max-md:pt-8 max-md:pb-12">
         <div className="flex justify-between gap-5 max-md:flex-col max-md:text-center">
           <p className="m-0">(c) 2026 Cristian Dev. Todos los derechos reservados.</p>
           <p className="m-0">Hecho con mucho codigo</p>

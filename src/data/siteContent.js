@@ -16,9 +16,9 @@ export const brandName = 'Cristian Dev'
 
 export const hero = {
   title: 'Cristian Dev',
-  role: 'Desarrollador Full Stack',
+  role: 'Sistemas web y automatizaciones a medida',
   description:
-    'Me gusta crear herramientas web modernas que hacen mas simple el trabajo diario, automatizan tareas repetitivas y mejoran la experiencia de quienes las usan. Siempre estoy aprendiendo y construyendo soluciones utiles.',
+    'Desarrollo herramientas para negocios y equipos que necesitan ordenar procesos, reducir trabajo manual y ahorrar tiempo con una solucion hecha segun su forma real de trabajar. Creo sistemas claros, utiles y faciles de usar para que operar mejor no dependa de mas esfuerzo.',
   image: heroImg,
 }
 

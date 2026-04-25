@@ -1,6 +1,6 @@
 import externalLinkIcon from '../assets/icons/external-link.svg'
 import { submitContactForm, validateContactForm } from '../lib/contact.js'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 function SectionShell({ id, title, children, action }) {
   const handlePointerMove = (event) => {
@@ -62,6 +62,9 @@ export function HeroSection({ hero, socials }) {
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_35%,rgba(123,92,255,0.18),transparent_22%),radial-gradient(circle_at_30%_18%,rgba(60,89,255,0.12),transparent_30%)]" />
       <div className="relative z-[1] pb-11">
+        <p className="mb-3 inline-flex rounded-full border border-[rgba(123,92,255,0.22)] bg-[rgba(123,92,255,0.08)] px-4 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-[#c9c3ff]">
+          Automatizacion y sistemas para negocios
+        </p>
         <p className="mb-2 text-[2rem] font-bold text-[var(--color-brand)]">Hola, soy</p>
         <h1 className="m-0 text-[clamp(3.1rem,8vw,6rem)] leading-[0.95] font-bold text-white">
           {hero.title.split(' ')[0]} <span className="text-[#7058ff]">Dev</span>
@@ -186,6 +189,8 @@ export function ProjectsSection({ projects }) {
 }
 
 export function AboutContactSection({ contactItems }) {
+  const aboutModalPanelRef = useRef(null)
+
   const handlePointerMove = (event) => {
     const element = event.currentTarget
     const rect = element.getBoundingClientRect()
@@ -199,6 +204,19 @@ export function AboutContactSection({ contactItems }) {
   const handlePointerLeave = (event) => {
     event.currentTarget.style.setProperty('--tilt-x', '0')
     event.currentTarget.style.setProperty('--tilt-y', '0')
+  }
+
+  const handleAboutModalPointerMove = (event) => {
+    const panel = aboutModalPanelRef.current
+    if (!panel) return
+
+    const rect = panel.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
+    panel.style.setProperty('--modal-tilt-x', `${Math.max(-1, Math.min(1, x))}`)
+  }
+
+  const handleAboutModalPointerLeave = () => {
+    aboutModalPanelRef.current?.style.setProperty('--modal-tilt-x', '0')
   }
 
   const [formState, setFormState] = useState({
@@ -328,7 +346,7 @@ export function AboutContactSection({ contactItems }) {
           <h3 className="m-0 text-xl font-semibold text-white">Sobre mi</h3>
         </div>
         <p className="mt-4 leading-[1.8] text-[var(--color-copy)]">
-          Desarrollo soluciones web a medida para automatizar tareas, optimizar procesos y crear herramientas utiles que ahorren tiempo y mejoren la forma de trabajar de cada cliente.
+          Desarrollo soluciones web a medida para negocios y equipos que necesitan ordenar su operacion, automatizar tareas repetitivas y trabajar con mas claridad. Creo herramientas pensadas para adaptarse a cada proceso, reducir errores manuales, ahorrar tiempo y convertir tareas que hoy consumen energia en flujos simples, utiles y faciles de usar.
         </p>
           <button
             type="button"
@@ -455,11 +473,14 @@ export function AboutContactSection({ contactItems }) {
             isAboutModalClosing ? 'about-modal-overlay--closing' : ''
           }`}
           onMouseDown={closeAboutModal}
+          onPointerMove={handleAboutModalPointerMove}
+          onPointerLeave={handleAboutModalPointerLeave}
         >
           <article
             role="dialog"
             aria-modal="true"
             aria-labelledby="about-modal-title"
+            ref={aboutModalPanelRef}
             className={`about-modal-panel about-modal-panel--tilted-right relative w-full max-w-[760px] overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(14,18,32,0.98),rgba(9,12,22,0.98))] shadow-[0_30px_90px_rgba(0,0,0,0.55)] ${
               isAboutModalClosing ? 'about-modal-panel--closing' : ''
             }`}
