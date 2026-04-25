@@ -418,7 +418,7 @@ export function AboutContactSection({ contactItems }) {
               value={formState.message}
               onChange={handleChange}
               autoComplete="off"
-              placeholder="Mensaje"
+              placeholder="Contame tu proceso actual y te digo que se puede automatizar"
               rows="5"
               maxLength={4000}
               className={`${fieldClassName('message')} min-h-[150px] resize-y py-4 leading-[1.7] appearance-none`}
@@ -434,7 +434,7 @@ export function AboutContactSection({ contactItems }) {
                   : 'bg-linear-to-r from-[#5f5cff] to-[#8f44ff] ring-1 ring-transparent hover:-translate-y-0.5 hover:scale-[1.01] hover:from-[#5857ee] hover:to-[#8640f0] hover:ring-white/12 active:scale-[0.99]'
               }`}
             >
-              {status === 'sending' ? 'Enviando...' : status === 'success' ? 'Mensaje enviado' : 'Enviar mensaje'}
+              {status === 'sending' ? 'Enviando...' : status === 'success' ? 'Propuesta solicitada' : 'Solicitar propuesta'}
             </button>
           </form>
         </div>

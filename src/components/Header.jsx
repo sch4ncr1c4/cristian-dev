@@ -157,7 +157,7 @@ function Header({ brandName }) {
           href="#contact"
           className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-5 py-3 font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-[869px]:self-center max-[869px]:rounded-xl max-[869px]:px-4 max-[869px]:py-2 max-[869px]:text-sm"
         >
-          Descargar CV
+          Solicitar propuesta
         </a>
       </div>
     </header>
