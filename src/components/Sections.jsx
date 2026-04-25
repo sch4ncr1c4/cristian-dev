@@ -23,7 +23,7 @@ function SectionShell({ id, title, children, action }) {
       id={id}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className={`tilt-surface ${id === 'skills' ? 'tilt-surface--right' : 'tilt-surface--left'} target-ring mt-24 scroll-mt-28 rounded-3xl border border-white/6 bg-[rgba(11,14,24,0.86)] p-[26px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] max-md:mt-12 max-md:p-5`}
+      className={`tilt-surface ${id === 'projects' ? 'tilt-surface--right' : 'tilt-surface--left'} target-ring mt-24 scroll-mt-28 rounded-3xl border border-white/6 bg-[rgba(11,14,24,0.86)] p-[26px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] max-md:mt-12 max-md:p-5`}
     >
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-[10px]">
@@ -58,7 +58,7 @@ export function HeroSection({ hero, socials }) {
       id="home"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="tilt-surface tilt-surface--left target-ring relative mt-24 scroll-mt-28 grid overflow-hidden rounded-[28px] border border-white/6 bg-[rgba(11,14,24,0.86)] px-[46px] pt-[54px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] md:grid-cols-[1.1fr_0.9fr] max-md:mt-12 max-md:px-5 max-md:pt-5 max-md:pb-[30px]"
+      className="tilt-surface tilt-surface--right target-ring relative mt-24 scroll-mt-28 grid w-full max-w-full overflow-hidden rounded-[28px] border border-white/6 bg-[rgba(11,14,24,0.86)] px-[46px] pt-[54px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] md:grid-cols-[1.1fr_0.9fr] max-md:mt-12 max-md:px-4 max-md:pt-5 max-md:pb-[30px]"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_35%,rgba(123,92,255,0.18),transparent_22%),radial-gradient(circle_at_30%_18%,rgba(60,89,255,0.12),transparent_30%)]" />
       <div className="relative z-[1] pb-11">
@@ -66,13 +66,13 @@ export function HeroSection({ hero, socials }) {
           Automatizacion y sistemas para negocios
         </p>
         <p className="mb-2 text-[2rem] font-bold text-[var(--color-brand)]">Hola, soy</p>
-        <h1 className="m-0 text-[clamp(3.1rem,8vw,6rem)] leading-[0.95] font-bold text-white">
+        <h1 className="m-0 text-[clamp(3.1rem,8vw,6rem)] leading-[0.95] font-bold text-white max-md:text-[clamp(2.2rem,11vw,2.9rem)]">
           {hero.title.split(' ')[0]} <span className="text-[#7058ff]">Dev</span>
         </h1>
-        <h2 className="mt-[18px] mb-5 text-[1.5rem] font-semibold text-white md:text-[2rem]">
+        <h2 className="mt-[18px] mb-5 text-[1.5rem] font-semibold text-white md:text-[2rem] max-md:text-[1.2rem]">
           {hero.role}
         </h2>
-        <p className="max-w-[520px] text-[1.18rem] leading-[1.8] text-[var(--color-copy)]">
+        <p className="max-w-[520px] text-[1.18rem] leading-[1.8] text-[var(--color-copy)] max-md:text-[1rem] max-md:leading-[1.65]">
           {hero.description}
         </p>
         <div className="mt-[34px] mb-[22px] flex flex-wrap gap-4">
@@ -120,8 +120,8 @@ export function SkillsSection({ skills }) {
   return (
     <SectionShell id="skills" title="Habilidades">
       <div className="mt-[22px] grid gap-[18px] md:grid-cols-3 xl:grid-cols-6">
-        {skills.map((skill) => (
-        <article key={skill.name} className="tilt-card tilt-card--right rounded-[18px] border border-white/6 bg-white/[0.03] px-4 pt-[22px] pb-4 text-center">
+        {skills.map((skill, index) => (
+        <article key={skill.name} className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[18px] border border-white/6 bg-white/[0.03] px-4 pt-[22px] pb-4 text-center`}>
             <div className="mx-auto mb-4 grid h-[62px] w-[62px] place-items-center rounded-[18px] border border-white/8 bg-linear-to-b from-white/5 to-[rgba(123,92,255,0.08)] text-[1.8rem] font-extrabold text-[#7bd3ff]">
               {skill.iconSrc ? (
                 <img src={skill.iconSrc} alt={`${skill.name} icon`} className="h-9 w-9 object-contain" />
@@ -339,7 +339,7 @@ export function AboutContactSection({ contactItems }) {
         id="about"
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className="tilt-card tilt-card--right target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+        className="tilt-card tilt-card--left target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
       >
         <div className="flex items-center gap-[10px]">
           <span className="h-[10px] w-[10px] rounded-full bg-[var(--color-brand)] shadow-[0_0_18px_rgba(123,92,255,0.8)]" />
@@ -364,7 +364,7 @@ export function AboutContactSection({ contactItems }) {
         id="contact"
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className="tilt-card tilt-card--left target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+        className="tilt-card tilt-card--right target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
       >
         <div className="grid gap-[18px] lg:grid-cols-2">
           <article>

@@ -14,6 +14,7 @@ import {
   projects,
   skills,
   socials,
+  whatsapp,
 } from './data/siteContent.js'
 
 function App() {
@@ -49,6 +50,16 @@ function App() {
         <ProjectsSection projects={projects} />
         <AboutContactSection contactItems={contactItems} />
       </main>
+
+      <a
+        href={whatsapp.url}
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label="Abrir WhatsApp"
+        className="whatsapp-float-shake fixed right-5 bottom-5 z-50 grid h-14 w-14 place-items-center rounded-full border border-white/20 bg-[rgba(18,24,40,0.78)] shadow-[0_18px_34px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 hover:border-white/30 max-md:right-4 max-md:bottom-4"
+      >
+        <img src={whatsapp.iconSrc} alt="" className="h-8 w-8 object-contain" />
+      </a>
 
       <footer className="mx-auto mt-32 w-[min(1180px,calc(100%-32px))] border-t border-white/8 pt-10 pb-16 text-[0.95rem] text-[#9aa3cb] max-md:w-[min(100%-20px,1180px)] max-md:mt-24 max-md:pt-8 max-md:pb-12">
         <div className="flex justify-between gap-5 max-md:flex-col max-md:text-center">
