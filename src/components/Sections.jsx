@@ -3,8 +3,28 @@ import { submitContactForm, validateContactForm } from '../lib/contact.js'
 import { useEffect, useState } from 'react'
 
 function SectionShell({ id, title, children, action }) {
+  const handlePointerMove = (event) => {
+    const element = event.currentTarget
+    const rect = element.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
+
+    element.style.setProperty('--tilt-x', `${Math.max(-1, Math.min(1, x))}`)
+    element.style.setProperty('--tilt-y', `${Math.max(-1, Math.min(1, y))}`)
+  }
+
+  const handlePointerLeave = (event) => {
+    event.currentTarget.style.setProperty('--tilt-x', '0')
+    event.currentTarget.style.setProperty('--tilt-y', '0')
+  }
+
   return (
-    <section id={id} className="target-ring mt-7 scroll-mt-28 rounded-3xl border border-white/6 bg-[rgba(11,14,24,0.86)] p-[26px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] max-md:p-5">
+    <section
+      id={id}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className={`tilt-surface ${id === 'skills' ? 'tilt-surface--right' : 'tilt-surface--left'} target-ring mt-24 scroll-mt-28 rounded-3xl border border-white/6 bg-[rgba(11,14,24,0.86)] p-[26px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] max-md:mt-12 max-md:p-5`}
+    >
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-[10px]">
           <span className="h-[10px] w-[10px] rounded-full bg-[var(--color-brand)] shadow-[0_0_18px_rgba(123,92,255,0.8)]" />
@@ -18,8 +38,28 @@ function SectionShell({ id, title, children, action }) {
 }
 
 export function HeroSection({ hero, socials }) {
+  const handlePointerMove = (event) => {
+    const element = event.currentTarget
+    const rect = element.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
+
+    element.style.setProperty('--tilt-x', `${Math.max(-1, Math.min(1, x))}`)
+    element.style.setProperty('--tilt-y', `${Math.max(-1, Math.min(1, y))}`)
+  }
+
+  const handlePointerLeave = (event) => {
+    event.currentTarget.style.setProperty('--tilt-x', '0')
+    event.currentTarget.style.setProperty('--tilt-y', '0')
+  }
+
   return (
-    <section id="home" className="target-ring relative mt-7 scroll-mt-28 grid overflow-hidden rounded-[28px] border border-white/6 bg-[rgba(11,14,24,0.86)] px-[46px] pt-[54px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] md:grid-cols-[1.1fr_0.9fr] max-md:px-5 max-md:pt-5 max-md:pb-[30px]">
+    <section
+      id="home"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className="tilt-surface tilt-surface--left target-ring relative mt-24 scroll-mt-28 grid overflow-hidden rounded-[28px] border border-white/6 bg-[rgba(11,14,24,0.86)] px-[46px] pt-[54px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] md:grid-cols-[1.1fr_0.9fr] max-md:mt-12 max-md:px-5 max-md:pt-5 max-md:pb-[30px]"
+    >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_35%,rgba(123,92,255,0.18),transparent_22%),radial-gradient(circle_at_30%_18%,rgba(60,89,255,0.12),transparent_30%)]" />
       <div className="relative z-[1] pb-11">
         <p className="mb-2 text-[2rem] font-bold text-[var(--color-brand)]">Hola, soy</p>
@@ -33,10 +73,10 @@ export function HeroSection({ hero, socials }) {
           {hero.description}
         </p>
         <div className="mt-[34px] mb-[22px] flex flex-wrap gap-4">
-          <a href="#projects" className="group inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-[#5f5cff] to-[#8f44ff] px-[22px] py-[14px] font-semibold text-white no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:from-[#5857ee] hover:to-[#8640f0] hover:ring-white/12 active:translate-y-0 active:scale-[0.99]">
+          <a href="#projects" className="group inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-[#5f5cff] to-[#8f44ff] px-[22px] py-[14px] font-semibold text-white no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:from-[#5857ee] hover:to-[#8640f0] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm">
             Ver mis proyectos
           </a>
-          <a href="#contact" className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99]">
+          <a href="#contact" className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm">
             Contactarme
           </a>
         </div>
@@ -78,7 +118,7 @@ export function SkillsSection({ skills }) {
     <SectionShell id="skills" title="Habilidades">
       <div className="mt-[22px] grid gap-[18px] md:grid-cols-3 xl:grid-cols-6">
         {skills.map((skill) => (
-          <article key={skill.name} className="rounded-[18px] border border-white/6 bg-white/[0.03] px-4 pt-[22px] pb-4 text-center">
+        <article key={skill.name} className="tilt-card tilt-card--right rounded-[18px] border border-white/6 bg-white/[0.03] px-4 pt-[22px] pb-4 text-center">
             <div className="mx-auto mb-4 grid h-[62px] w-[62px] place-items-center rounded-[18px] border border-white/8 bg-linear-to-b from-white/5 to-[rgba(123,92,255,0.08)] text-[1.8rem] font-extrabold text-[#7bd3ff]">
               {skill.iconSrc ? (
                 <img src={skill.iconSrc} alt={`${skill.name} icon`} className="h-9 w-9 object-contain" />
@@ -107,7 +147,7 @@ export function ProjectsSection({ projects }) {
     >
       <div className="mt-[22px] grid gap-[18px] lg:grid-cols-3">
         {projects.map((project, index) => (
-          <article key={project.title} className="rounded-[22px] border border-white/6 bg-white/[0.03] shadow-[0_24px_60px_rgba(0,0,0,0.28)]">
+          <article key={project.title} className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[22px] border border-white/6 bg-white/[0.03] shadow-[0_24px_60px_rgba(0,0,0,0.28)]`}>
             <div
               className={[
                 'h-[220px] border-b border-white/6',
@@ -146,6 +186,21 @@ export function ProjectsSection({ projects }) {
 }
 
 export function AboutContactSection({ contactItems }) {
+  const handlePointerMove = (event) => {
+    const element = event.currentTarget
+    const rect = element.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
+
+    element.style.setProperty('--tilt-x', `${Math.max(-1, Math.min(1, x))}`)
+    element.style.setProperty('--tilt-y', `${Math.max(-1, Math.min(1, y))}`)
+  }
+
+  const handlePointerLeave = (event) => {
+    event.currentTarget.style.setProperty('--tilt-x', '0')
+    event.currentTarget.style.setProperty('--tilt-y', '0')
+  }
+
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -156,6 +211,8 @@ export function AboutContactSection({ contactItems }) {
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle')
   const [toast, setToast] = useState({ visible: false, type: 'error', message: '' })
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false)
+  const [isAboutModalClosing, setIsAboutModalClosing] = useState(false)
 
   useEffect(() => {
     if (!toast.visible) return undefined
@@ -172,6 +229,40 @@ export function AboutContactSection({ contactItems }) {
     }, 2600)
     return () => window.clearTimeout(timeoutId)
   }, [status])
+
+  useEffect(() => {
+    if (!isAboutModalOpen) return undefined
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsAboutModalClosing(true)
+      }
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isAboutModalOpen])
+
+  useEffect(() => {
+    if (!isAboutModalClosing) return undefined
+
+    const timeoutId = window.setTimeout(() => {
+      setIsAboutModalOpen(false)
+      setIsAboutModalClosing(false)
+    }, 220)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [isAboutModalClosing])
+
+  const closeAboutModal = () => {
+    if (!isAboutModalOpen || isAboutModalClosing) return
+    setIsAboutModalClosing(true)
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -218,28 +309,45 @@ export function AboutContactSection({ contactItems }) {
   }
 
   const fieldClassName = (fieldName) =>
-    `w-full rounded-[14px] bg-[#111420] px-4 py-[15px] text-white outline-none placeholder:text-[#8991b6] transition-colors ${
+    `w-full rounded-[16px] border bg-[rgba(9,12,22,0.96)] px-4 py-[15px] text-[15px] text-white outline-none shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] backdrop-blur-sm placeholder:text-[#7f89b2] transition-all duration-200 ease-out focus:-translate-y-px focus:shadow-[0_0_0_1px_rgba(123,92,255,0.75),0_12px_28px_rgba(0,0,0,0.18)] ${
       errors[fieldName]
-        ? 'border border-[#ff6b6b] focus:border-[#ff7d7d]'
-        : 'border border-white/6 focus:border-[rgba(123,92,255,0.7)]'
+        ? 'border-[#ff6b6b]/80 focus:border-[#ff7d7d]'
+        : 'border-white/8 focus:border-[rgba(123,92,255,0.8)]'
     }`
 
   return (
-    <section className="mt-7 grid gap-6">
-      <article id="about" className="target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]">
+    <section className="mt-24 grid gap-24 max-md:mt-12 max-md:gap-12">
+      <article
+        id="about"
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        className="tilt-card tilt-card--right target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+      >
         <div className="flex items-center gap-[10px]">
           <span className="h-[10px] w-[10px] rounded-full bg-[var(--color-brand)] shadow-[0_0_18px_rgba(123,92,255,0.8)]" />
           <h3 className="m-0 text-xl font-semibold text-white">Sobre mi</h3>
         </div>
         <p className="mt-4 leading-[1.8] text-[var(--color-copy)]">
-          Soy desarrollador Full Stack con experiencia construyendo aplicaciones web modernas. Me enfoco en escribir codigo limpio, escalable y en crear productos que realmente resuelvan problemas.
+          Desarrollo soluciones web a medida para automatizar tareas, optimizar procesos y crear herramientas utiles que ahorren tiempo y mejoren la forma de trabajar de cada cliente.
         </p>
-        <a href="#contact" className="mt-4 inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99]">
+          <button
+            type="button"
+            onClick={() => {
+              setIsAboutModalClosing(false)
+              setIsAboutModalOpen(true)
+            }}
+            className="mt-4 inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm"
+          >
           Mas sobre mi
-        </a>
+        </button>
       </article>
 
-      <div id="contact" className="target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]">
+      <div
+        id="contact"
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        className="tilt-card tilt-card--left target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+      >
         <div className="grid gap-[18px] lg:grid-cols-2">
           <article>
             <div className="flex items-center gap-[10px]">
@@ -263,7 +371,7 @@ export function AboutContactSection({ contactItems }) {
 
           <form onSubmit={handleSubmit} className="grid gap-[14px]">
             <input
-              name="company"
+              name="hidden_company"
               type="text"
               tabIndex={-1}
               autoComplete="off"
@@ -277,9 +385,10 @@ export function AboutContactSection({ contactItems }) {
               type="text"
               value={formState.name}
               onChange={handleChange}
+              autoComplete="off"
               placeholder="Nombre"
               maxLength={120}
-              className={fieldClassName('name')}
+              className={`${fieldClassName('name')} appearance-none`}
             />
             {errors.name ? <p className="m-0 text-sm text-[#ff8f8f]">{errors.name}</p> : null}
             <input
@@ -287,9 +396,10 @@ export function AboutContactSection({ contactItems }) {
               type="email"
               value={formState.email}
               onChange={handleChange}
+              autoComplete="off"
               placeholder="Correo electronico"
               maxLength={255}
-              className={fieldClassName('email')}
+              className={`${fieldClassName('email')} appearance-none`}
             />
             {errors.email ? <p className="m-0 text-sm text-[#ff8f8f]">{errors.email}</p> : null}
             <input
@@ -297,19 +407,21 @@ export function AboutContactSection({ contactItems }) {
               type="text"
               value={formState.subject}
               onChange={handleChange}
+              autoComplete="off"
               placeholder="Asunto"
               maxLength={160}
-              className={fieldClassName('subject')}
+              className={`${fieldClassName('subject')} appearance-none`}
             />
             {errors.subject ? <p className="m-0 text-sm text-[#ff8f8f]">{errors.subject}</p> : null}
             <textarea
               name="message"
               value={formState.message}
               onChange={handleChange}
+              autoComplete="off"
               placeholder="Mensaje"
               rows="5"
               maxLength={4000}
-              className={fieldClassName('message')}
+              className={`${fieldClassName('message')} min-h-[150px] resize-y py-4 leading-[1.7] appearance-none`}
             />
             {errors.message ? <p className="m-0 text-sm text-[#ff8f8f]">{errors.message}</p> : null}
             {errors.company ? <p className="m-0 text-sm text-[#ff8f8f]">No se pudo enviar el mensaje.</p> : null}
@@ -336,6 +448,98 @@ export function AboutContactSection({ contactItems }) {
       >
         {toast.message}
       </div>
+
+      {isAboutModalOpen ? (
+        <div
+          className={`about-modal-overlay fixed inset-0 z-[80] flex items-center justify-center bg-[rgba(3,5,12,0.72)] px-4 py-6 backdrop-blur-md ${
+            isAboutModalClosing ? 'about-modal-overlay--closing' : ''
+          }`}
+          onMouseDown={closeAboutModal}
+        >
+          <article
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="about-modal-title"
+            className={`about-modal-panel about-modal-panel--tilted-right relative w-full max-w-[760px] overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(14,18,32,0.98),rgba(9,12,22,0.98))] shadow-[0_30px_90px_rgba(0,0,0,0.55)] ${
+              isAboutModalClosing ? 'about-modal-panel--closing' : ''
+            }`}
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(123,92,255,0.16),transparent_32%),radial-gradient(circle_at_82%_18%,rgba(90,201,255,0.12),transparent_26%)]" />
+            <div className="relative p-6 md:p-8">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="mb-2 text-sm uppercase tracking-[0.16em] text-[#93a0cf]">Sobre mi</p>
+                  <h4 id="about-modal-title" className="m-0 text-2xl font-semibold text-white md:text-[2rem]">
+                    Soluciones web para ahorrar tiempo y escalar procesos
+                  </h4>
+                </div>
+                <button
+                  type="button"
+                  onClick={closeAboutModal}
+                  className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm"
+                  aria-label="Cerrar modal"
+                >
+                  Cerrar
+                </button>
+              </div>
+
+              <div className="mt-6 grid gap-4 md:grid-cols-[1.05fr_0.95fr]">
+                <div className="modal-panel-card rounded-[22px] border border-white/8 bg-white/[0.03] p-5">
+                  <p className="m-0 leading-[1.8] text-[var(--color-copy)]">
+                    Diseno y desarrollo sistemas web a medida para automatizar tareas repetitivas, reducir errores manuales y mejorar la operacion diaria de tu negocio.
+                  </p>
+                  <p className="mt-4 m-0 leading-[1.8] text-[var(--color-copy)]">
+                    El objetivo no es solo "tener una app", sino implementar una solucion que te ahorre tiempo real, ordene el trabajo y te permita tomar mejores decisiones.
+                  </p>
+
+                  <div className="mt-5 grid gap-3 text-[var(--color-copy)]">
+                    <p className="m-0 text-sm uppercase tracking-[0.12em] text-[#9aa3cb]">Como trabajo</p>
+                    <p className="m-0"><strong className="text-white">1.</strong> Entiendo tu proceso actual y detecto cuellos de botella.</p>
+                    <p className="m-0"><strong className="text-white">2.</strong> Diseno una solucion simple, priorizando impacto y velocidad.</p>
+                    <p className="m-0"><strong className="text-white">3.</strong> Entrego un sistema usable, escalable y enfocado en resultados.</p>
+                  </div>
+                </div>
+
+                <div className="modal-accent-card rounded-[22px] border border-[rgba(123,92,255,0.18)] bg-[rgba(123,92,255,0.06)] p-5">
+                  <h5 className="m-0 text-base font-semibold text-white">Servicios que suelen pedir mis clientes</h5>
+                  <ul className="mt-4 grid gap-3 p-0 list-none text-[var(--color-copy)]">
+                    <li className="modal-list-item">Sistemas internos para gestion operativa</li>
+                    <li className="modal-list-item">Automatizacion de tareas administrativas</li>
+                    <li className="modal-list-item">Paneles de control con datos en tiempo real</li>
+                    <li className="modal-list-item">Integraciones entre herramientas y APIs</li>
+                    <li className="modal-list-item">Formularios y flujos de trabajo personalizados</li>
+                  </ul>
+
+                  <div className="mt-5 rounded-xl border border-white/8 bg-white/[0.03] p-4">
+                    <p className="m-0 text-sm uppercase tracking-[0.12em] text-[#9aa3cb]">Ideal para</p>
+                    <p className="mt-2 m-0 leading-[1.7] text-[var(--color-copy)]">
+                      Negocios y equipos que ya validaron su operacion y necesitan una herramienta propia para crecer sin depender de procesos manuales.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={closeAboutModal}
+                  className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-[#5f5cff] to-[#8f44ff] px-[22px] py-[14px] font-semibold text-white transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.01] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm"
+                >
+                  Ver como trabajamos
+                </button>
+                <a
+                  href="#contact"
+                  onClick={closeAboutModal}
+                  className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline transition-all duration-200 ease-out hover:bg-white/[0.06] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm"
+                >
+                  Quiero una propuesta
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      ) : null}
     </section>
   )
 }

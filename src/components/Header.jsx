@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const navItems = [
   { href: '#home', label: 'Inicio' },
@@ -11,38 +11,37 @@ const navItems = [
 function Header({ brandName }) {
   const navRef = useRef(null)
   const itemRefs = useRef({})
+  const navLockRef = useRef({ active: false, target: '#home' })
   const [activeHref, setActiveHref] = useState('#home')
   const [isNavOverflowing, setIsNavOverflowing] = useState(false)
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const updateIndicator = () => {
       const navEl = navRef.current
       const activeEl = itemRefs.current[activeHref]
 
       if (!navEl || !activeEl) return
 
+      const navRect = navEl.getBoundingClientRect()
+      const activeRect = activeEl.getBoundingClientRect()
+
       setIndicator({
-        left: activeEl.offsetLeft,
-        width: activeEl.offsetWidth,
+        left: activeRect.left - navRect.left + navEl.scrollLeft,
+        width: activeRect.width,
         opacity: 1,
       })
 
       const hasOverflow = navEl.scrollWidth > navEl.clientWidth + 1
       setIsNavOverflowing(hasOverflow)
-
-      if (hasOverflow) {
-        activeEl.scrollIntoView({
-          block: 'nearest',
-          inline: 'center',
-          behavior: 'auto',
-        })
-      }
     }
 
-    updateIndicator()
+    const rafId = window.requestAnimationFrame(updateIndicator)
     window.addEventListener('resize', updateIndicator)
-    return () => window.removeEventListener('resize', updateIndicator)
+    return () => {
+      window.cancelAnimationFrame(rafId)
+      window.removeEventListener('resize', updateIndicator)
+    }
   }, [activeHref])
 
   useEffect(() => {
@@ -51,32 +50,64 @@ function Header({ brandName }) {
       .filter(Boolean)
       .sort((a, b) => a.offsetTop - b.offsetTop)
 
+    if (!sections.length) return undefined
+
+    const releaseNavLock = () => {
+      const lock = navLockRef.current
+      if (!lock.active) return
+      lock.active = false
+      handleScroll()
+    }
+
     const updateActiveByScroll = () => {
-      if (!sections.length) return
-
-      const headerOffset = 120
-      const scrollY = window.scrollY + headerOffset
-      const pageBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 6
-
-      if (pageBottom) {
-        setActiveHref(`#${sections[sections.length - 1].id}`)
+      const lock = navLockRef.current
+      if (lock.active) {
         return
       }
 
+      const scrollMarker = window.scrollY + 180
       let current = sections[0]
+
       for (const section of sections) {
-        if (scrollY >= section.offsetTop - 1) current = section
+        if (scrollMarker >= section.offsetTop - 1) {
+          current = section
+        }
       }
 
       setActiveHref(`#${current.id}`)
     }
 
+    let rafId = 0
+
+    const handleScroll = () => {
+      window.cancelAnimationFrame(rafId)
+      rafId = window.requestAnimationFrame(updateActiveByScroll)
+    }
+
+    const handleUserIntent = (event) => {
+      if (event.type === 'keydown') {
+        const navigationKeys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', 'Space']
+        if (!navigationKeys.includes(event.code) && !navigationKeys.includes(event.key)) {
+          return
+        }
+      }
+
+      releaseNavLock()
+    }
+
     updateActiveByScroll()
-    window.addEventListener('scroll', updateActiveByScroll, { passive: true })
-    window.addEventListener('resize', updateActiveByScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleScroll)
+    window.addEventListener('wheel', handleUserIntent, { passive: true })
+    window.addEventListener('touchmove', handleUserIntent, { passive: true })
+    window.addEventListener('keydown', handleUserIntent)
     return () => {
-      window.removeEventListener('scroll', updateActiveByScroll)
-      window.removeEventListener('resize', updateActiveByScroll)
+      window.cancelAnimationFrame(rafId)
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+      window.removeEventListener('wheel', handleUserIntent)
+      window.removeEventListener('touchmove', handleUserIntent)
+      window.removeEventListener('keydown', handleUserIntent)
     }
   }, [])
 
@@ -92,9 +123,10 @@ function Header({ brandName }) {
 
         <nav ref={navRef} className={`relative flex flex-wrap justify-center gap-4 md:gap-8 max-md:w-full max-md:flex-nowrap max-md:gap-5 max-md:overflow-x-auto max-md:overflow-y-hidden max-md:whitespace-nowrap max-md:px-1 max-md:pb-2 no-scrollbar ${isNavOverflowing ? 'max-md:justify-start' : 'max-md:justify-center'}`}>
           <span
-            className="absolute bottom-0 md:bottom-[-9px] h-[2px] rounded-full bg-linear-to-r from-[#7b5cff] to-[#ac47ff] transition-all duration-300 ease-out"
+            className="absolute bottom-0 md:bottom-[-9px] h-[2px] rounded-full bg-linear-to-r from-[#7b5cff] to-[#ac47ff] transition-[transform,width,opacity] duration-200 ease-out will-change-[transform,width,opacity]"
             style={{
-              left: indicator.left,
+              left: 0,
+              transform: `translateX(${indicator.left}px)`,
               width: indicator.width,
               opacity: indicator.opacity,
             }}
@@ -106,7 +138,12 @@ function Header({ brandName }) {
                 if (node) itemRefs.current[item.href] = node
               }}
               href={item.href}
-              onClick={() => setActiveHref(item.href)}
+              onClick={() => {
+                const lock = navLockRef.current
+                lock.active = true
+                lock.target = item.href
+                setActiveHref(item.href)
+              }}
               className={`py-2 no-underline transition-all duration-300 ease-out hover:-translate-y-0.5 ${
                 activeHref === item.href ? 'text-white' : 'text-[#d2d7f3]'
               }`}

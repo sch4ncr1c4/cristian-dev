@@ -18,7 +18,7 @@ export const hero = {
   title: 'Cristian Dev',
   role: 'Desarrollador Full Stack',
   description:
-    'Me apasiona crear aplicaciones web modernas, funcionales y con gran experiencia de usuario. Siempre aprendiendo, siempre construyendo.',
+    'Me gusta crear herramientas web modernas que hacen mas simple el trabajo diario, automatizan tareas repetitivas y mejoran la experiencia de quienes las usan. Siempre estoy aprendiendo y construyendo soluciones utiles.',
   image: heroImg,
 }
 
