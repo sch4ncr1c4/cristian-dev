@@ -146,7 +146,7 @@ export function HeroSection({ hero, socials }) {
         </div>
         <img
           src={hero.image}
-          srcSet="/banner-320.png 320w, /banner-480.png 480w, /banner-660.png 660w"
+          srcSet="/banner-320.webp 320w, /banner-480.webp 480w, /banner-660.webp 660w"
           sizes="(max-width: 640px) 320px, (max-width: 1160px) 480px, 660px"
           alt="Retrato de Cristian Dev en la portada del portfolio profesional"
           fetchPriority="high"
