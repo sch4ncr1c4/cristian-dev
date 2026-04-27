@@ -1,4 +1,3 @@
-import heroImg from '../assets/hero.png'
 import reactIcon from '../assets/skills/react.svg'
 import typescriptIcon from '../assets/skills/typescript.svg'
 import nodejsIcon from '../assets/skills/nodejs.svg'
@@ -18,8 +17,8 @@ export const hero = {
   title: 'Cristian Dev',
   role: 'Sistemas web y automatizaciones a medida',
   description:
-    'Desarrollo herramientas para negocios y equipos que necesitan ordenar procesos, reducir trabajo manual y ahorrar tiempo con una solucion hecha segun su forma real de trabajar. Creo sistemas claros, utiles y faciles de usar para que operar mejor no dependa de mas esfuerzo.',
-  image: heroImg,
+    'Desarrollo sistemas y automatizaciones a medida para ordenar procesos, reducir trabajo manual y ahorrar tiempo.',
+  image: '/banner.png',
 }
 
 export const socials = [

@@ -334,11 +334,21 @@
     line-height: 1;
     white-space: nowrap;
     overflow: hidden;
-    border-right: 0.12em solid rgba(123, 255, 120, 1);
+    position: relative;
+    padding-right: 0.18em;
     width: 0ch;
-    animation:
-      writing 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite,
-      cursor-blink 0.9s ease-in-out infinite;
+    animation: writing 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .typing-text::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.12em;
+    height: 100%;
+    background: rgba(123, 255, 120, 1);
+    animation: cursor-blink 0.9s ease-in-out infinite;
   }
 
   .coding-text {
@@ -418,9 +428,57 @@
     backdrop-filter: blur(12px) saturate(130%);
     -webkit-backdrop-filter: blur(12px) saturate(130%);
     background-image:
-      linear-gradient(160deg, rgba(18, 24, 40, 0.68) 0%, rgba(10, 14, 24, 0.78) 100%),
-      radial-gradient(circle at 16% 14%, rgba(255, 255, 255, 0.08), transparent 36%);
+      linear-gradient(158deg, rgba(18, 24, 40, 0.68) 0%, rgb(0 0 0 / 78%) 100%),
+      radial-gradient(circle at 78% 14%, rgba(255, 255, 255, 0.08), transparent 36%);
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.34);
+  }
+
+  @media (max-width: 1159px) {
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-copy > p,
+    .hero-copy > h2 {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-copy .hero-actions {
+      justify-content: center;
+    }
+
+    .hero-copy .hero-actions__group {
+      justify-content: center;
+    }
+
+    .hero-copy .hero-actions__socials {
+      justify-content: center;
+    }
+
+    .hero-actions {
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .hero-actions__group {
+      flex-wrap: nowrap;
+      align-items: center;
+      width: auto;
+    }
+
+    .hero-actions__socials {
+      flex-wrap: nowrap;
+      gap: 10px;
+    }
+
+    .hero-actions__socials > a {
+      width: 54px;
+      height: 54px;
+    }
   }
 
   @media (hover: hover) and (pointer: fine) {

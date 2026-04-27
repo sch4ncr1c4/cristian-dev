@@ -60,7 +60,7 @@ function SectionShell({ id, title, children, action }) {
     <section
       id={id}
       {...tiltHandlers}
-      className={`tilt-surface ${id === 'projects' ? 'tilt-surface--right' : 'tilt-surface--left'} target-ring mt-24 scroll-mt-28 rounded-3xl border border-white/6 bg-[rgba(11,14,24,0.86)] p-[26px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] max-md:mt-12 max-md:p-5`}
+      className={`tilt-surface ${id === 'projects' ? 'tilt-surface--right' : 'tilt-surface--left'} target-ring mt-24 scroll-mt-28 rounded-3xl border border-white/6 bg-[rgba(8,10,18,0.92)] p-[26px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] max-md:mt-12 max-md:p-5`}
     >
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-[10px]">
@@ -79,32 +79,30 @@ export function HeroSection({ hero, socials }) {
     <section
       id="home"
       {...tiltHandlers}
-      className="tilt-surface tilt-surface--right target-ring relative mt-24 scroll-mt-28 grid w-full max-w-full overflow-hidden rounded-[28px] border border-white/6 bg-[rgba(11,14,24,0.86)] px-[46px] pt-[54px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] md:grid-cols-[1.1fr_0.9fr] max-md:mt-12 max-md:px-4 max-md:pt-5 max-md:pb-[30px]"
+      className="tilt-surface tilt-surface--right target-ring relative mt-24 scroll-mt-28 grid w-full max-w-full overflow-hidden rounded-[28px] border border-white/6 bg-[rgba(8,10,18,0.92)] px-[46px] pt-[54px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] md:grid-cols-[1.1fr_0.9fr] max-[1160px]:!grid-cols-1 max-[1160px]:px-7 max-[1160px]:pt-8 max-md:mt-20 max-md:px-4 max-md:pt-5 max-md:pb-[30px]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_35%,rgba(123,92,255,0.18),transparent_22%),radial-gradient(circle_at_30%_18%,rgba(60,89,255,0.12),transparent_30%)]" />
-      <div className="relative z-[1] pb-11">
-        <p className="mb-3 inline-flex rounded-full border border-[rgba(123,92,255,0.22)] bg-[rgba(123,92,255,0.08)] px-4 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-[#c9c3ff]">
-          Automatizacion y sistemas para negocios
-        </p>
+      <div className="hero-copy relative z-[1] pb-11 max-[1160px]:pb-6">
         <p className="mb-2 text-[2rem] font-bold text-[var(--color-brand)]">Hola, soy</p>
         <h1 className="m-0 text-[clamp(3.1rem,8vw,6rem)] leading-[0.95] font-bold text-white max-md:text-[clamp(2.2rem,11vw,2.9rem)]">
           {hero.title.split(' ')[0]} <span className="text-[#7058ff]">Dev</span>
         </h1>
-        <h2 className="mt-[18px] mb-5 text-[1.5rem] font-semibold text-white md:text-[2rem] max-md:text-[1.2rem]">
+        <h2 className="mt-[18px] mb-5 text-[1.5rem] font-semibold text-white md:text-[2rem] max-[1160px]:text-[1.7rem] max-md:text-[1.2rem]">
           {hero.role}
         </h2>
         <p className="max-w-[520px] text-[1.18rem] leading-[1.8] text-[var(--color-copy)] max-md:text-[1rem] max-md:leading-[1.65]">
           {hero.description}
         </p>
-        <div className="mt-[34px] mb-[22px] flex flex-wrap gap-4">
+        <div className="hero-actions mt-[34px] mb-[22px] flex flex-wrap gap-4">
           <a href="#projects" className="group inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-[#5f5cff] to-[#8f44ff] px-[22px] py-[14px] font-semibold text-white no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:from-[#5857ee] hover:to-[#8640f0] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm">
             Ver mis proyectos
           </a>
-          <a href="#contact" className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm">
-            Contactarme
-          </a>
+          <div className="hero-actions__group flex flex-wrap items-center gap-3">
+            <a href="#contact" className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm">
+              Contactarme
+            </a>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="hero-actions__socials flex flex-wrap gap-3">
           {socials.map((social) => (
             <a
               key={social.name}
@@ -119,19 +117,18 @@ export function HeroSection({ hero, socials }) {
           ))}
         </div>
       </div>
-      <div className="relative flex min-h-[420px] items-end justify-center md:min-h-[560px]">
-        <div className="absolute top-[70px] right-[10px] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(105,90,255,0.95)_0%,rgba(36,63,146,0.55)_45%,rgba(0,0,0,0)_72%)] blur-[4px]" />
-        <div className="absolute top-[120px] right-5 z-[2] flex h-[92px] w-[92px] items-center justify-center rounded-[20px] border border-white/8 bg-[rgba(14,17,30,0.95)] text-[2rem] font-extrabold text-[#8f44ff] shadow-[0_20px_40px_rgba(0,0,0,0.24)]">
+      <div className="relative flex min-h-[420px] items-end justify-center lg:min-h-[560px] max-[1160px]:mt-8 max-[1160px]:min-h-[500px]">
+        <div className="absolute top-[120px] right-5 z-[2] flex h-[92px] w-[92px] items-center justify-center rounded-[20px] border border-white/8 bg-[rgba(14,17,30,0.95)] text-[2rem] font-extrabold text-[#8f44ff] shadow-[0_20px_40px_rgba(0,0,0,0.24)] max-[1160px]:top-[24%] max-[1160px]:right-[10%] max-md:h-[68px] max-md:w-[68px] max-md:rounded-[14px] max-md:text-[1.45rem]">
           <span className="coding-text inline-flex items-center justify-center font-mono leading-none tracking-tight">
             <span className="char c1">{'<'}</span>
             <span className="char c2">/</span>
             <span className="char c3">{'>'}</span>
           </span>
         </div>
-        <div className="typing-shell absolute bottom-[110px] left-[30px] z-[2] grid h-[92px] w-[92px] place-items-center rounded-[20px] border border-white/8 bg-[rgba(14,17,30,0.95)] text-[2rem] font-extrabold text-[#7bff78] shadow-[0_20px_40px_rgba(0,0,0,0.24)]">
+        <div className="typing-shell absolute bottom-[110px] left-[30px] z-[2] grid h-[92px] w-[92px] place-items-center rounded-[20px] border border-white/8 bg-[rgba(14,17,30,0.95)] text-[2rem] font-extrabold text-[#7bff78] shadow-[0_20px_40px_rgba(0,0,0,0.24)] max-[1160px]:bottom-[18%] max-[1160px]:left-[10%] max-md:h-[68px] max-md:w-[68px] max-md:rounded-[14px] max-md:text-[1.45rem]">
           <span className="typing-text font-mono leading-none tracking-tight">{'>'}_</span>
         </div>
-        <img src={hero.image} alt="Retrato de Cristian Dev en la portada del portfolio profesional" className="relative z-[1] w-full max-w-[520px] object-contain" />
+        <img src={hero.image} alt="Retrato de Cristian Dev en la portada del portfolio profesional" className="relative z-[1] w-full max-w-[660px] object-contain" />
       </div>
     </section>
   )
@@ -145,7 +142,7 @@ export function SkillsSection({ skills }) {
         <article
           key={skill.name}
           {...tiltHandlers}
-          className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[18px] border border-white/6 bg-white/[0.03] px-4 pt-[22px] pb-4 text-center`}
+          className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[18px] border border-white/6 bg-[rgba(9,12,20,0.88)] px-4 pt-[22px] pb-4 text-center`}
         >
             <div className="mx-auto mb-4 grid h-[62px] w-[62px] place-items-center rounded-[18px] border border-white/8 bg-linear-to-b from-white/5 to-[rgba(123,92,255,0.08)] text-[1.8rem] font-extrabold text-[#7bd3ff]">
               {skill.iconSrc ? (
@@ -178,7 +175,7 @@ export function ProjectsSection({ projects }) {
           <article
             key={project.title}
             {...tiltHandlers}
-            className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[22px] border border-white/6 bg-white/[0.03] shadow-[0_24px_60px_rgba(0,0,0,0.28)]`}
+            className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[22px] border border-white/6 bg-[rgba(9,12,20,0.88)] shadow-[0_24px_60px_rgba(0,0,0,0.28)]`}
           >
             <div
               className={[
@@ -302,7 +299,7 @@ export function AboutContactSection({ contactItems }) {
       <article
         id="about"
         {...tiltHandlers}
-        className="tilt-card tilt-card--left target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+        className="tilt-card tilt-card--left target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-[rgba(9,12,20,0.88)] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
       >
         <div className="flex items-center gap-[10px]">
           <span className="h-[10px] w-[10px] rounded-full bg-[var(--color-brand)] shadow-[0_0_18px_rgba(123,92,255,0.8)]" />
@@ -350,7 +347,7 @@ export function AboutContactSection({ contactItems }) {
       <div
         id="contact"
         {...tiltHandlers}
-        className="tilt-card tilt-card--right target-ring scroll-mt-28 overflow-hidden rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+        className="tilt-card tilt-card--right target-ring scroll-mt-28 overflow-hidden rounded-[22px] border border-white/6 bg-[rgba(9,12,20,0.88)] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
       >
         <div className="grid gap-[18px] lg:grid-cols-2">
           <article>

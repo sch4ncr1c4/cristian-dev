@@ -44,7 +44,7 @@ function Header({ brandName }) {
 
   useEffect(() => {
     const closeMenuOnDesktop = () => {
-      if (window.innerWidth > 925) {
+      if (window.innerWidth > 932) {
         setIsMobileMenuOpen(false)
       }
     }
@@ -168,7 +168,7 @@ function Header({ brandName }) {
   return (
     <header className="fixed top-0 left-0 z-30 w-full">
       <div className="w-full bg-[rgba(0,0,0,0.42)] px-4 py-4 backdrop-blur-xl md:px-6">
-        <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center justify-between gap-5 max-[925px]:gap-3">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center justify-between gap-5 max-[932px]:gap-3">
           <a href="#home" aria-label="Ir al inicio" className="flex items-center gap-3 text-[1.35rem] font-bold text-[#f4f7ff] no-underline">
             <span className="text-2xl text-[var(--color-brand)]">{'</>'}</span>
             <span>
@@ -182,7 +182,7 @@ function Header({ brandName }) {
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            className="hidden h-11 w-11 items-center justify-center rounded-xl border border-[rgba(123,92,255,0.42)] bg-[rgba(12,16,28,0.92)] text-[#e8ecff] transition-all duration-300 hover:border-[rgba(123,92,255,0.78)] hover:bg-[rgba(18,23,40,0.96)] max-[925px]:inline-flex"
+            className="hidden h-11 w-11 items-center justify-center rounded-xl border border-[rgba(123,92,255,0.42)] bg-[rgba(12,16,28,0.92)] text-[#e8ecff] transition-all duration-300 hover:border-[rgba(123,92,255,0.78)] hover:bg-[rgba(18,23,40,0.96)] max-[932px]:inline-flex"
           >
             <span className="relative h-4 w-5">
               <span className={`absolute left-0 top-0 block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
@@ -191,7 +191,7 @@ function Header({ brandName }) {
             </span>
           </button>
 
-          <nav ref={navRef} aria-label="Navegacion principal" className={`relative flex flex-wrap justify-center gap-4 md:gap-8 max-[925px]:hidden`}>
+          <nav ref={navRef} aria-label="Navegacion principal" className={`relative flex flex-wrap justify-center gap-4 md:gap-8 max-[932px]:hidden`}>
             <span
               className="absolute bottom-0 md:bottom-[-9px] h-[2px] rounded-full bg-linear-to-r from-[#7b5cff] to-[#ac47ff] transition-[transform,width,opacity] duration-200 ease-out will-change-[transform,width,opacity]"
               style={{
@@ -225,7 +225,7 @@ function Header({ brandName }) {
 
           <a
             href="#contact"
-            className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-5 py-3 font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-[925px]:hidden"
+            className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-5 py-3 font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-[932px]:hidden"
           >
             Solicitar propuesta
           </a>
@@ -233,7 +233,7 @@ function Header({ brandName }) {
       </div>
 
       <div
-        className={`fixed inset-0 z-20 bg-[rgba(2,4,10,0.58)] transition-opacity duration-300 max-[925px]:block ${
+        className={`fixed inset-0 z-20 bg-[rgba(2,4,10,0.58)] transition-opacity duration-300 max-[932px]:block ${
           isMobileMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         } hidden`}
         onClick={() => setIsMobileMenuOpen(false)}
@@ -243,7 +243,7 @@ function Header({ brandName }) {
         id="mobile-navigation"
         role="dialog"
         aria-label="Menu de navegacion"
-        className={`fixed right-0 top-0 z-30 h-screen w-[min(84vw,340px)] border-l border-[rgba(123,92,255,0.22)] bg-[rgba(8,11,20,0.98)] p-6 shadow-[0_0_46px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-transform duration-300 ease-out max-[925px]:block ${
+        className={`fixed right-0 top-0 z-30 h-screen w-[min(84vw,340px)] border-l border-[rgba(123,92,255,0.22)] bg-[rgba(8,11,20,0.98)] p-6 shadow-[0_0_46px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-transform duration-300 ease-out max-[932px]:block ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } hidden`}
         aria-hidden={!isMobileMenuOpen}
