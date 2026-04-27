@@ -481,6 +481,48 @@
     }
   }
 
+  @media (min-width: 768px) and (max-width: 990px) {
+    .hero-badge-code {
+      top: 100px !important;
+      right: 120px !important;
+    }
+
+    .hero-badge-type {
+      bottom: 90px !important;
+      left: 120px !important;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 870px) {
+    .hero-badge-code {
+      right: 90px !important;
+    }
+
+    .hero-badge-type {
+      left: 90px !important;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 784px) {
+    .hero-badge-code {
+      right: 72px !important;
+    }
+
+    .hero-badge-type {
+      left: 72px !important;
+    }
+  }
+
+  @media (min-width: 650px) and (max-width: 767px) {
+    .hero-badge-code,
+    .hero-badge-type {
+      width: 72px !important;
+      height: 72px !important;
+      border-radius: 16px !important;
+      font-size: 1.4rem !important;
+    }
+  }
+
   @media (hover: hover) and (pointer: fine) {
     .tilt-surface:hover,
     .tilt-card:hover {
