@@ -2,27 +2,64 @@ import externalLinkIcon from '../assets/icons/external-link.svg'
 import { submitContactForm, validateContactForm } from '../lib/contact.js'
 import { useEffect, useState } from 'react'
 
-function SectionShell({ id, title, children, action }) {
-  const handlePointerMove = (event) => {
-    const element = event.currentTarget
+const tiltMediaQuery = '(hover: hover) and (pointer: fine)'
+
+const canTilt = () =>
+  typeof window !== 'undefined' &&
+  window.innerWidth > 1024 &&
+  window.matchMedia(tiltMediaQuery).matches
+
+const resetTilt = (element) => {
+  if (element.__tiltFrame) {
+    window.cancelAnimationFrame(element.__tiltFrame)
+    element.__tiltFrame = 0
+  }
+
+  element.style.setProperty('--tilt-x', '0')
+  element.style.setProperty('--tilt-y', '0')
+  element.style.willChange = 'auto'
+}
+
+const handleTiltPointerMove = (event) => {
+  if (!canTilt()) return
+
+  const element = event.currentTarget
+  const { clientX, clientY } = event
+
+  if (element.__tiltFrame) {
+    element.__tiltPointer = { clientX, clientY }
+    return
+  }
+
+  element.__tiltPointer = { clientX, clientY }
+  element.style.willChange = 'transform'
+
+  element.__tiltFrame = window.requestAnimationFrame(() => {
     const rect = element.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
-    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
+    const pointer = element.__tiltPointer
+    const x = ((pointer.clientX - rect.left) / rect.width - 0.5) * 2
+    const y = ((pointer.clientY - rect.top) / rect.height - 0.5) * 2
 
     element.style.setProperty('--tilt-x', `${Math.max(-1, Math.min(1, x))}`)
     element.style.setProperty('--tilt-y', `${Math.max(-1, Math.min(1, y))}`)
-  }
+    element.__tiltFrame = 0
+  })
+}
 
-  const handlePointerLeave = (event) => {
-    event.currentTarget.style.setProperty('--tilt-x', '0')
-    event.currentTarget.style.setProperty('--tilt-y', '0')
-  }
+const handleTiltPointerLeave = (event) => {
+  resetTilt(event.currentTarget)
+}
 
+const tiltHandlers = {
+  onPointerMove: handleTiltPointerMove,
+  onPointerLeave: handleTiltPointerLeave,
+}
+
+function SectionShell({ id, title, children, action }) {
   return (
     <section
       id={id}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
+      {...tiltHandlers}
       className={`tilt-surface ${id === 'projects' ? 'tilt-surface--right' : 'tilt-surface--left'} target-ring mt-24 scroll-mt-28 rounded-3xl border border-white/6 bg-[rgba(11,14,24,0.86)] p-[26px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] max-md:mt-12 max-md:p-5`}
     >
       <div className="flex items-center justify-between gap-4">
@@ -38,26 +75,10 @@ function SectionShell({ id, title, children, action }) {
 }
 
 export function HeroSection({ hero, socials }) {
-  const handlePointerMove = (event) => {
-    const element = event.currentTarget
-    const rect = element.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
-    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
-
-    element.style.setProperty('--tilt-x', `${Math.max(-1, Math.min(1, x))}`)
-    element.style.setProperty('--tilt-y', `${Math.max(-1, Math.min(1, y))}`)
-  }
-
-  const handlePointerLeave = (event) => {
-    event.currentTarget.style.setProperty('--tilt-x', '0')
-    event.currentTarget.style.setProperty('--tilt-y', '0')
-  }
-
   return (
     <section
       id="home"
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
+      {...tiltHandlers}
       className="tilt-surface tilt-surface--right target-ring relative mt-24 scroll-mt-28 grid w-full max-w-full overflow-hidden rounded-[28px] border border-white/6 bg-[rgba(11,14,24,0.86)] px-[46px] pt-[54px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] md:grid-cols-[1.1fr_0.9fr] max-md:mt-12 max-md:px-4 max-md:pt-5 max-md:pb-[30px]"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_35%,rgba(123,92,255,0.18),transparent_22%),radial-gradient(circle_at_30%_18%,rgba(60,89,255,0.12),transparent_30%)]" />
@@ -121,7 +142,11 @@ export function SkillsSection({ skills }) {
     <SectionShell id="skills" title="Habilidades">
       <div className="mt-[22px] grid gap-[18px] md:grid-cols-3 xl:grid-cols-6">
         {skills.map((skill, index) => (
-        <article key={skill.name} className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[18px] border border-white/6 bg-white/[0.03] px-4 pt-[22px] pb-4 text-center`}>
+        <article
+          key={skill.name}
+          {...tiltHandlers}
+          className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[18px] border border-white/6 bg-white/[0.03] px-4 pt-[22px] pb-4 text-center`}
+        >
             <div className="mx-auto mb-4 grid h-[62px] w-[62px] place-items-center rounded-[18px] border border-white/8 bg-linear-to-b from-white/5 to-[rgba(123,92,255,0.08)] text-[1.8rem] font-extrabold text-[#7bd3ff]">
               {skill.iconSrc ? (
                 <img src={skill.iconSrc} alt={`Logo de ${skill.name}`} className="h-9 w-9 object-contain" />
@@ -150,7 +175,11 @@ export function ProjectsSection({ projects }) {
     >
       <div className="mt-[22px] grid gap-[18px] lg:grid-cols-3">
         {projects.map((project, index) => (
-          <article key={project.title} className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[22px] border border-white/6 bg-white/[0.03] shadow-[0_24px_60px_rgba(0,0,0,0.28)]`}>
+          <article
+            key={project.title}
+            {...tiltHandlers}
+            className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[22px] border border-white/6 bg-white/[0.03] shadow-[0_24px_60px_rgba(0,0,0,0.28)]`}
+          >
             <div
               className={[
                 'h-[220px] border-b border-white/6',
@@ -189,21 +218,6 @@ export function ProjectsSection({ projects }) {
 }
 
 export function AboutContactSection({ contactItems }) {
-  const handlePointerMove = (event) => {
-    const element = event.currentTarget
-    const rect = element.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
-    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
-
-    element.style.setProperty('--tilt-x', `${Math.max(-1, Math.min(1, x))}`)
-    element.style.setProperty('--tilt-y', `${Math.max(-1, Math.min(1, y))}`)
-  }
-
-  const handlePointerLeave = (event) => {
-    event.currentTarget.style.setProperty('--tilt-x', '0')
-    event.currentTarget.style.setProperty('--tilt-y', '0')
-  }
-
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -287,45 +301,56 @@ export function AboutContactSection({ contactItems }) {
     <section className="mt-24 grid gap-24 max-md:mt-12 max-md:gap-12">
       <article
         id="about"
-        onPointerMove={handlePointerMove}
-        onPointerLeave={handlePointerLeave}
+        {...tiltHandlers}
         className="tilt-card tilt-card--left target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
       >
         <div className="flex items-center gap-[10px]">
           <span className="h-[10px] w-[10px] rounded-full bg-[var(--color-brand)] shadow-[0_0_18px_rgba(123,92,255,0.8)]" />
           <h3 className="m-0 text-xl font-semibold text-white">Sobre mi</h3>
         </div>
-        <p className="mt-4 leading-[1.8] text-[var(--color-copy)]">
-          Desarrollo soluciones web a medida para negocios y equipos que necesitan ordenar su operacion, automatizar tareas repetitivas y trabajar con mas claridad. Creo herramientas pensadas para adaptarse a cada proceso, reducir errores manuales, ahorrar tiempo y convertir tareas que hoy consumen energia en flujos simples, utiles y faciles de usar.
+        <p className="mt-4 max-w-[760px] text-[1.05rem] leading-[1.85] text-[var(--color-copy)]">
+          Desarrollo soluciones web a medida para negocios y equipos que necesitan ordenar su operacion, automatizar tareas repetitivas y trabajar con mas claridad.
         </p>
-        <p className="mt-4 leading-[1.8] text-[var(--color-copy)]">
-          El objetivo no es solo tener una app, sino implementar una solucion que te ahorre tiempo real, ordene el trabajo y te permita tomar mejores decisiones.
+        <p className="mt-4 max-w-[760px] text-[1.05rem] leading-[1.85] text-[var(--color-copy)]">
+          Mi foco esta en construir sistemas simples de usar, faciles de mantener y pensados para generar impacto real: menos friccion, menos errores manuales y decisiones mas rapidas.
         </p>
 
-        <div className="mt-5 grid gap-3 text-[var(--color-copy)]">
-          <p className="m-0 text-sm uppercase tracking-[0.12em] text-[#9aa3cb]">Como trabajo</p>
-          <p className="m-0"><strong className="text-white">1.</strong> Entiendo tu proceso actual y detecto cuellos de botella.</p>
-          <p className="m-0"><strong className="text-white">2.</strong> Diseno una solucion simple, priorizando impacto y velocidad.</p>
-          <p className="m-0"><strong className="text-white">3.</strong> Entrego un sistema usable, escalable y enfocado en resultados.</p>
-        </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-[1fr_1.05fr]">
+          <div className="rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-5">
+            <p className="m-0 text-sm font-semibold uppercase tracking-[0.14em] text-[#9aa3cb]">Como trabajo</p>
+            <div className="mt-4 grid gap-3 text-[var(--color-copy)]">
+              <div className="flex gap-3">
+                <span className="mt-1 h-2 w-2 rounded-full bg-[var(--color-brand)] shadow-[0_0_14px_rgba(123,92,255,0.7)]" />
+                <p className="m-0">Analizo el proceso actual y detecto los puntos que consumen tiempo.</p>
+              </div>
+              <div className="flex gap-3">
+                <span className="mt-1 h-2 w-2 rounded-full bg-[var(--color-brand)] shadow-[0_0_14px_rgba(123,92,255,0.7)]" />
+                <p className="m-0">Propongo una solucion clara, con prioridades y alcance bien definidos.</p>
+              </div>
+              <div className="flex gap-3">
+                <span className="mt-1 h-2 w-2 rounded-full bg-[var(--color-brand)] shadow-[0_0_14px_rgba(123,92,255,0.7)]" />
+                <p className="m-0">Entrego un sistema usable, escalable y alineado al objetivo del negocio.</p>
+              </div>
+            </div>
+          </div>
 
-        <div className="mt-5 rounded-xl border border-[rgba(123,92,255,0.18)] bg-[rgba(123,92,255,0.06)] p-4">
-          <h5 className="m-0 text-base font-semibold text-white">Servicios que suelen pedir mis clientes</h5>
-          <ul className="mt-3 grid gap-2 p-0 list-none text-[var(--color-copy)]">
-            <li className="modal-list-item">Sistemas internos para gestion operativa</li>
-            <li className="modal-list-item">Automatizacion de tareas administrativas</li>
-            <li className="modal-list-item">Paneles de control con datos en tiempo real</li>
-            <li className="modal-list-item">Integraciones entre herramientas y APIs</li>
-            <li className="modal-list-item">Formularios y flujos de trabajo personalizados</li>
-          </ul>
+          <div className="rounded-2xl border border-[rgba(123,92,255,0.18)] bg-[rgba(123,92,255,0.06)] p-5">
+            <p className="m-0 text-sm font-semibold uppercase tracking-[0.14em] text-[#9aa3cb]">Servicios frecuentes</p>
+            <ul className="mt-4 grid gap-2 p-0 list-none text-[var(--color-copy)]">
+              <li className="modal-list-item">Sistemas internos para gestion operativa</li>
+              <li className="modal-list-item">Automatizacion de tareas administrativas</li>
+              <li className="modal-list-item">Paneles de control con datos en tiempo real</li>
+              <li className="modal-list-item">Integraciones entre herramientas y APIs</li>
+              <li className="modal-list-item">Formularios y flujos de trabajo personalizados</li>
+            </ul>
+          </div>
         </div>
       </article>
 
       <div
         id="contact"
-        onPointerMove={handlePointerMove}
-        onPointerLeave={handlePointerLeave}
-        className="tilt-card tilt-card--right target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+        {...tiltHandlers}
+        className="tilt-card tilt-card--right target-ring scroll-mt-28 overflow-hidden rounded-[22px] border border-white/6 bg-white/[0.03] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
       >
         <div className="grid gap-[18px] lg:grid-cols-2">
           <article>

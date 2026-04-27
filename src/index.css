@@ -148,15 +148,6 @@
 }
 
 @layer utilities {
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
   @property --spin-angle {
     syntax: "<angle>";
     inherits: false;
@@ -212,10 +203,6 @@
     50% {
       opacity: 0.18;
     }
-  }
-
-  .animate-blink {
-    animation: blink 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
   @keyframes loader-spin {
@@ -416,22 +403,18 @@
   .tilt-card {
     --tilt-x: 0;
     --tilt-y: 0;
-    --base-rotate-y: 0deg;
-    --tilt-max-rotate: 5deg;
-    --tilt-max-lift: -5px;
-    perspective: 1200px;
+    --tilt-max-rotate: 4deg;
     transition:
-      transform 180ms ease-out,
+      transform 160ms ease-out,
       box-shadow 220ms ease-out,
       border-color 220ms ease-out,
       background-color 220ms ease-out;
-    will-change: transform;
-    transform:
-      perspective(1200px)
-      rotateY(var(--base-rotate-y))
+    transform: perspective(1200px)
       rotateX(calc(var(--tilt-y) * var(--tilt-max-rotate) * -1))
-      rotateY(calc(var(--tilt-x) * var(--tilt-max-rotate)))
-      translateY(var(--tilt-max-lift));
+      rotateY(calc(var(--tilt-x) * var(--tilt-max-rotate)));
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform;
     backdrop-filter: blur(12px) saturate(130%);
     -webkit-backdrop-filter: blur(12px) saturate(130%);
     background-image:
@@ -440,19 +423,11 @@
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.34);
   }
 
-  .tilt-surface--left,
-  .tilt-card--left {
-    --base-rotate-y: 0deg;
-  }
-
-  .tilt-surface--right,
-  .tilt-card--right {
-    --base-rotate-y: 0deg;
-  }
-
-  .tilt-surface > *,
-  .tilt-card > * {
-    transform: translateZ(0);
+  @media (hover: hover) and (pointer: fine) {
+    .tilt-surface:hover,
+    .tilt-card:hover {
+      box-shadow: 0 34px 78px rgba(0, 0, 0, 0.38);
+    }
   }
 
   @media (max-width: 1024px) {
@@ -464,7 +439,6 @@
         border-color 220ms ease-out,
         background-color 220ms ease-out;
       will-change: auto;
-      perspective: none;
     }
   }
 

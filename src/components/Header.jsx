@@ -166,68 +166,70 @@ function Header({ brandName }) {
   }, [])
 
   return (
-    <header className="sticky top-0 z-10 w-full bg-[rgba(8,10,20,0.88)] backdrop-blur-xl">
-      <div className="mx-auto flex w-[min(1180px,calc(100%-32px))] flex-wrap items-center justify-between gap-5 py-4 max-[925px]:w-[min(100%-20px,1180px)] max-[925px]:gap-3">
-        <a href="#home" aria-label="Ir al inicio" className="flex items-center gap-3 text-[1.35rem] font-bold text-[#f4f7ff] no-underline">
-          <span className="text-2xl text-[var(--color-brand)]">{'</>'}</span>
-          <span>
-            {brandName.split(' ')[0]} <strong className="text-[var(--color-brand)]">Dev</strong>
-          </span>
-        </a>
+    <header className="fixed top-0 left-0 z-30 w-full">
+      <div className="w-full bg-[rgba(0,0,0,0.42)] px-4 py-4 backdrop-blur-xl md:px-6">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center justify-between gap-5 max-[925px]:gap-3">
+          <a href="#home" aria-label="Ir al inicio" className="flex items-center gap-3 text-[1.35rem] font-bold text-[#f4f7ff] no-underline">
+            <span className="text-2xl text-[var(--color-brand)]">{'</>'}</span>
+            <span>
+              {brandName.split(' ')[0]} <strong className="text-[var(--color-brand)]">Dev</strong>
+            </span>
+          </a>
 
-        <button
-          type="button"
-          aria-label={isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
-          aria-expanded={isMobileMenuOpen}
-          aria-controls="mobile-navigation"
-          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-          className="hidden h-11 w-11 items-center justify-center rounded-xl border border-[rgba(123,92,255,0.42)] bg-[rgba(12,16,28,0.92)] text-[#e8ecff] transition-all duration-300 hover:border-[rgba(123,92,255,0.78)] hover:bg-[rgba(18,23,40,0.96)] max-[925px]:inline-flex"
-        >
-          <span className="relative h-4 w-5">
-            <span className={`absolute left-0 top-0 block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
-            <span className={`absolute left-0 top-[7px] block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
-            <span className={`absolute left-0 top-[14px] block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
-          </span>
-        </button>
+          <button
+            type="button"
+            aria-label={isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            className="hidden h-11 w-11 items-center justify-center rounded-xl border border-[rgba(123,92,255,0.42)] bg-[rgba(12,16,28,0.92)] text-[#e8ecff] transition-all duration-300 hover:border-[rgba(123,92,255,0.78)] hover:bg-[rgba(18,23,40,0.96)] max-[925px]:inline-flex"
+          >
+            <span className="relative h-4 w-5">
+              <span className={`absolute left-0 top-0 block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
+              <span className={`absolute left-0 top-[7px] block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+              <span className={`absolute left-0 top-[14px] block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
+            </span>
+          </button>
 
-        <nav ref={navRef} aria-label="Navegacion principal" className={`relative flex flex-wrap justify-center gap-4 md:gap-8 max-[925px]:hidden`}>
-          <span
-            className="absolute bottom-0 md:bottom-[-9px] h-[2px] rounded-full bg-linear-to-r from-[#7b5cff] to-[#ac47ff] transition-[transform,width,opacity] duration-200 ease-out will-change-[transform,width,opacity]"
-            style={{
-              left: 0,
-              transform: `translateX(${indicator.left}px)`,
-              width: indicator.width,
-              opacity: indicator.opacity,
-            }}
-          />
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              ref={(node) => {
-                if (node) itemRefs.current[item.href] = node
+          <nav ref={navRef} aria-label="Navegacion principal" className={`relative flex flex-wrap justify-center gap-4 md:gap-8 max-[925px]:hidden`}>
+            <span
+              className="absolute bottom-0 md:bottom-[-9px] h-[2px] rounded-full bg-linear-to-r from-[#7b5cff] to-[#ac47ff] transition-[transform,width,opacity] duration-200 ease-out will-change-[transform,width,opacity]"
+              style={{
+                left: 0,
+                transform: `translateX(${indicator.left}px)`,
+                width: indicator.width,
+                opacity: indicator.opacity,
               }}
-              href={item.href}
-              onClick={() => {
-                const lock = navLockRef.current
-                lock.active = true
-                lock.target = item.href
-                setActiveHref(item.href)
-              }}
-              className={`py-2 no-underline transition-all duration-300 ease-out hover:-translate-y-0.5 ${
-                activeHref === item.href ? 'text-white' : 'text-[#d2d7f3]'
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+            />
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                ref={(node) => {
+                  if (node) itemRefs.current[item.href] = node
+                }}
+                href={item.href}
+                onClick={() => {
+                  const lock = navLockRef.current
+                  lock.active = true
+                  lock.target = item.href
+                  setActiveHref(item.href)
+                }}
+                className={`py-2 no-underline transition-all duration-300 ease-out hover:-translate-y-0.5 ${
+                  activeHref === item.href ? 'text-white' : 'text-[#d2d7f3]'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
 
-        <a
-          href="#contact"
-          className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-5 py-3 font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-[925px]:hidden"
-        >
-          Solicitar propuesta
-        </a>
+          <a
+            href="#contact"
+            className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-5 py-3 font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-[925px]:hidden"
+          >
+            Solicitar propuesta
+          </a>
+        </div>
       </div>
 
       <div
