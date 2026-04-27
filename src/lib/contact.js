@@ -23,7 +23,10 @@ export function validateContactForm(values) {
 }
 
 export async function submitContactForm(values) {
-  const endpoint = import.meta.env.VITE_CONTACT_API_URL || `${window.location.origin}/api/contact`
+  const endpoint =
+    import.meta.env.VITE_CONTACT_API_URL ||
+    import.meta.env.VITE_API_BASE_URL ||
+    `${window.location.origin}/api/contact`
 
   const response = await fetch(endpoint, {
     method: 'POST',
