@@ -20,6 +20,12 @@ const resetTilt = (element) => {
   element.style.setProperty('--tilt-x', '0')
   element.style.setProperty('--tilt-y', '0')
   element.style.willChange = 'auto'
+  element.__tiltRect = null
+}
+
+const measureTiltRect = (element) => {
+  element.__tiltRect = element.getBoundingClientRect()
+  return element.__tiltRect
 }
 
 const handleTiltPointerMove = (event) => {
@@ -37,7 +43,7 @@ const handleTiltPointerMove = (event) => {
   element.style.willChange = 'transform'
 
   element.__tiltFrame = window.requestAnimationFrame(() => {
-    const rect = element.getBoundingClientRect()
+    const rect = element.__tiltRect || measureTiltRect(element)
     const pointer = element.__tiltPointer
     const x = ((pointer.clientX - rect.left) / rect.width - 0.5) * 2
     const y = ((pointer.clientY - rect.top) / rect.height - 0.5) * 2
@@ -52,7 +58,13 @@ const handleTiltPointerLeave = (event) => {
   resetTilt(event.currentTarget)
 }
 
+const handleTiltPointerEnter = (event) => {
+  if (!canTilt()) return
+  measureTiltRect(event.currentTarget)
+}
+
 const tiltHandlers = {
+  onPointerEnter: handleTiltPointerEnter,
   onPointerMove: handleTiltPointerMove,
   onPointerLeave: handleTiltPointerLeave,
 }

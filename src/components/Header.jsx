@@ -11,8 +11,6 @@ const navItems = [
 function Header({ brandName }) {
   const navRef = useRef(null)
   const itemRefs = useRef({})
-  const navLockRef = useRef({ active: false, target: '#home' })
-  const sectionMetaRef = useRef([])
   const indicatorRafRef = useRef(0)
   const [activeHref, setActiveHref] = useState('#home')
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
@@ -35,7 +33,6 @@ function Header({ brandName }) {
           opacity: 1,
         })
       })
-
     }
 
     updateIndicator()
@@ -80,105 +77,33 @@ function Header({ brandName }) {
   }, [])
 
   useEffect(() => {
-    const measureSections = () => {
-      sectionMetaRef.current = navItems
-        .map((item) => {
-          const element = document.querySelector(item.href)
-          return element ? { id: element.id, top: element.offsetTop } : null
-        })
-        .filter(Boolean)
-        .sort((a, b) => a.top - b.top)
+    const sections = navItems
+      .map((item) => document.querySelector(item.href))
+      .filter(Boolean)
+
+    if (!sections.length || typeof IntersectionObserver === 'undefined') {
+      return undefined
     }
 
-    measureSections()
-    if (!sectionMetaRef.current.length) return undefined
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries.filter((entry) => entry.isIntersecting)
+        if (!visibleEntries.length) return
 
-    const releaseNavLock = () => {
-      const lock = navLockRef.current
-      if (!lock.active) return
-      lock.active = false
-      handleScroll()
-    }
+        visibleEntries.sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        const nextHref = `#${visibleEntries[0].target.id}`
 
-    const updateActiveByScroll = () => {
-      const sections = sectionMetaRef.current
-      const lock = navLockRef.current
-      if (lock.active) {
-        const targetSection = document.querySelector(lock.target)
-        if (targetSection) {
-          const targetTop = targetSection.offsetTop
-          const currentTop = window.scrollY + 112
-          if (Math.abs(currentTop - targetTop) <= 24) {
-            lock.active = false
-          } else {
-            return
-          }
-        } else {
-          lock.active = false
-        }
+        setActiveHref((currentHref) => (currentHref === nextHref ? currentHref : nextHref))
+      },
+      {
+        root: null,
+        rootMargin: '-180px 0px -45% 0px',
+        threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 1],
       }
+    )
 
-      if (lock.active) {
-        return
-      }
-
-      const scrollMarker = window.scrollY + 180
-      const viewportBottom = window.scrollY + window.innerHeight
-      const pageBottom = document.documentElement.scrollHeight
-      let current = sections[0]
-
-      if (viewportBottom >= pageBottom - 8) {
-        const lastSection = sections[sections.length - 1]
-        setActiveHref(`#${lastSection.id}`)
-        return
-      }
-
-      for (const section of sections) {
-        if (scrollMarker >= section.top - 1) {
-          current = section
-        }
-      }
-
-      setActiveHref(`#${current.id}`)
-    }
-
-    let rafId = 0
-
-    const handleScroll = () => {
-      window.cancelAnimationFrame(rafId)
-      rafId = window.requestAnimationFrame(updateActiveByScroll)
-    }
-
-    const handleUserIntent = (event) => {
-      if (event.type === 'keydown') {
-        const navigationKeys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', 'Space']
-        if (!navigationKeys.includes(event.code) && !navigationKeys.includes(event.key)) {
-          return
-        }
-      }
-
-      releaseNavLock()
-    }
-
-    const handleResize = () => {
-      measureSections()
-      handleScroll()
-    }
-
-    updateActiveByScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleResize)
-    window.addEventListener('wheel', handleUserIntent, { passive: true })
-    window.addEventListener('touchmove', handleUserIntent, { passive: true })
-    window.addEventListener('keydown', handleUserIntent)
-    return () => {
-      window.cancelAnimationFrame(rafId)
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleResize)
-      window.removeEventListener('wheel', handleUserIntent)
-      window.removeEventListener('touchmove', handleUserIntent)
-      window.removeEventListener('keydown', handleUserIntent)
-    }
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -225,9 +150,6 @@ function Header({ brandName }) {
                 }}
                 href={item.href}
                 onClick={() => {
-                  const lock = navLockRef.current
-                  lock.active = true
-                  lock.target = item.href
                   setActiveHref(item.href)
                 }}
                 className={`py-2 no-underline transition-all duration-300 ease-out hover:-translate-y-0.5 ${
@@ -280,9 +202,6 @@ function Header({ brandName }) {
               key={`mobile-${item.href}`}
               href={item.href}
               onClick={() => {
-                const lock = navLockRef.current
-                lock.active = true
-                lock.target = item.href
                 setActiveHref(item.href)
                 setIsMobileMenuOpen(false)
               }}
