@@ -18,7 +18,7 @@ export const hero = {
   role: 'Sistemas web y automatizaciones a medida',
   description:
     'Desarrollo sistemas y automatizaciones a medida para ordenar procesos, reducir trabajo manual y ahorrar tiempo.',
-  image: '/banner.webp',
+  image: '/banner-660.png',
 }
 
 export const socials = [
