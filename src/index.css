@@ -18,6 +18,7 @@
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: rgba(123, 92, 255, 0.75) rgba(7, 9, 16, 0.95);
+    overflow-x: hidden;
   }
 
   html:focus-within {
@@ -27,6 +28,7 @@
   body {
     margin: 0;
     min-width: 320px;
+    overflow-x: hidden;
     font-family: Inter, "Segoe UI", sans-serif;
     background:
       radial-gradient(circle at 15% 10%, rgba(85, 100, 255, 0.08), transparent 18%),
@@ -310,104 +312,6 @@
     }
   }
 
-  @keyframes whatsapp-shake {
-    0%, 86%, 100% {
-      transform: translate3d(0, 0, 0) rotate(0deg);
-    }
-    88% {
-      transform: translate3d(-1px, 0, 0) rotate(-8deg);
-    }
-    90% {
-      transform: translate3d(1px, 0, 0) rotate(8deg);
-    }
-    92% {
-      transform: translate3d(-1px, 0, 0) rotate(-7deg);
-    }
-    94% {
-      transform: translate3d(1px, 0, 0) rotate(7deg);
-    }
-    96% {
-      transform: translate3d(-0.5px, 0, 0) rotate(-4deg);
-    }
-    98% {
-      transform: translate3d(0.5px, 0, 0) rotate(4deg);
-    }
-  }
-
-  .whatsapp-float-shake {
-    animation: whatsapp-shake 3.8s ease-in-out infinite;
-    transform-origin: center;
-  }
-
-  @keyframes modal-overlay-enter {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes modal-panel-enter {
-    from {
-      opacity: 0;
-      transform: translateY(18px) scale(0.96) perspective(1200px) rotateY(calc(var(--modal-base-tilt, -2deg) + (var(--modal-tilt-x, 0) * var(--modal-tilt-range, 6deg))));
-      filter: blur(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1) perspective(1200px) rotateY(calc(var(--modal-base-tilt, -2deg) + (var(--modal-tilt-x, 0) * var(--modal-tilt-range, 6deg))));
-      filter: blur(0);
-    }
-  }
-
-  .about-modal-overlay {
-    animation: modal-overlay-enter 180ms ease-out both;
-  }
-
-  .about-modal-overlay--closing {
-    animation: modal-overlay-exit 200ms ease-in both;
-  }
-
-  .about-modal-panel {
-    --modal-tilt-x: 0;
-    --modal-base-tilt: -2deg;
-    --modal-tilt-range: 6deg;
-    animation: modal-panel-enter 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    transform-origin: center;
-    transition: transform 180ms ease-out;
-  }
-
-  .about-modal-panel--tilted-right {
-    transform: perspective(1200px) rotateY(calc(var(--modal-base-tilt) + (var(--modal-tilt-x) * var(--modal-tilt-range))));
-  }
-
-  .about-modal-panel--closing {
-    animation: modal-panel-exit 200ms ease-in both;
-  }
-
-  .modal-panel-card,
-  .modal-accent-card {
-    transition:
-      transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 220ms ease,
-      background-color 220ms ease;
-  }
-
-  .modal-panel-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
-    border-color: rgba(255, 255, 255, 0.12);
-  }
-
-  .modal-accent-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
-    border-color: rgba(123, 92, 255, 0.36);
-    background-color: rgba(123, 92, 255, 0.08);
-  }
-
   .modal-list-item {
     position: relative;
     padding-left: 16px;
@@ -475,43 +379,20 @@
     transform: translateZ(0);
   }
 
+  @media (max-width: 1024px) {
+    .tilt-surface,
+    .tilt-card {
+      transform: none !important;
+      transition:
+        box-shadow 220ms ease-out,
+        border-color 220ms ease-out,
+        background-color 220ms ease-out;
+      will-change: auto;
+      perspective: none;
+    }
+  }
+
   @media (max-width: 768px) {
-    .about-modal-panel {
-      --modal-base-tilt: 0deg;
-      --modal-tilt-range: 0deg;
-      max-height: calc(100dvh - 24px);
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-      transform: none !important;
-    }
-
-    .about-modal-panel--tilted-right {
-      transform: none !important;
-    }
-
-    .about-modal-panel::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    .about-modal-panel::-webkit-scrollbar-track {
-      background: linear-gradient(180deg, rgba(10, 12, 22, 0.98), rgba(6, 8, 15, 0.98));
-    }
-
-    .about-modal-panel::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, rgba(123, 92, 255, 0.78), rgba(94, 66, 215, 0.74));
-      border-radius: 999px;
-      border: 2px solid rgba(6, 8, 15, 0.98);
-    }
-
-    .about-modal-panel::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, rgba(136, 108, 255, 0.9), rgba(105, 76, 229, 0.85));
-    }
-
-    .about-modal-panel {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(123, 92, 255, 0.75) rgba(7, 9, 16, 0.95);
-    }
-
     #home {
       width: 100%;
       max-width: 100%;
@@ -519,27 +400,4 @@
       overflow-x: hidden;
     }
   }
-
-  @keyframes modal-overlay-exit {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-
-  @keyframes modal-panel-exit {
-    from {
-      opacity: 1;
-      transform: translateY(0) scale(1) perspective(1200px) rotateY(calc(var(--modal-base-tilt, -2deg) + (var(--modal-tilt-x, 0) * var(--modal-tilt-range, 6deg))));
-      filter: blur(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(12px) scale(0.98) perspective(1200px) rotateY(calc(var(--modal-base-tilt, -2deg) + (var(--modal-tilt-x, 0) * var(--modal-tilt-range, 6deg))));
-      filter: blur(6px);
-    }
-  }
-
 }

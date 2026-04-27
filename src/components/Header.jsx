@@ -15,6 +15,7 @@ function Header({ brandName }) {
   const [activeHref, setActiveHref] = useState('#home')
   const [isNavOverflowing, setIsNavOverflowing] = useState(false)
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useLayoutEffect(() => {
     const updateIndicator = () => {
@@ -43,6 +44,39 @@ function Header({ brandName }) {
       window.removeEventListener('resize', updateIndicator)
     }
   }, [activeHref])
+
+  useEffect(() => {
+    const closeMenuOnDesktop = () => {
+      if (window.innerWidth > 925) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', closeMenuOnDesktop)
+    return () => {
+      window.removeEventListener('resize', closeMenuOnDesktop)
+    }
+  }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [])
 
   useEffect(() => {
     const sections = navItems
@@ -136,15 +170,30 @@ function Header({ brandName }) {
 
   return (
     <header className="sticky top-0 z-10 w-full bg-[rgba(8,10,20,0.88)] backdrop-blur-xl">
-      <div className="mx-auto flex w-[min(1180px,calc(100%-32px))] flex-wrap items-center justify-between gap-5 py-4 max-md:w-[min(100%-20px,1180px)] max-md:justify-center max-[869px]:justify-center max-[869px]:gap-3">
-        <a href="#home" className="flex items-center gap-3 text-[1.35rem] font-bold text-[#f4f7ff] no-underline">
+      <div className="mx-auto flex w-[min(1180px,calc(100%-32px))] flex-wrap items-center justify-between gap-5 py-4 max-[925px]:w-[min(100%-20px,1180px)] max-[925px]:gap-3">
+        <a href="#home" aria-label="Ir al inicio" className="flex items-center gap-3 text-[1.35rem] font-bold text-[#f4f7ff] no-underline">
           <span className="text-2xl text-[var(--color-brand)]">{'</>'}</span>
           <span>
             {brandName.split(' ')[0]} <strong className="text-[var(--color-brand)]">Dev</strong>
           </span>
         </a>
 
-        <nav ref={navRef} className={`relative flex flex-wrap justify-center gap-4 md:gap-8 max-md:w-full max-md:flex-nowrap max-md:gap-5 max-md:overflow-x-auto max-md:overflow-y-hidden max-md:whitespace-nowrap max-md:px-1 max-md:pb-2 no-scrollbar ${isNavOverflowing ? 'max-md:justify-start' : 'max-md:justify-center'}`}>
+        <button
+          type="button"
+          aria-label={isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          className="hidden h-11 w-11 items-center justify-center rounded-xl border border-[rgba(123,92,255,0.42)] bg-[rgba(12,16,28,0.92)] text-[#e8ecff] transition-all duration-300 hover:border-[rgba(123,92,255,0.78)] hover:bg-[rgba(18,23,40,0.96)] max-[925px]:inline-flex"
+        >
+          <span className="relative h-4 w-5">
+            <span className={`absolute left-0 top-0 block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
+            <span className={`absolute left-0 top-[7px] block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+            <span className={`absolute left-0 top-[14px] block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isMobileMenuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
+          </span>
+        </button>
+
+        <nav ref={navRef} aria-label="Navegacion principal" className={`relative flex flex-wrap justify-center gap-4 md:gap-8 max-[925px]:hidden`}>
           <span
             className="absolute bottom-0 md:bottom-[-9px] h-[2px] rounded-full bg-linear-to-r from-[#7b5cff] to-[#ac47ff] transition-[transform,width,opacity] duration-200 ease-out will-change-[transform,width,opacity]"
             style={{
@@ -178,11 +227,61 @@ function Header({ brandName }) {
 
         <a
           href="#contact"
-          className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-5 py-3 font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-[869px]:self-center max-[869px]:rounded-xl max-[869px]:px-4 max-[869px]:py-2 max-[869px]:text-sm"
+          className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-5 py-3 font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-[925px]:hidden"
         >
           Solicitar propuesta
         </a>
       </div>
+
+      <div
+        className={`fixed inset-0 z-20 bg-[rgba(2,4,10,0.58)] transition-opacity duration-300 max-[925px]:block ${
+          isMobileMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        } hidden`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+
+      <aside
+        id="mobile-navigation"
+        role="dialog"
+        aria-label="Menu de navegacion"
+        className={`fixed right-0 top-0 z-30 h-screen w-[min(84vw,340px)] border-l border-[rgba(123,92,255,0.22)] bg-[rgba(8,11,20,0.98)] p-6 shadow-[0_0_46px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-transform duration-300 ease-out max-[925px]:block ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        } hidden`}
+        aria-hidden={!isMobileMenuOpen}
+      >
+        <div className="mb-8 flex items-center justify-between">
+          <span className="text-sm font-semibold uppercase tracking-[0.22em] text-[#b9c3ff]">Menu</span>
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-xl text-[#e8ecff] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:rotate-90 hover:scale-105 hover:border-[rgba(123,92,255,0.75)] hover:bg-[rgba(123,92,255,0.14)] active:translate-y-0 active:scale-95"
+            aria-label="Cerrar menu"
+          >X</button>
+        </div>
+
+        <nav aria-label="Navegacion movil" className="flex flex-col gap-3">
+          {navItems.map((item) => (
+            <a
+              key={`mobile-${item.href}`}
+              href={item.href}
+              onClick={() => {
+                const lock = navLockRef.current
+                lock.active = true
+                lock.target = item.href
+                setActiveHref(item.href)
+                setIsMobileMenuOpen(false)
+              }}
+              className={`rounded-xl border px-4 py-3 text-base font-medium no-underline transition-all duration-300 ${
+                activeHref === item.href
+                  ? 'border-[rgba(123,92,255,0.72)] bg-[rgba(123,92,255,0.14)] text-white hover:border-[rgba(123,92,255,0.92)] hover:bg-[rgba(123,92,255,0.24)]'
+                  : 'border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] text-[#d2d7f3] hover:-translate-y-0.5 hover:border-[rgba(123,92,255,0.55)] hover:bg-[rgba(123,92,255,0.12)] hover:text-white'
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </aside>
     </header>
   )
 }

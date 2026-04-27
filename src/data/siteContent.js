@@ -11,7 +11,6 @@ import linkedinIcon from '../assets/icons/linkedin.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import calendarIcon from '../assets/icons/calender-svgrepo-com.svg'
-import whatsappIcon from '../assets/icons/whatsapp-128-svgrepo-com.svg'
 
 export const brandName = 'Cristian Dev'
 
@@ -76,11 +75,6 @@ export const contactItems = [
     id: 'availability',
     iconSrc: calendarIcon,
     label: 'Disponibilidad',
-    value: 'Disponible para trabajar',
+    value: 'Agenda abierta para nuevos proyectos',
   },
 ]
-
-export const whatsapp = {
-  url: 'https://wa.me/5490000000000?text=Hola%20Cristian%2C%20quiero%20consultarte%20por%20un%20proyecto.',
-  iconSrc: whatsappIcon,
-}

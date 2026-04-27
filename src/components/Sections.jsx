@@ -1,6 +1,6 @@
 import externalLinkIcon from '../assets/icons/external-link.svg'
 import { submitContactForm, validateContactForm } from '../lib/contact.js'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function SectionShell({ id, title, children, action }) {
   const handlePointerMove = (event) => {
@@ -90,10 +90,10 @@ export function HeroSection({ hero, socials }) {
               href={social.url}
               target="_blank"
               rel="noreferrer noopener"
-              aria-label={social.name}
-              className="grid h-[52px] w-[52px] place-items-center rounded-[14px] border border-white/6 bg-white/[0.03] text-white no-underline transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-white/[0.08]"
+              aria-label={`Abrir perfil de ${social.name} de Cristian Dev`}
+              className="grid h-[64px] w-[64px] place-items-center rounded-[18px] border border-white/6 bg-white/[0.03] text-white no-underline transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-white/[0.08] max-md:h-[48px] max-md:w-[48px] max-md:rounded-[14px]"
             >
-              <img src={social.iconSrc} alt={`${social.name} icon`} className="h-6 w-6 object-contain" />
+              <img src={social.iconSrc} alt={`Logo de ${social.name} de Cristian Dev`} className="h-7 w-7 object-contain max-md:h-5 max-md:w-5" />
             </a>
           ))}
         </div>
@@ -110,7 +110,7 @@ export function HeroSection({ hero, socials }) {
         <div className="typing-shell absolute bottom-[110px] left-[30px] z-[2] grid h-[92px] w-[92px] place-items-center rounded-[20px] border border-white/8 bg-[rgba(14,17,30,0.95)] text-[2rem] font-extrabold text-[#7bff78] shadow-[0_20px_40px_rgba(0,0,0,0.24)]">
           <span className="typing-text font-mono leading-none tracking-tight">{'>'}_</span>
         </div>
-        <img src={hero.image} alt="Developer portrait" className="relative z-[1] w-full max-w-[520px] object-contain" />
+        <img src={hero.image} alt="Retrato de Cristian Dev en la portada del portfolio profesional" className="relative z-[1] w-full max-w-[520px] object-contain" />
       </div>
     </section>
   )
@@ -124,7 +124,7 @@ export function SkillsSection({ skills }) {
         <article key={skill.name} className={`tilt-card ${index % 2 === 0 ? 'tilt-card--left' : 'tilt-card--right'} rounded-[18px] border border-white/6 bg-white/[0.03] px-4 pt-[22px] pb-4 text-center`}>
             <div className="mx-auto mb-4 grid h-[62px] w-[62px] place-items-center rounded-[18px] border border-white/8 bg-linear-to-b from-white/5 to-[rgba(123,92,255,0.08)] text-[1.8rem] font-extrabold text-[#7bd3ff]">
               {skill.iconSrc ? (
-                <img src={skill.iconSrc} alt={`${skill.name} icon`} className="h-9 w-9 object-contain" />
+                <img src={skill.iconSrc} alt={`Logo de ${skill.name}`} className="h-9 w-9 object-contain" />
               ) : (
                 skill.icon
               )}
@@ -169,7 +169,7 @@ export function ProjectsSection({ projects }) {
                   aria-label={`Abrir ${project.title}`}
                   className="inline-flex cursor-pointer items-center justify-center rounded-md p-1 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-white/10 active:translate-y-0"
                 >
-                  <img src={externalLinkIcon} alt="" className="h-5 w-5 opacity-90" />
+                  <img src={externalLinkIcon} alt={`Icono para abrir ${project.title} en una nueva vista`} className="h-5 w-5 opacity-90" />
                 </a>
               </div>
               <p className="mt-3 leading-[1.8] text-[var(--color-copy)]">{project.description}</p>
@@ -189,8 +189,6 @@ export function ProjectsSection({ projects }) {
 }
 
 export function AboutContactSection({ contactItems }) {
-  const aboutModalPanelRef = useRef(null)
-
   const handlePointerMove = (event) => {
     const element = event.currentTarget
     const rect = element.getBoundingClientRect()
@@ -206,19 +204,6 @@ export function AboutContactSection({ contactItems }) {
     event.currentTarget.style.setProperty('--tilt-y', '0')
   }
 
-  const handleAboutModalPointerMove = (event) => {
-    const panel = aboutModalPanelRef.current
-    if (!panel) return
-
-    const rect = panel.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
-    panel.style.setProperty('--modal-tilt-x', `${Math.max(-1, Math.min(1, x))}`)
-  }
-
-  const handleAboutModalPointerLeave = () => {
-    aboutModalPanelRef.current?.style.setProperty('--modal-tilt-x', '0')
-  }
-
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -229,8 +214,7 @@ export function AboutContactSection({ contactItems }) {
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle')
   const [toast, setToast] = useState({ visible: false, type: 'error', message: '' })
-  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false)
-  const [isAboutModalClosing, setIsAboutModalClosing] = useState(false)
+  const [isEmailVisible, setIsEmailVisible] = useState(false)
 
   useEffect(() => {
     if (!toast.visible) return undefined
@@ -247,40 +231,6 @@ export function AboutContactSection({ contactItems }) {
     }, 2600)
     return () => window.clearTimeout(timeoutId)
   }, [status])
-
-  useEffect(() => {
-    if (!isAboutModalOpen) return undefined
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setIsAboutModalClosing(true)
-      }
-    }
-
-    document.body.style.overflow = 'hidden'
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.body.style.overflow = ''
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isAboutModalOpen])
-
-  useEffect(() => {
-    if (!isAboutModalClosing) return undefined
-
-    const timeoutId = window.setTimeout(() => {
-      setIsAboutModalOpen(false)
-      setIsAboutModalClosing(false)
-    }, 220)
-
-    return () => window.clearTimeout(timeoutId)
-  }, [isAboutModalClosing])
-
-  const closeAboutModal = () => {
-    if (!isAboutModalOpen || isAboutModalClosing) return
-    setIsAboutModalClosing(true)
-  }
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -348,16 +298,27 @@ export function AboutContactSection({ contactItems }) {
         <p className="mt-4 leading-[1.8] text-[var(--color-copy)]">
           Desarrollo soluciones web a medida para negocios y equipos que necesitan ordenar su operacion, automatizar tareas repetitivas y trabajar con mas claridad. Creo herramientas pensadas para adaptarse a cada proceso, reducir errores manuales, ahorrar tiempo y convertir tareas que hoy consumen energia en flujos simples, utiles y faciles de usar.
         </p>
-          <button
-            type="button"
-            onClick={() => {
-              setIsAboutModalClosing(false)
-              setIsAboutModalOpen(true)
-            }}
-            className="mt-4 inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm"
-          >
-          Mas sobre mi
-        </button>
+        <p className="mt-4 leading-[1.8] text-[var(--color-copy)]">
+          El objetivo no es solo tener una app, sino implementar una solucion que te ahorre tiempo real, ordene el trabajo y te permita tomar mejores decisiones.
+        </p>
+
+        <div className="mt-5 grid gap-3 text-[var(--color-copy)]">
+          <p className="m-0 text-sm uppercase tracking-[0.12em] text-[#9aa3cb]">Como trabajo</p>
+          <p className="m-0"><strong className="text-white">1.</strong> Entiendo tu proceso actual y detecto cuellos de botella.</p>
+          <p className="m-0"><strong className="text-white">2.</strong> Diseno una solucion simple, priorizando impacto y velocidad.</p>
+          <p className="m-0"><strong className="text-white">3.</strong> Entrego un sistema usable, escalable y enfocado en resultados.</p>
+        </div>
+
+        <div className="mt-5 rounded-xl border border-[rgba(123,92,255,0.18)] bg-[rgba(123,92,255,0.06)] p-4">
+          <h5 className="m-0 text-base font-semibold text-white">Servicios que suelen pedir mis clientes</h5>
+          <ul className="mt-3 grid gap-2 p-0 list-none text-[var(--color-copy)]">
+            <li className="modal-list-item">Sistemas internos para gestion operativa</li>
+            <li className="modal-list-item">Automatizacion de tareas administrativas</li>
+            <li className="modal-list-item">Paneles de control con datos en tiempo real</li>
+            <li className="modal-list-item">Integraciones entre herramientas y APIs</li>
+            <li className="modal-list-item">Formularios y flujos de trabajo personalizados</li>
+          </ul>
+        </div>
       </article>
 
       <div
@@ -376,18 +337,28 @@ export function AboutContactSection({ contactItems }) {
               {contactItems.map((item) => (
                 <li key={item.id} className="flex items-start gap-3 py-1">
                   <span className="mt-0.5 grid h-9 w-9 place-items-center rounded-lg">
-                    <img src={item.iconSrc} alt="" className="h-5 w-5 object-contain" />
+                    <img src={item.iconSrc} alt={`Icono de ${item.label}`} className="h-5 w-5 object-contain" />
                   </span>
                   <span className="grid gap-0.5">
                     <span className="text-xs uppercase tracking-[0.08em] text-[#9aa3cb]">{item.label}</span>
-                    <span className="text-[var(--color-copy)]">{item.value}</span>
+                    {item.id === 'mail' && !isEmailVisible ? (
+                      <button
+                        type="button"
+                        onClick={() => setIsEmailVisible(true)}
+                        className="w-fit rounded-lg border border-[rgba(123,92,255,0.42)] bg-[rgba(123,92,255,0.08)] px-3 py-1.5 text-left text-sm font-medium text-[#d9deff] transition-all duration-200 ease-out hover:border-[rgba(123,92,255,0.72)] hover:bg-[rgba(123,92,255,0.16)] max-md:w-full max-md:px-2.5 max-md:py-2 max-md:text-xs"
+                      >
+                        Mostrar mail
+                      </button>
+                    ) : (
+                      <span className={`text-[var(--color-copy)] ${item.id === 'mail' ? 'break-all' : ''}`}>{item.value}</span>
+                    )}
                   </span>
                 </li>
               ))}
             </ul>
           </article>
 
-          <form onSubmit={handleSubmit} className="grid gap-[14px]">
+          <form onSubmit={handleSubmit} className="grid gap-[14px]" aria-label="Formulario de contacto para solicitar propuesta">
             <input
               name="hidden_company"
               type="text"
@@ -401,6 +372,8 @@ export function AboutContactSection({ contactItems }) {
             <input
               name="name"
               type="text"
+              aria-label="Nombre"
+              aria-invalid={Boolean(errors.name)}
               value={formState.name}
               onChange={handleChange}
               autoComplete="off"
@@ -412,6 +385,8 @@ export function AboutContactSection({ contactItems }) {
             <input
               name="email"
               type="email"
+              aria-label="Correo electronico"
+              aria-invalid={Boolean(errors.email)}
               value={formState.email}
               onChange={handleChange}
               autoComplete="off"
@@ -423,6 +398,8 @@ export function AboutContactSection({ contactItems }) {
             <input
               name="subject"
               type="text"
+              aria-label="Asunto"
+              aria-invalid={Boolean(errors.subject)}
               value={formState.subject}
               onChange={handleChange}
               autoComplete="off"
@@ -433,6 +410,8 @@ export function AboutContactSection({ contactItems }) {
             {errors.subject ? <p className="m-0 text-sm text-[#ff8f8f]">{errors.subject}</p> : null}
             <textarea
               name="message"
+              aria-label="Mensaje"
+              aria-invalid={Boolean(errors.message)}
               value={formState.message}
               onChange={handleChange}
               autoComplete="off"
@@ -466,101 +445,6 @@ export function AboutContactSection({ contactItems }) {
       >
         {toast.message}
       </div>
-
-      {isAboutModalOpen ? (
-        <div
-          className={`about-modal-overlay fixed inset-0 z-[80] flex items-center justify-center bg-[rgba(3,5,12,0.72)] px-4 py-6 backdrop-blur-md ${
-            isAboutModalClosing ? 'about-modal-overlay--closing' : ''
-          }`}
-          onMouseDown={closeAboutModal}
-          onPointerMove={handleAboutModalPointerMove}
-          onPointerLeave={handleAboutModalPointerLeave}
-        >
-          <article
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="about-modal-title"
-            ref={aboutModalPanelRef}
-            className={`about-modal-panel about-modal-panel--tilted-right relative w-full max-w-[760px] overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(14,18,32,0.98),rgba(9,12,22,0.98))] shadow-[0_30px_90px_rgba(0,0,0,0.55)] ${
-              isAboutModalClosing ? 'about-modal-panel--closing' : ''
-            }`}
-            onMouseDown={(event) => event.stopPropagation()}
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(123,92,255,0.16),transparent_32%),radial-gradient(circle_at_82%_18%,rgba(90,201,255,0.12),transparent_26%)]" />
-            <div className="relative p-6 md:p-8">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="mb-2 text-sm uppercase tracking-[0.16em] text-[#93a0cf]">Sobre mi</p>
-                  <h4 id="about-modal-title" className="m-0 text-2xl font-semibold text-white md:text-[2rem]">
-                    Soluciones web para ahorrar tiempo y escalar procesos
-                  </h4>
-                </div>
-                <button
-                  type="button"
-                  onClick={closeAboutModal}
-                  className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm"
-                  aria-label="Cerrar modal"
-                >
-                  Cerrar
-                </button>
-              </div>
-
-              <div className="mt-6 grid gap-4 md:grid-cols-[1.05fr_0.95fr]">
-                <div className="modal-panel-card rounded-[22px] border border-white/8 bg-white/[0.03] p-5">
-                  <p className="m-0 leading-[1.8] text-[var(--color-copy)]">
-                    Diseno y desarrollo sistemas web a medida para automatizar tareas repetitivas, reducir errores manuales y mejorar la operacion diaria de tu negocio.
-                  </p>
-                  <p className="mt-4 m-0 leading-[1.8] text-[var(--color-copy)]">
-                    El objetivo no es solo "tener una app", sino implementar una solucion que te ahorre tiempo real, ordene el trabajo y te permita tomar mejores decisiones.
-                  </p>
-
-                  <div className="mt-5 grid gap-3 text-[var(--color-copy)]">
-                    <p className="m-0 text-sm uppercase tracking-[0.12em] text-[#9aa3cb]">Como trabajo</p>
-                    <p className="m-0"><strong className="text-white">1.</strong> Entiendo tu proceso actual y detecto cuellos de botella.</p>
-                    <p className="m-0"><strong className="text-white">2.</strong> Diseno una solucion simple, priorizando impacto y velocidad.</p>
-                    <p className="m-0"><strong className="text-white">3.</strong> Entrego un sistema usable, escalable y enfocado en resultados.</p>
-                  </div>
-                </div>
-
-                <div className="modal-accent-card rounded-[22px] border border-[rgba(123,92,255,0.18)] bg-[rgba(123,92,255,0.06)] p-5">
-                  <h5 className="m-0 text-base font-semibold text-white">Servicios que suelen pedir mis clientes</h5>
-                  <ul className="mt-4 grid gap-3 p-0 list-none text-[var(--color-copy)]">
-                    <li className="modal-list-item">Sistemas internos para gestion operativa</li>
-                    <li className="modal-list-item">Automatizacion de tareas administrativas</li>
-                    <li className="modal-list-item">Paneles de control con datos en tiempo real</li>
-                    <li className="modal-list-item">Integraciones entre herramientas y APIs</li>
-                    <li className="modal-list-item">Formularios y flujos de trabajo personalizados</li>
-                  </ul>
-
-                  <div className="mt-5 rounded-xl border border-white/8 bg-white/[0.03] p-4">
-                    <p className="m-0 text-sm uppercase tracking-[0.12em] text-[#9aa3cb]">Ideal para</p>
-                    <p className="mt-2 m-0 leading-[1.7] text-[var(--color-copy)]">
-                      Negocios y equipos que ya validaron su operacion y necesitan una herramienta propia para crecer sin depender de procesos manuales.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={closeAboutModal}
-                  className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-[#5f5cff] to-[#8f44ff] px-[22px] py-[14px] font-semibold text-white transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.01] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm"
-                >
-                  Ver como trabajamos
-                </button>
-                <a
-                  href="#contact"
-                  onClick={closeAboutModal}
-                  className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline transition-all duration-200 ease-out hover:bg-white/[0.06] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm"
-                >
-                  Quiero una propuesta
-                </a>
-              </div>
-            </div>
-          </article>
-        </div>
-      ) : null}
     </section>
   )
 }
