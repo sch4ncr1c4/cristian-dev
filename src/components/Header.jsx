@@ -13,7 +13,6 @@ function Header({ brandName }) {
   const itemRefs = useRef({})
   const navLockRef = useRef({ active: false, target: '#home' })
   const [activeHref, setActiveHref] = useState('#home')
-  const [isNavOverflowing, setIsNavOverflowing] = useState(false)
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -33,8 +32,6 @@ function Header({ brandName }) {
         opacity: 1,
       })
 
-      const hasOverflow = navEl.scrollWidth > navEl.clientWidth + 1
-      setIsNavOverflowing(hasOverflow)
     }
 
     const rafId = window.requestAnimationFrame(updateIndicator)

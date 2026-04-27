@@ -19,6 +19,7 @@
     scrollbar-width: thin;
     scrollbar-color: rgba(123, 92, 255, 0.75) rgba(7, 9, 16, 0.95);
     overflow-x: hidden;
+    background: #080a14e0;
   }
 
   html:focus-within {
@@ -30,11 +31,13 @@
     min-width: 320px;
     overflow-x: hidden;
     font-family: Inter, "Segoe UI", sans-serif;
-    background:
-      radial-gradient(circle at 15% 10%, rgba(85, 100, 255, 0.08), transparent 18%),
-      radial-gradient(circle at 85% 22%, rgba(123, 92, 255, 0.1), transparent 16%),
-      linear-gradient(180deg, #080a14 0%, #05070e 100%);
+    background: #080a14e0;
     color: #e8ecff;
+  }
+
+  #root {
+    min-height: 100vh;
+    background: #080a14e0;
   }
 
   section[id] {
