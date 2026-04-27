@@ -20,15 +20,37 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const hideLoader = () => setIsLoading(false)
+    const minVisibleMs = 900
+    const maxVisibleMs = 2400
+    const startedAt = performance.now()
+    let isCancelled = false
+    let delayHideId
 
-    if (document.readyState === 'complete') {
-      hideLoader()
-      return undefined
+    const hide = () => {
+      if (!isCancelled) setIsLoading(false)
     }
 
-    window.addEventListener('load', hideLoader)
-    return () => window.removeEventListener('load', hideLoader)
+    const finish = () => {
+      const elapsed = performance.now() - startedAt
+      const remaining = Math.max(0, minVisibleMs - elapsed)
+      window.clearTimeout(delayHideId)
+      delayHideId = window.setTimeout(hide, remaining)
+    }
+
+    const maxWaitId = window.setTimeout(finish, maxVisibleMs)
+
+    if (document.readyState === 'complete') {
+      finish()
+    } else {
+      window.addEventListener('load', finish, { once: true })
+    }
+
+    return () => {
+      isCancelled = true
+      window.clearTimeout(maxWaitId)
+      window.clearTimeout(delayHideId)
+      window.removeEventListener('load', finish)
+    }
   }, [])
 
   useEffect(() => {
@@ -54,7 +76,16 @@ function App() {
       </main>
       <footer className="mx-auto mt-32 w-[min(1180px,calc(100%-32px))] border-t border-white/8 pt-10 pb-16 text-[0.95rem] text-[#9aa3cb] max-md:w-[min(100%-20px,1180px)] max-md:mt-24 max-md:pt-8 max-md:pb-12">
         <div className="flex justify-between gap-5 max-md:flex-col max-md:text-center">
-          <p className="m-0">2026 Cristian Dev.</p>
+          <p className="m-0">
+            2026{' '}
+            <a href="#home" aria-label="Ir al inicio" className="inline-flex items-center gap-2 text-[1.05rem] font-bold text-[#f4f7ff] no-underline">
+              <span className="text-[1.2rem] text-[var(--color-brand)]">{'</>'}</span>
+              <span>
+                Cristian <strong className="text-[var(--color-brand)]">Dev</strong>
+              </span>
+            </a>
+            .
+          </p>
           <p className="m-0">Hecho con mucho codigo</p>
         </div>
         <p className="m-0 mt-6 text-[0.88rem] text-[#7f89b2] max-md:mt-5 max-md:text-center">
