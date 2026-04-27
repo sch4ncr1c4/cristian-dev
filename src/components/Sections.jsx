@@ -132,7 +132,7 @@ export function HeroSection({ hero, socials }) {
         <div className="hero-badge-type typing-shell absolute bottom-[110px] left-[30px] z-[2] grid h-[92px] w-[92px] place-items-center rounded-[20px] border border-white/8 bg-[rgba(14,17,30,0.95)] text-[2rem] font-extrabold text-[#7bff78] shadow-[0_20px_40px_rgba(0,0,0,0.24)] md:max-[1160px]:bottom-[18%] md:max-[1160px]:left-[18%] max-md:bottom-[72px] max-md:left-4 max-md:h-[64px] max-md:w-[64px] max-md:rounded-[14px] max-md:text-[1.3rem]">
           <span className="typing-text font-mono leading-none tracking-tight">{'>'}_</span>
         </div>
-        <img src={hero.image} alt="Retrato de Cristian Dev en la portada del portfolio profesional" className="relative z-[1] w-full max-w-[660px] object-contain" />
+        <img src={hero.image} alt="Retrato de Cristian Dev en la portada del portfolio profesional" fetchPriority="high" loading="eager" decoding="async" className="relative z-[1] w-full max-w-[660px] object-contain" />
       </div>
     </section>
   )

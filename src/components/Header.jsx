@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const navItems = [
   { href: '#home', label: 'Inicio' },
@@ -12,32 +12,36 @@ function Header({ brandName }) {
   const navRef = useRef(null)
   const itemRefs = useRef({})
   const navLockRef = useRef({ active: false, target: '#home' })
+  const sectionMetaRef = useRef([])
+  const indicatorRafRef = useRef(0)
   const [activeHref, setActiveHref] = useState('#home')
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const updateIndicator = () => {
       const navEl = navRef.current
       const activeEl = itemRefs.current[activeHref]
 
       if (!navEl || !activeEl) return
 
-      const navRect = navEl.getBoundingClientRect()
-      const activeRect = activeEl.getBoundingClientRect()
+      indicatorRafRef.current = window.requestAnimationFrame(() => {
+        const navRect = navEl.getBoundingClientRect()
+        const activeRect = activeEl.getBoundingClientRect()
 
-      setIndicator({
-        left: activeRect.left - navRect.left + navEl.scrollLeft,
-        width: activeRect.width,
-        opacity: 1,
+        setIndicator({
+          left: activeRect.left - navRect.left + navEl.scrollLeft,
+          width: activeRect.width,
+          opacity: 1,
+        })
       })
 
     }
 
-    const rafId = window.requestAnimationFrame(updateIndicator)
+    updateIndicator()
     window.addEventListener('resize', updateIndicator)
     return () => {
-      window.cancelAnimationFrame(rafId)
+      window.cancelAnimationFrame(indicatorRafRef.current)
       window.removeEventListener('resize', updateIndicator)
     }
   }, [activeHref])
@@ -76,12 +80,18 @@ function Header({ brandName }) {
   }, [])
 
   useEffect(() => {
-    const sections = navItems
-      .map((item) => document.querySelector(item.href))
-      .filter(Boolean)
-      .sort((a, b) => a.offsetTop - b.offsetTop)
+    const measureSections = () => {
+      sectionMetaRef.current = navItems
+        .map((item) => {
+          const element = document.querySelector(item.href)
+          return element ? { id: element.id, top: element.offsetTop } : null
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.top - b.top)
+    }
 
-    if (!sections.length) return undefined
+    measureSections()
+    if (!sectionMetaRef.current.length) return undefined
 
     const releaseNavLock = () => {
       const lock = navLockRef.current
@@ -91,6 +101,7 @@ function Header({ brandName }) {
     }
 
     const updateActiveByScroll = () => {
+      const sections = sectionMetaRef.current
       const lock = navLockRef.current
       if (lock.active) {
         const targetSection = document.querySelector(lock.target)
@@ -123,7 +134,7 @@ function Header({ brandName }) {
       }
 
       for (const section of sections) {
-        if (scrollMarker >= section.offsetTop - 1) {
+        if (scrollMarker >= section.top - 1) {
           current = section
         }
       }
@@ -149,16 +160,21 @@ function Header({ brandName }) {
       releaseNavLock()
     }
 
+    const handleResize = () => {
+      measureSections()
+      handleScroll()
+    }
+
     updateActiveByScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleScroll)
+    window.addEventListener('resize', handleResize)
     window.addEventListener('wheel', handleUserIntent, { passive: true })
     window.addEventListener('touchmove', handleUserIntent, { passive: true })
     window.addEventListener('keydown', handleUserIntent)
     return () => {
       window.cancelAnimationFrame(rafId)
       window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleScroll)
+      window.removeEventListener('resize', handleResize)
       window.removeEventListener('wheel', handleUserIntent)
       window.removeEventListener('touchmove', handleUserIntent)
       window.removeEventListener('keydown', handleUserIntent)
