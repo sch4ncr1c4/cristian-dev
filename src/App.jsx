@@ -115,18 +115,18 @@ function App() {
           <p className="m-0">
             2026{' '}
             <a href="#home" aria-label="Ir al inicio" className="inline-flex items-center gap-2 text-[1.05rem] font-bold text-[#f4f7ff] no-underline">
-              <span className="text-[1.2rem] text-[var(--color-brand)]">{'</>'}</span>
               <span>
                 Cristian <strong className="text-[var(--color-brand)]">Dev</strong>
               </span>
             </a>
             .
           </p>
-          <p className="m-0">Hecho con mucho codigo</p>
+          <p className="m-0 inline-flex items-center gap-2">
+            <span>Hecho con</span>
+            <span className="text-[1.05rem] font-bold text-[var(--color-brand)]">{'</>'}</span>
+            <span>mucho codigo</span>
+          </p>
         </div>
-        <p className="m-0 mt-6 text-[0.88rem] text-[#7f89b2] max-md:mt-5 max-md:text-center">
-          Desarrollo sistemas y automatizaciones a medida para negocios que quieren crecer con procesos mas eficientes.
-        </p>
       </footer>
     </div>
   )
