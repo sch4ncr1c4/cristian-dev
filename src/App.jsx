@@ -18,8 +18,22 @@ import {
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
+  const isDebugEnabled =
+    import.meta.env.DEV ||
+    (typeof window !== 'undefined' && window.localStorage?.getItem('debug-cards') === '1')
 
   useEffect(() => {
+    if (isDebugEnabled) {
+      const navigationEntry = performance.getEntriesByType('navigation')[0]
+      console.info('[cards-debug] boot', {
+        skillsCount: skills.length,
+        projectsCount: projects.length,
+        documentReadyState: document.readyState,
+        visibilityState: document.visibilityState,
+        navigationType: navigationEntry?.type || 'unknown',
+      })
+    }
+
     const minVisibleMs = 900
     const maxVisibleMs = 2400
     const startedAt = performance.now()
@@ -55,10 +69,32 @@ function App() {
 
   useEffect(() => {
     document.body.dataset.loading = isLoading ? 'true' : 'false'
+    if (isDebugEnabled) {
+      console.info('[cards-debug] loading-state', {
+        isLoading,
+        at: new Date().toISOString(),
+      })
+    }
     return () => {
       delete document.body.dataset.loading
     }
-  }, [isLoading])
+  }, [isDebugEnabled, isLoading])
+
+  useEffect(() => {
+    if (!isDebugEnabled) return undefined
+
+    const onVisibilityChange = () => {
+      console.info('[cards-debug] visibility-change', {
+        visibilityState: document.visibilityState,
+        at: new Date().toISOString(),
+      })
+    }
+
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [isDebugEnabled])
 
   return (
     <div className="min-h-screen">

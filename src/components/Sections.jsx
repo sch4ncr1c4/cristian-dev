@@ -69,6 +69,12 @@ const tiltHandlers = {
   onPointerLeave: handleTiltPointerLeave,
 }
 
+const resetAllTiltSurfaces = () => {
+  if (typeof document === 'undefined') return
+  const elements = document.querySelectorAll('.tilt-surface, .tilt-card')
+  elements.forEach((element) => resetTilt(element))
+}
+
 function SectionShell({ id, title, children, action }) {
   return (
     <section
@@ -258,6 +264,30 @@ export function AboutContactSection({ contactItems }) {
   const [status, setStatus] = useState('idle')
   const [toast, setToast] = useState({ visible: false, type: 'error', message: '' })
   const [isEmailVisible, setIsEmailVisible] = useState(false)
+  const isDebugEnabled =
+    import.meta.env.DEV ||
+    (typeof window !== 'undefined' && window.localStorage?.getItem('debug-cards') === '1')
+
+  useEffect(() => {
+    const onViewportChange = () => {
+      resetAllTiltSurfaces()
+      if (isDebugEnabled) {
+        console.info('[cards-debug] tilt-reset-on-viewport-change', {
+          width: window.innerWidth,
+          height: window.innerHeight,
+          at: new Date().toISOString(),
+        })
+      }
+    }
+
+    onViewportChange()
+    window.addEventListener('resize', onViewportChange)
+    window.addEventListener('orientationchange', onViewportChange)
+    return () => {
+      window.removeEventListener('resize', onViewportChange)
+      window.removeEventListener('orientationchange', onViewportChange)
+    }
+  }, [isDebugEnabled])
 
   useEffect(() => {
     if (!toast.visible) return undefined
