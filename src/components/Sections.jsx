@@ -264,20 +264,10 @@ export function AboutContactSection({ contactItems }) {
   const [status, setStatus] = useState('idle')
   const [toast, setToast] = useState({ visible: false, type: 'error', message: '' })
   const [isEmailVisible, setIsEmailVisible] = useState(false)
-  const isDebugEnabled =
-    import.meta.env.DEV ||
-    (typeof window !== 'undefined' && window.localStorage?.getItem('debug-cards') === '1')
 
   useEffect(() => {
     const onViewportChange = () => {
       resetAllTiltSurfaces()
-      if (isDebugEnabled) {
-        console.info('[cards-debug] tilt-reset-on-viewport-change', {
-          width: window.innerWidth,
-          height: window.innerHeight,
-          at: new Date().toISOString(),
-        })
-      }
     }
 
     onViewportChange()
@@ -287,7 +277,7 @@ export function AboutContactSection({ contactItems }) {
       window.removeEventListener('resize', onViewportChange)
       window.removeEventListener('orientationchange', onViewportChange)
     }
-  }, [isDebugEnabled])
+  }, [])
 
   useEffect(() => {
     if (!toast.visible) return undefined
