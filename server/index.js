@@ -5,13 +5,16 @@ import cors from 'cors'
 import helmet from 'helmet'
 import pool from './db.js'
 import { sendContactNotification } from './mail.js'
+import { createRateLimiter } from './rateLimit.js'
 
 const app = express()
 const port = process.env.PORT || 3001
 const isProduction = process.env.NODE_ENV === 'production'
-const submissions = new Map()
 const WINDOW_MS = 60 * 60 * 1000
 const MAX_REQUESTS = 5
+const rateLimiter = createRateLimiter({ windowMs: WINDOW_MS, maxRequests: MAX_REQUESTS })
+const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+const turnstileSecret = process.env.TURNSTILE_SECRET_KEY?.trim() || ''
 
 if (process.env.TRUST_PROXY) {
   app.set('trust proxy', process.env.TRUST_PROXY)
@@ -61,33 +64,13 @@ app.use(express.json({ limit: '10kb', strict: true, type: 'application/json' }))
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-function getClientKey(req) {
-  return req.ip || 'unknown'
-}
-
-function isRateLimited(key) {
-  const now = Date.now()
-  for (const [storedKey, storedValue] of submissions.entries()) {
-    if (now - storedValue.start > WINDOW_MS) submissions.delete(storedKey)
-  }
-  const entry = submissions.get(key)
-
-  if (!entry || now - entry.start > WINDOW_MS) {
-    submissions.set(key, { start: now, count: 1 })
-    return false
-  }
-
-  entry.count += 1
-  submissions.set(key, entry)
-  return entry.count > MAX_REQUESTS
-}
-
 function validateBody(body) {
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   const email = typeof body.email === 'string' ? body.email.trim() : ''
   const subject = typeof body.subject === 'string' ? body.subject.trim() : ''
   const message = typeof body.message === 'string' ? body.message.trim() : ''
   const company = typeof body.company === 'string' ? body.company.trim() : ''
+  const turnstileToken = typeof body.turnstileToken === 'string' ? body.turnstileToken.trim() : ''
 
   const errors = {}
   if (name.length < 2 || name.length > 120) errors.name = true
@@ -98,21 +81,59 @@ function validateBody(body) {
 
   return {
     ok: Object.keys(errors).length === 0,
-    values: { name, email, subject: subject || null, message },
+    values: { name, email, subject: subject || null, message, turnstileToken },
   }
+}
+
+async function verifyTurnstile({ token, ip }) {
+  if (!turnstileSecret) return true
+  if (!token) return false
+
+  const body = new URLSearchParams({
+    secret: turnstileSecret,
+    response: token,
+  })
+
+  if (ip && ip !== 'unknown') {
+    body.set('remoteip', ip)
+  }
+
+  const response = await fetch(TURNSTILE_VERIFY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+    signal: AbortSignal.timeout(5000),
+  })
+
+  if (!response.ok) {
+    throw new Error(`turnstile-http-${response.status}`)
+  }
+
+  const data = await response.json()
+  return Boolean(data?.success)
 }
 
 app.post('/api/contact', async (req, res) => {
   const requestId = randomUUID()
-  const key = getClientKey(req)
+  const key = rateLimiter.getClientKey(req)
 
-  if (isRateLimited(key)) {
+  if (await rateLimiter.isLimited(key)) {
     return res.status(429).json({ ok: false, message: 'Demasiados intentos' })
   }
 
   const parsed = validateBody(req.body ?? {})
   if (!parsed.ok) {
     return res.status(400).json({ ok: false, message: 'Datos invalidos' })
+  }
+
+  try {
+    const isHuman = await verifyTurnstile({ token: parsed.values.turnstileToken, ip: key })
+    if (!isHuman) {
+      return res.status(400).json({ ok: false, message: 'Verificacion anti-spam fallida' })
+    }
+  } catch (turnstileError) {
+    logError('turnstile-verify-failed', turnstileError, { requestId, ip: key })
+    return res.status(503).json({ ok: false, message: 'No se pudo validar anti-spam' })
   }
 
   try {

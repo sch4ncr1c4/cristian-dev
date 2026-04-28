@@ -2,7 +2,7 @@ import externalLinkIcon from '../assets/icons/external-link.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
 import arrowSmRightIcon from '../assets/icons/arrow-sm-right-svgrepo-com.svg'
 import { submitContactForm, validateContactForm } from '../lib/contact.js'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const tiltMediaQuery = '(hover: hover) and (pointer: fine)'
 
@@ -240,6 +240,10 @@ export function ProjectsSection({ projects }) {
 }
 
 export function AboutContactSection({ contactItems }) {
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() || ''
+  const isTurnstileEnabled = Boolean(turnstileSiteKey)
+  const turnstileContainerRef = useRef(null)
+  const turnstileWidgetIdRef = useRef(null)
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -247,6 +251,7 @@ export function AboutContactSection({ contactItems }) {
     message: '',
     company: '',
   })
+  const [turnstileToken, setTurnstileToken] = useState('')
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle')
   const [toast, setToast] = useState({ visible: false, type: 'error', message: '' })
@@ -267,6 +272,41 @@ export function AboutContactSection({ contactItems }) {
     }, 2600)
     return () => window.clearTimeout(timeoutId)
   }, [status])
+
+  useEffect(() => {
+    if (!isTurnstileEnabled) return undefined
+
+    const renderWidget = () => {
+      if (!window.turnstile || !turnstileContainerRef.current || turnstileWidgetIdRef.current) return
+      turnstileWidgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(''),
+        'error-callback': () => setTurnstileToken(''),
+      })
+    }
+
+    if (window.turnstile) {
+      renderWidget()
+      return undefined
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+    script.async = true
+    script.defer = true
+    script.onload = renderWidget
+    document.head.appendChild(script)
+
+    return () => {
+      script.onload = null
+      if (turnstileWidgetIdRef.current !== null && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetIdRef.current)
+      }
+      turnstileWidgetIdRef.current = null
+      setTurnstileToken('')
+    }
+  }, [isTurnstileEnabled, turnstileSiteKey])
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -292,11 +332,24 @@ export function AboutContactSection({ contactItems }) {
       return
     }
 
+    if (isTurnstileEnabled && !turnstileToken) {
+      setToast({
+        visible: true,
+        type: 'error',
+        message: 'Completa la verificacion anti-spam.',
+      })
+      return
+    }
+
     try {
       setStatus('sending')
-      await submitContactForm(result.values)
+      await submitContactForm({ ...result.values, turnstileToken })
       setFormState({ name: '', email: '', subject: '', message: '', company: '' })
       setErrors({})
+      setTurnstileToken('')
+      if (isTurnstileEnabled && turnstileWidgetIdRef.current !== null && window.turnstile) {
+        window.turnstile.reset(turnstileWidgetIdRef.current)
+      }
       setStatus('success')
       setToast({ visible: false, type: 'error', message: '' })
     } catch (error) {
@@ -407,7 +460,7 @@ export function AboutContactSection({ contactItems }) {
 
           <form onSubmit={handleSubmit} className="grid gap-[14px]" aria-label="Formulario de contacto para solicitar propuesta">
             <input
-              name="hidden_company"
+              name="company"
               type="text"
               tabIndex={-1}
               autoComplete="off"
@@ -469,6 +522,7 @@ export function AboutContactSection({ contactItems }) {
             />
             {errors.message ? <p className="m-0 text-sm text-[#ff8f8f]">{errors.message}</p> : null}
             {errors.company ? <p className="m-0 text-sm text-[#ff8f8f]">No se pudo enviar el mensaje.</p> : null}
+            {isTurnstileEnabled ? <div ref={turnstileContainerRef} className="overflow-hidden rounded-xl" /> : null}
             <button
               type="submit"
               disabled={status === 'sending'}
