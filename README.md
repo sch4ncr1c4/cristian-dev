@@ -1,16 +1,62 @@
-# React + Vite
+# Cristian Dev
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Plataformas usadas en produccion
 
-Currently, two official plugins are available:
+- Frontend: Cloudflare Pages
+- Backend API: Render
+- Base de datos PostgreSQL: Supabase
+- Email transaccional: Resend
+- Rate limiting distribuido: Upstash Redis
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Dashboards
 
-## React Compiler
+- Cloudflare Pages: https://dash.cloudflare.com/
+- Render: https://dashboard.render.com/
+- Supabase: https://supabase.com/dashboard
+- Resend: https://resend.com/dashboard
+- Upstash: https://console.upstash.com/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Variables por plataforma
 
-## Expanding the ESLint configuration
+### Cloudflare Pages (frontend)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `VITE_CONTACT_API_URL`
+- `VITE_TURNSTILE_SITE_KEY`
+
+### Render (backend)
+
+- `NODE_ENV=production`
+- `DATABASE_URL`
+- `CORS_ORIGIN`
+- `PGSSLMODE`
+- `PGSSL_REJECT_UNAUTHORIZED`
+- `RESEND_API_KEY`
+- `MAIL_FROM`
+- `MAIL_TO`
+- `MAIL_BRAND_IMAGE_URL`
+- `TURNSTILE_SECRET_KEY`
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+
+### Supabase
+
+- Provision de PostgreSQL (fuente de `DATABASE_URL`)
+- Tabla de contactos usada por la API
+
+### Resend
+
+- API key (`RESEND_API_KEY`)
+- Remitente validado (`MAIL_FROM`)
+
+### Upstash Redis
+
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+
+## Flujo de despliegue
+
+1. Push a `main` en GitHub.
+2. Cloudflare Pages build/deploy frontend.
+3. Render deploy backend.
+4. Validar `/api/health` en Render.
+5. Probar envio de formulario y limite de spam.

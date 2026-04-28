@@ -244,6 +244,7 @@ export function AboutContactSection({ contactItems }) {
   const isTurnstileEnabled = Boolean(turnstileSiteKey)
   const turnstileContainerRef = useRef(null)
   const turnstileWidgetIdRef = useRef(null)
+  const pendingSubmissionRef = useRef(null)
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -252,6 +253,7 @@ export function AboutContactSection({ contactItems }) {
     company: '',
   })
   const [turnstileToken, setTurnstileToken] = useState('')
+  const [isCaptchaModalOpen, setIsCaptchaModalOpen] = useState(false)
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle')
   const [toast, setToast] = useState({ visible: false, type: 'error', message: '' })
@@ -316,36 +318,14 @@ export function AboutContactSection({ contactItems }) {
     }
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    setStatus('idle')
-
-    const result = validateContactForm(formState)
-    setErrors(result.errors)
-
-    if (!result.ok) {
-      setToast({
-        visible: true,
-        type: 'error',
-        message: 'Revisa los campos marcados antes de enviar.',
-      })
-      return
-    }
-
-    if (isTurnstileEnabled && !turnstileToken) {
-      setToast({
-        visible: true,
-        type: 'error',
-        message: 'Completa la verificacion anti-spam.',
-      })
-      return
-    }
-
+  const submitValidatedForm = async (values) => {
     try {
       setStatus('sending')
-      await submitContactForm({ ...result.values, turnstileToken })
+      await submitContactForm({ ...values, turnstileToken })
       setFormState({ name: '', email: '', subject: '', message: '', company: '' })
       setErrors({})
+      pendingSubmissionRef.current = null
+      setIsCaptchaModalOpen(false)
       setTurnstileToken('')
       if (isTurnstileEnabled && turnstileWidgetIdRef.current !== null && window.turnstile) {
         window.turnstile.reset(turnstileWidgetIdRef.current)
@@ -363,6 +343,39 @@ export function AboutContactSection({ contactItems }) {
           : 'No se pudo enviar el mensaje. Reintenta en unos minutos.',
       })
     }
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setStatus('idle')
+
+    const result = validateContactForm(formState)
+    setErrors(result.errors)
+
+    if (!result.ok) {
+      setToast({
+        visible: true,
+        type: 'error',
+        message: 'Revisa los campos marcados antes de enviar.',
+      })
+      return
+    }
+
+    if (isTurnstileEnabled && !turnstileToken) {
+      pendingSubmissionRef.current = result.values
+      setIsCaptchaModalOpen(true)
+      return
+    }
+
+    await submitValidatedForm(result.values)
+  }
+
+  const handleCaptchaConfirm = async () => {
+    if (!turnstileToken) return
+    const result = validateContactForm(formState)
+    setErrors(result.errors)
+    if (!result.ok) return
+    await submitValidatedForm(pendingSubmissionRef.current || result.values)
   }
 
   const fieldClassName = (fieldName) =>
@@ -522,7 +535,6 @@ export function AboutContactSection({ contactItems }) {
             />
             {errors.message ? <p className="m-0 text-sm text-[#ff8f8f]">{errors.message}</p> : null}
             {errors.company ? <p className="m-0 text-sm text-[#ff8f8f]">No se pudo enviar el mensaje.</p> : null}
-            {isTurnstileEnabled ? <div ref={turnstileContainerRef} className="overflow-hidden rounded-xl" /> : null}
             <button
               type="submit"
               disabled={status === 'sending'}
@@ -537,6 +549,38 @@ export function AboutContactSection({ contactItems }) {
           </form>
         </div>
       </div>
+      {isTurnstileEnabled ? (
+        <div
+          className={`fixed inset-0 z-40 flex items-center justify-center px-4 transition-all duration-200 ${
+            isCaptchaModalOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+          }`}
+          aria-hidden={!isCaptchaModalOpen}
+        >
+          <div className="absolute inset-0 bg-[rgba(2,4,10,0.72)] backdrop-blur-sm" onClick={() => setIsCaptchaModalOpen(false)} />
+          <div className="relative z-[1] w-full max-w-[420px] rounded-2xl border border-white/10 bg-[rgba(9,12,22,0.98)] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.4)]">
+            <p className="m-0 text-lg font-semibold text-white">Verificacion anti-spam</p>
+            <p className="mt-2 mb-4 text-sm text-[#b5bddf]">Completa el captcha para enviar tu mensaje.</p>
+            <div ref={turnstileContainerRef} className="min-h-[70px] overflow-hidden rounded-xl" />
+            <div className="mt-5 flex gap-3">
+              <button
+                type="button"
+                onClick={() => setIsCaptchaModalOpen(false)}
+                className="inline-flex flex-1 items-center justify-center rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-[#d8ddf7] transition-all duration-200 hover:bg-white/10"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleCaptchaConfirm}
+                disabled={!turnstileToken || status === 'sending'}
+                className="inline-flex flex-1 items-center justify-center rounded-xl bg-linear-to-r from-[#5f5cff] to-[#8f44ff] px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Validar y enviar
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div
         className={`pointer-events-none fixed right-5 bottom-5 z-50 max-w-[360px] rounded-xl border px-4 py-3 text-sm font-medium text-white shadow-[0_20px_40px_rgba(0,0,0,0.35)] transition-all duration-300 ease-out ${
           toast.visible
