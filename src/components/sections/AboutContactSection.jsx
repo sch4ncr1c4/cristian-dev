@@ -88,7 +88,7 @@ function AboutContactSection({ contactItems }) {
       <div
         id="contact"
         {...tiltHandlers}
-        className="tilt-card tilt-card--right target-ring scroll-mt-28 rounded-[22px] border border-white/6 bg-[rgba(9,12,20,0.88)] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+        className="tilt-card tilt-card--right target-ring scroll-mt-28 overflow-hidden rounded-[22px] border border-white/6 bg-[rgba(9,12,20,0.88)] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
       >
         <div className="grid gap-[18px] lg:grid-cols-2">
           <article>
