@@ -16,7 +16,7 @@ services:
       - key: PGSSLMODE
         value: require
       - key: PGSSL_REJECT_UNAUTHORIZED
-        value: "false"
+        value: "true"
       - key: RESEND_API_KEY
         sync: false
       - key: MAIL_FROM

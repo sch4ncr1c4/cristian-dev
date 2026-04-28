@@ -556,8 +556,17 @@ export function AboutContactSection({ contactItems }) {
           }`}
           aria-hidden={!isCaptchaModalOpen}
         >
-          <div className="absolute inset-0 bg-[rgba(2,4,10,0.72)] backdrop-blur-sm" onClick={() => setIsCaptchaModalOpen(false)} />
-          <div className="relative z-[1] w-full max-w-[420px] rounded-2xl border border-white/10 bg-[rgba(9,12,22,0.98)] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.4)]">
+          <div
+            className={`absolute inset-0 bg-[rgba(2,4,10,0.72)] backdrop-blur-sm transition-opacity duration-250 ${
+              isCaptchaModalOpen ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={() => setIsCaptchaModalOpen(false)}
+          />
+          <div
+            className={`relative z-[1] w-full max-w-[420px] rounded-2xl border border-white/10 bg-[rgba(9,12,22,0.98)] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.4)] transition-all duration-250 ease-out ${
+              isCaptchaModalOpen ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-3 scale-[0.97] opacity-0'
+            }`}
+          >
             <p className="m-0 text-lg font-semibold text-white">Verificacion anti-spam</p>
             <p className="mt-2 mb-4 text-sm text-[#b5bddf]">Completa el captcha para enviar tu mensaje.</p>
             <div ref={turnstileContainerRef} className="min-h-[70px] overflow-hidden rounded-xl" />
