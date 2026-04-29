@@ -16,6 +16,7 @@ function Header({ brandName }) {
   const resizeRafRef = useRef(0)
   const scrollLockYRef = useRef(0)
   const scrollLockHashRef = useRef('')
+  const skipScrollRestoreRef = useRef(false)
   const [activeHref, setActiveHref] = useState('#home')
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -79,11 +80,12 @@ function Header({ brandName }) {
       document.body.style.width = ''
       if (scrollLockYRef.current) {
         const hasHashNavigation = scrollLockHashRef.current && window.location.hash !== scrollLockHashRef.current
-        if (!hasHashNavigation) {
+        if (!hasHashNavigation && !skipScrollRestoreRef.current) {
           window.scrollTo(0, scrollLockYRef.current)
         }
         scrollLockYRef.current = 0
         scrollLockHashRef.current = ''
+        skipScrollRestoreRef.current = false
       }
       return () => {
         document.body.style.position = ''
@@ -147,7 +149,7 @@ function Header({ brandName }) {
       },
       {
         root: null,
-        rootMargin: '-100px 0px -50% 0px',
+        rootMargin: '-100px 0px -30% 0px',
         threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 1],
       }
     )
@@ -252,6 +254,7 @@ function Header({ brandName }) {
               key={`mobile-${item.href}`}
               href={item.href}
               onClick={() => {
+                skipScrollRestoreRef.current = true
                 setActiveHref(item.href)
                 setIsMobileMenuOpen(false)
               }}
