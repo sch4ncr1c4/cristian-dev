@@ -13,7 +13,7 @@ function SkillsSection({ skills }) {
           >
             <div className="mx-auto mb-4 grid h-[62px] w-[62px] place-items-center rounded-[18px] border border-white/8 bg-linear-to-b from-white/5 to-[rgba(123,92,255,0.08)] text-[1.8rem] font-extrabold text-[#7bd3ff]">
               {skill.iconSrc ? (
-                <img src={skill.iconSrc} alt={`Logo de ${skill.name}`} loading="lazy" decoding="async" className="h-9 w-9 object-contain" />
+                <img src={skill.iconSrc} alt={`Logo de ${skill.name}`} decoding="async" className="h-9 w-9 object-contain" />
               ) : (
                 skill.icon
               )}

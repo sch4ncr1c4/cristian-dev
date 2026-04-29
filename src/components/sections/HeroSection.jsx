@@ -24,12 +24,12 @@ function HeroSection({ hero, socials }) {
         <div className="hero-actions mt-[34px] mb-[22px] flex flex-wrap gap-4">
           <a href="#projects" className="group inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-[#5f5cff] to-[#8f44ff] px-[22px] py-[14px] font-semibold text-white no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:from-[#5857ee] hover:to-[#8640f0] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm">
             Ver mis proyectos
-            <img src={arrowSmRightIcon} alt="Icono flecha derecha" loading="lazy" decoding="async" className="ml-2 h-5 w-5 object-contain max-md:h-4 max-md:w-4" />
+            <img src={arrowSmRightIcon} alt="Icono flecha derecha" decoding="async" className="ml-2 h-5 w-5 object-contain max-md:h-4 max-md:w-4" />
           </a>
           <div className="hero-actions__group flex flex-wrap items-center gap-3">
             <a href="#contact" className="inline-flex items-center justify-center rounded-2xl border border-[rgba(123,92,255,0.7)] bg-[rgba(123,92,255,0.08)] px-[22px] py-[14px] font-semibold text-[#ebe9ff] no-underline ring-1 ring-transparent transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[rgba(123,92,255,0.95)] hover:bg-[rgba(123,92,255,0.14)] hover:ring-white/12 active:translate-y-0 active:scale-[0.99] max-md:rounded-xl max-md:px-4 max-md:py-2 max-md:text-sm">
               Contactarme
-              <img src={mailIcon} alt="Icono de Email" loading="lazy" decoding="async" className="ml-2 h-5 w-5 object-contain max-md:h-4 max-md:w-4" />
+              <img src={mailIcon} alt="Icono de Email" decoding="async" className="ml-2 h-5 w-5 object-contain max-md:h-4 max-md:w-4" />
             </a>
           </div>
         </div>
@@ -43,7 +43,7 @@ function HeroSection({ hero, socials }) {
               aria-label={`Abrir perfil de ${social.name} de Cristian Dev`}
               className="grid h-[64px] w-[64px] place-items-center rounded-[18px] border border-white/6 bg-white/[0.03] text-white no-underline transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-white/[0.08] max-md:h-[48px] max-md:w-[48px] max-md:rounded-[14px]"
             >
-              <img src={social.iconSrc} alt={`Logo de ${social.name} de Cristian Dev`} loading="lazy" decoding="async" className="h-7 w-7 object-contain max-md:h-5 max-md:w-5" />
+              <img src={social.iconSrc} alt={`Logo de ${social.name} de Cristian Dev`} decoding="async" className="h-7 w-7 object-contain max-md:h-5 max-md:w-5" />
             </a>
           ))}
         </div>
