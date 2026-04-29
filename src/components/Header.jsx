@@ -15,6 +15,7 @@ function Header({ brandName }) {
   const indicatorRafRef = useRef(0)
   const resizeRafRef = useRef(0)
   const scrollLockYRef = useRef(0)
+  const scrollLockHashRef = useRef('')
   const [activeHref, setActiveHref] = useState('#home')
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -77,8 +78,12 @@ function Header({ brandName }) {
       document.body.style.right = ''
       document.body.style.width = ''
       if (scrollLockYRef.current) {
-        window.scrollTo(0, scrollLockYRef.current)
+        const hasHashNavigation = scrollLockHashRef.current && window.location.hash !== scrollLockHashRef.current
+        if (!hasHashNavigation) {
+          window.scrollTo(0, scrollLockYRef.current)
+        }
         scrollLockYRef.current = 0
+        scrollLockHashRef.current = ''
       }
       return () => {
         document.body.style.position = ''
@@ -91,6 +96,7 @@ function Header({ brandName }) {
 
     if (window.innerWidth <= 932) {
       scrollLockYRef.current = window.scrollY
+      scrollLockHashRef.current = window.location.hash
       document.body.style.position = 'fixed'
       document.body.style.top = `-${scrollLockYRef.current}px`
       document.body.style.left = '0'

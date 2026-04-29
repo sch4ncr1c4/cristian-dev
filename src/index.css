@@ -584,8 +584,13 @@
     }
 
     .target-ring:target::before {
+      display: none;
       animation: none !important;
       box-shadow: none;
+    }
+
+    .target-ring:target {
+      border-color: rgba(255, 255, 255, 0.06) !important;
     }
 
     .modal-list-item,
