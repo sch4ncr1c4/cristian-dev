@@ -5,6 +5,7 @@ function SectionShell({ id, title, children, action }) {
     <section
       id={id}
       {...tiltHandlers}
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 900px' }}
       className={`tilt-surface ${id === 'projects' ? 'tilt-surface--right' : 'tilt-surface--left'} target-ring mt-24 scroll-mt-28 rounded-3xl border border-white/6 bg-[rgba(8,10,18,0.92)] p-[26px] shadow-[0_24px_60px_rgba(0,0,0,0.28)] max-md:mt-12 max-md:p-5`}
     >
       <div className="flex items-center justify-between gap-4">

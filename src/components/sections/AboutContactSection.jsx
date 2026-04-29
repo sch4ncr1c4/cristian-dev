@@ -36,7 +36,7 @@ function AboutContactSection({ contactItems }) {
   }, [])
 
   return (
-    <section className="mt-24 grid gap-24 max-md:mt-12 max-md:gap-12">
+    <section className="mt-24 grid gap-24 max-md:mt-12 max-md:gap-12" style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 1200px' }}>
       <article
         id="about"
         {...tiltHandlers}
@@ -100,7 +100,7 @@ function AboutContactSection({ contactItems }) {
               {contactItems.map((item) => (
                 <li key={item.id} className="flex items-start gap-3 py-1">
                   <span className="mt-0.5 grid h-9 w-9 place-items-center rounded-lg">
-                    <img src={item.iconSrc} alt={`Icono de ${item.label}`} className="h-5 w-5 object-contain" />
+                    <img src={item.iconSrc} alt={`Icono de ${item.label}`} loading="lazy" decoding="async" className="h-5 w-5 object-contain" />
                   </span>
                   <span className="grid gap-0.5">
                     <span className="text-xs uppercase tracking-[0.08em] text-[#9aa3cb]">{item.label}</span>

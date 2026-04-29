@@ -38,7 +38,7 @@ function ProjectsSection({ projects }) {
                   aria-label={`Abrir ${project.title}`}
                   className="inline-flex cursor-pointer items-center justify-center rounded-md p-1 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-white/10 active:translate-y-0"
                 >
-                  <img src={externalLinkIcon} alt={`Icono para abrir ${project.title} en una nueva vista`} className="h-5 w-5 opacity-90" />
+                  <img src={externalLinkIcon} alt={`Icono para abrir ${project.title} en una nueva vista`} loading="lazy" decoding="async" className="h-5 w-5 opacity-90" />
                 </a>
               </div>
               <p className="mt-3 leading-[1.8] text-[var(--color-copy)]">{project.description}</p>

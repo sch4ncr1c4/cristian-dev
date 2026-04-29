@@ -1,5 +1,5 @@
-function Loader({ visible, label }) {
-  const [firstWord = 'Cristian', secondWord = 'Dev'] = String(label || '').split(' ')
+function Loader({ visible, label = 'Cristian Dev' }) {
+  const [firstWord = 'Cristian', secondWord = 'Dev'] = label.trim().split(/\s+/)
 
   return (
     <div
