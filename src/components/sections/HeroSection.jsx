@@ -3,6 +3,7 @@ import mailIcon from '../../assets/icons/mail-svgrepo-com.svg'
 import { tiltHandlers } from '../../hooks/useTilt.js'
 
 function HeroSection({ hero, socials }) {
+  const titleFirstWord = String(hero?.title || 'Cristian Dev').trim().split(/\s+/)[0] || 'Cristian'
   return (
     <section
       id="home"
@@ -12,7 +13,7 @@ function HeroSection({ hero, socials }) {
       <div className="hero-copy relative z-[1] pb-11 max-[1160px]:pb-6 max-md:pb-3">
         <p className="mb-2 text-[2rem] font-bold text-[var(--color-brand)]">Hola, soy</p>
         <h1 className="m-0 text-[clamp(3.1rem,8vw,6rem)] leading-[0.95] font-bold text-white max-md:text-[clamp(2.2rem,11vw,2.9rem)]">
-          {hero.title.split(' ')[0]} <span className="text-[#7058ff]">Dev</span>
+          {titleFirstWord} <span className="text-[#7058ff]">Dev</span>
         </h1>
         <h2 className="mt-[18px] mb-5 text-[1.5rem] font-semibold text-white md:text-[2rem] max-[1160px]:text-[1.7rem] max-md:text-[1.2rem]">
           {hero.role}

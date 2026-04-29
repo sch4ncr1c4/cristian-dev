@@ -9,6 +9,7 @@ const navItems = [
 ]
 
 function Header({ brandName }) {
+  const brandFirstWord = String(brandName || 'Cristian Dev').trim().split(/\s+/)[0] || 'Cristian'
   const navRef = useRef(null)
   const itemRefs = useRef({})
   const indicatorRafRef = useRef(0)
@@ -113,7 +114,7 @@ function Header({ brandName }) {
           <a href="#home" aria-label="Ir al inicio" className="flex items-center gap-3 text-[1.35rem] font-bold text-[#f4f7ff] no-underline">
             <span className="text-2xl text-[var(--color-brand)]">{'</>'}</span>
             <span>
-              {brandName.split(' ')[0]} <strong className="text-[var(--color-brand)]">Dev</strong>
+              {brandFirstWord} <strong className="text-[var(--color-brand)]">Dev</strong>
             </span>
           </a>
 

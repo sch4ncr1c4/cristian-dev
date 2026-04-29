@@ -23,6 +23,7 @@ const measureTiltRect = (element) => {
 }
 
 const handleTiltPointerMove = (event) => {
+  if (event.pointerType && event.pointerType !== 'mouse') return
   if (!canTilt()) return
 
   const element = event.currentTarget
@@ -53,6 +54,7 @@ const handleTiltPointerLeave = (event) => {
 }
 
 const handleTiltPointerEnter = (event) => {
+  if (event.pointerType && event.pointerType !== 'mouse') return
   if (!canTilt()) return
   measureTiltRect(event.currentTarget)
 }

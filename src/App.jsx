@@ -20,8 +20,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const minVisibleMs = 900
-    const maxVisibleMs = 2400
+    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+    const minVisibleMs = isMobile ? 350 : 900
+    const maxVisibleMs = isMobile ? 1200 : 2400
     const startedAt = performance.now()
     let isCancelled = false
     let delayHideId
@@ -85,7 +86,7 @@ function App() {
             </a>
             .
           </p>
-          <p className="m-0 inline-flex items-center gap-2">
+          <p className="m-0 inline-flex items-center gap-2 max-md:w-full max-md:justify-center">
             <span>Hecho con</span>
             <span className="text-[1.05rem] font-bold text-[var(--color-brand)]">{'</>'}</span>
             <span>mucho codigo</span>
