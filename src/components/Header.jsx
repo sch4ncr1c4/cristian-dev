@@ -13,6 +13,8 @@ function Header({ brandName }) {
   const navRef = useRef(null)
   const itemRefs = useRef({})
   const indicatorRafRef = useRef(0)
+  const resizeRafRef = useRef(0)
+  const scrollLockYRef = useRef(0)
   const [activeHref, setActiveHref] = useState('#home')
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -36,11 +38,21 @@ function Header({ brandName }) {
       })
     }
 
+    const onResize = () => {
+      if (window.innerWidth <= 932) return
+      if (resizeRafRef.current) return
+      resizeRafRef.current = window.requestAnimationFrame(() => {
+        resizeRafRef.current = 0
+        updateIndicator()
+      })
+    }
+
     updateIndicator()
-    window.addEventListener('resize', updateIndicator)
+    window.addEventListener('resize', onResize)
     return () => {
       window.cancelAnimationFrame(indicatorRafRef.current)
-      window.removeEventListener('resize', updateIndicator)
+      window.cancelAnimationFrame(resizeRafRef.current)
+      window.removeEventListener('resize', onResize)
     }
   }, [activeHref])
 
@@ -58,9 +70,40 @@ function Header({ brandName }) {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
+    if (!isMobileMenuOpen) {
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.left = ''
+      document.body.style.right = ''
+      document.body.style.width = ''
+      if (scrollLockYRef.current) {
+        window.scrollTo(0, scrollLockYRef.current)
+        scrollLockYRef.current = 0
+      }
+      return () => {
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.left = ''
+        document.body.style.right = ''
+        document.body.style.width = ''
+      }
+    }
+
+    if (window.innerWidth <= 932) {
+      scrollLockYRef.current = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollLockYRef.current}px`
+      document.body.style.left = '0'
+      document.body.style.right = '0'
+      document.body.style.width = '100%'
+    }
+
     return () => {
-      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.left = ''
+      document.body.style.right = ''
+      document.body.style.width = ''
     }
   }, [isMobileMenuOpen])
 
@@ -98,7 +141,7 @@ function Header({ brandName }) {
       },
       {
         root: null,
-        rootMargin: '-180px 0px -45% 0px',
+        rootMargin: '-100px 0px -50% 0px',
         threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 1],
       }
     )
@@ -109,7 +152,7 @@ function Header({ brandName }) {
 
   return (
     <header className="fixed top-0 left-0 z-30 w-full">
-      <div className="w-full bg-[rgba(0,0,0,0.42)] px-4 py-4 backdrop-blur-xl md:px-6">
+      <div className="w-full bg-[#0b0f1c] px-4 py-4 md:bg-[rgba(11,15,28,0.62)] md:px-6 md:backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center justify-between gap-5 max-[932px]:gap-3">
           <a href="#home" aria-label="Ir al inicio" className="flex items-center gap-3 text-[1.35rem] font-bold text-[#f4f7ff] no-underline">
             <span className="text-2xl text-[var(--color-brand)]">{'</>'}</span>
@@ -182,7 +225,7 @@ function Header({ brandName }) {
         id="mobile-navigation"
         role="dialog"
         aria-label="Menu de navegacion"
-        className={`fixed right-0 top-0 z-30 h-screen w-[min(84vw,340px)] border-l border-[rgba(123,92,255,0.22)] bg-[rgba(8,11,20,0.98)] p-6 shadow-[0_0_46px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-transform duration-300 ease-out max-[932px]:block ${
+        className={`fixed right-0 top-0 z-30 h-[100dvh] w-[min(84vw,340px)] border-l border-[rgba(123,92,255,0.22)] bg-[rgba(8,11,20,0.98)] p-6 shadow-[0_0_46px_rgba(0,0,0,0.35)] backdrop-blur-none transition-transform duration-300 ease-out max-[932px]:block md:backdrop-blur-xl ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } hidden`}
         aria-hidden={!isMobileMenuOpen}

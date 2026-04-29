@@ -21,8 +21,8 @@ function App() {
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
-    const minVisibleMs = isMobile ? 350 : 900
-    const maxVisibleMs = isMobile ? 1200 : 2400
+    const minVisibleMs = isMobile ? 0 : 700
+    const maxVisibleMs = isMobile ? 700 : 1800
     const startedAt = performance.now()
     let isCancelled = false
     let delayHideId
