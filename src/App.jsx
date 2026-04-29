@@ -21,8 +21,8 @@ function App() {
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
-    const minVisibleMs = isMobile ? 0 : 700
-    const maxVisibleMs = isMobile ? 350 : 1800
+    const minVisibleMs = isMobile ? 0 : 450
+    const maxVisibleMs = isMobile ? 120 : 1200
     const startedAt = performance.now()
     let isCancelled = false
     let delayHideId
@@ -40,17 +40,17 @@ function App() {
 
     const maxWaitId = window.setTimeout(finish, maxVisibleMs)
 
-    if (document.readyState === 'complete') {
+    if (document.readyState !== 'loading') {
       finish()
     } else {
-      window.addEventListener('load', finish, { once: true })
+      document.addEventListener('DOMContentLoaded', finish, { once: true })
     }
 
     return () => {
       isCancelled = true
       window.clearTimeout(maxWaitId)
       window.clearTimeout(delayHideId)
-      window.removeEventListener('load', finish)
+      document.removeEventListener('DOMContentLoaded', finish)
     }
   }, [])
 
