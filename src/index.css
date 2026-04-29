@@ -579,9 +579,7 @@
     .target-ring::before,
     .hero-badge-code,
     .hero-badge-type,
-    .loader-spinner,
-    .typing-text,
-    .coding-text .char {
+    .loader-spinner {
       animation: none !important;
     }
 
