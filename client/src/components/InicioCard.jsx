@@ -13,8 +13,8 @@ function InicioCard() {
             <h1 className="flex items-baseline justify-center gap-2 whitespace-nowrap text-3xl font-extrabold leading-tight sm:text-4xl lg:justify-start lg:text-[5.625rem] lg:leading-[1]">
               Cristian <span className="text-[#6959ff]">Dev</span>
             </h1>
-            <p className="text-base font-bold text-white sm:text-lg">Sistemas web y automatizaciones a medida</p>
-            <p className="mx-auto max-w-xl text-sm text-gray-300 sm:text-base lg:mx-0">
+            <p className="text-xl font-bold text-white sm:text-2xl">Sistemas web y automatizaciones a medida</p>
+            <p className="mx-auto max-w-xl text-base text-gray-300 sm:text-lg lg:mx-0">
               Desarrollo sistemas y automatizaciones a medida para ordenar procesos, reducir trabajo
               manual y ahorrar tiempo.
             </p>
@@ -23,14 +23,14 @@ function InicioCard() {
           <div className="mt-5 flex items-center justify-center gap-2 lg:justify-start">
             <a
               href="#proyectos"
-              className="btn-anim inline-flex items-center gap-2 rounded-xl bg-[#6959ff] px-4 py-2 text-center text-sm font-semibold text-white hover:bg-[#5b4be6]"
+              className="btn-anim inline-flex items-center gap-2 rounded-xl bg-[#6959ff] px-5 py-3 text-center text-base font-semibold text-white hover:bg-[#5b4be6]"
             >
               Ver mis proyectos
               <img src={arrowIcon} alt="Flecha hacia la derecha" className="h-4 w-4" loading="lazy" />
             </a>
             <a
               href="#contacto"
-              className="btn-anim inline-flex items-center gap-2 rounded-xl border border-[#6959ff] px-4 py-2 text-center text-sm font-semibold text-white hover:bg-[#6959ff]/10"
+              className="btn-anim inline-flex items-center gap-2 rounded-xl border border-[#6959ff] px-5 py-3 text-center text-base font-semibold text-white hover:bg-[#6959ff]/10"
             >
               Contactarme
             </a>
@@ -58,7 +58,7 @@ function InicioCard() {
               srcSet="/banner-256.webp 256w, /banner-320.webp 320w"
               sizes="(max-width: 767px) 100vw, 320px"
               alt="Banner de Cristian Dev"
-              className="mx-auto h-auto w-full max-w-[250px] sm:max-w-[290px] md:max-w-[340px] lg:mx-0 lg:max-w-[520px] xl:max-w-[580px]"
+              className="mx-auto h-auto w-full max-w-[230px] sm:max-w-[270px] md:max-w-[320px] lg:mx-0 lg:max-w-[420px] xl:max-w-[470px]"
               loading="eager"
               fetchPriority="high"
               decoding="async"
