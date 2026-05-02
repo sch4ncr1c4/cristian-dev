@@ -15,40 +15,44 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
             Contacto
           </h2>
 
-          <div className="flex items-start gap-4">
-            <img src={mailIcon} alt="Icono de correo electronico" className="mt-1 h-6 w-6" loading="lazy" />
-            <div>
+          <div className="grid grid-cols-[24px_1fr] items-start gap-x-4">
+            <img src={mailIcon} alt="Icono de correo electronico" className="mt-0.5 h-6 w-6" loading="lazy" />
+            <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-400">Email</p>
-              {!showEmail ? (
-                <button
-                  type="button"
-                  onClick={() => setShowEmail(true)}
-                  className="btn-anim mt-2 rounded-xl border border-[#6959ff] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6959ff]/10"
-                >
-                  Mostrar mail
-                </button>
-              ) : (
+              <div className="flex items-center gap-2">
                 <a
                   href="mailto:crschinocca@gmail.com"
-                  className="mt-2 inline-block text-sm font-medium text-[#a8b5d8] hover:text-white"
+                  className={`text-sm font-medium text-[#a8b5d8] transition sm:text-base ${
+                    showEmail ? 'hover:text-white' : 'pointer-events-none select-none blur-[4px]'
+                  }`}
+                  aria-label="Correo de contacto"
                 >
                   crschinocca@gmail.com
                 </a>
-              )}
+                {!showEmail && (
+                  <button
+                    type="button"
+                    onClick={() => setShowEmail(true)}
+                    className="btn-anim cursor-pointer rounded-lg border border-[#6959ff] px-3 py-1 text-xs font-semibold text-white hover:bg-[#6959ff]/10"
+                  >
+                    Ver
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="flex items-start gap-4">
-            <img src={locationIcon} alt="Icono de ubicacion" className="mt-1 h-6 w-6" loading="lazy" />
-            <div>
+          <div className="grid grid-cols-[24px_1fr] items-start gap-x-4">
+            <img src={locationIcon} alt="Icono de ubicacion" className="mt-0.5 h-6 w-6" loading="lazy" />
+            <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-400">Ubicacion</p>
               <p className="text-sm font-medium text-[#a8b5d8] sm:text-base">Buenos Aires, Argentina</p>
             </div>
           </div>
 
-          <div className="flex items-start gap-4">
-            <img src={calenderIcon} alt="Icono de calendario" className="mt-1 h-6 w-6" loading="lazy" />
-            <div>
+          <div className="grid grid-cols-[24px_1fr] items-start gap-x-4">
+            <img src={calenderIcon} alt="Icono de calendario" className="mt-0.5 h-6 w-6" loading="lazy" />
+            <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-400">Disponibilidad</p>
               <p className="text-sm font-medium text-[#a8b5d8] sm:text-base">Agenda abierta para nuevos proyectos</p>
             </div>
