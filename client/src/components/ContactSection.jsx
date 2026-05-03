@@ -2,23 +2,8 @@ import { useState } from 'react'
 import calenderIcon from '../assets/icons/calender-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
-import CaptchaModal from './CaptchaModal'
 
-function ContactSection({
-  form,
-  sending,
-  status,
-  turnstileSiteKey,
-  turnstileAction,
-  turnstileCData,
-  captchaModalOpen,
-  turnstileToken,
-  onRequestVerification,
-  onCloseCaptchaModal,
-  onTurnstileChange,
-  onChange,
-  onSubmit,
-}) {
+function ContactSection({ form, sending, status, onChange, onSubmit }) {
   const [showEmail, setShowEmail] = useState(false)
 
   return (
@@ -121,34 +106,16 @@ function ContactSection({
           />
 
           <button
-            className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] sm:text-lg"
-            type="button"
-            onClick={onRequestVerification}
-          >
-            Solicitar propuesta
-          </button>
-
-          <button
             className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg"
-            disabled={sending || !turnstileToken}
+            disabled={sending}
             type="submit"
           >
-            {sending ? 'Enviando...' : 'Enviar solicitud'}
+            {sending ? 'Enviando...' : 'Solicitar propuesta'}
           </button>
 
           {status && <p className="text-sm text-gray-300">{status}</p>}
         </form>
       </div>
-
-      <CaptchaModal
-        open={captchaModalOpen}
-        siteKey={turnstileSiteKey}
-        action={turnstileAction}
-        cData={turnstileCData}
-        turnstileToken={turnstileToken}
-        onTokenChange={onTurnstileChange}
-        onClose={onCloseCaptchaModal}
-      />
     </section>
   )
 }

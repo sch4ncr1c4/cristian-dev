@@ -7,7 +7,6 @@ Portfolio personal con formulario de contacto en produccion.
 - Frontend: React + Vite (Cloudflare Pages)
 - Backend: Node.js + Express (Render)
 - Email: Resend
-- Captcha: Cloudflare Turnstile
 
 ## Estructura
 
@@ -17,16 +16,14 @@ Portfolio personal con formulario de contacto en produccion.
 ## Flujo de contacto
 
 1. El usuario completa el formulario en el frontend.
-2. Turnstile genera `turnstileToken` y `turnstileCData`.
-3. El frontend hace `POST` a `/api/contact`.
-4. El backend valida campos, rate limit, Turnstile y envia email con Resend.
+2. El frontend hace `POST` a `/api/contact`.
+3. El backend valida campos, aplica rate limit y envia email con Resend.
 
 ## Variables de entorno
 
 ### Frontend (`Cloudflare Pages`)
 
 - `VITE_API_URL=https://TU-BACKEND.onrender.com`
-- `VITE_TURNSTILE_SITE_KEY=0x...`
 
 ### Backend (`Render`)
 
@@ -36,9 +33,6 @@ Portfolio personal con formulario de contacto en produccion.
 - `RESEND_API_KEY=re_...`
 - `RESEND_FROM=Portfolio <onboarding@resend.dev>` (o dominio propio verificado)
 - `RESEND_TO=tu-email@dominio.com`
-- `TURNSTILE_SECRET_KEY=0x...`
-- `TURNSTILE_EXPECTED_HOSTNAME=TU-PROYECTO.pages.dev`
-- `TURNSTILE_EXPECTED_ACTION=contact_form`
 
 ## Desarrollo local
 

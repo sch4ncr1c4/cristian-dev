@@ -8,13 +8,6 @@ import Footer from './components/Footer'
 import SobreMiSection from './components/SobreMiSection'
 
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000'
-const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ''
-const TURNSTILE_ACTION = 'contact_form'
-
-const buildCData = () => {
-  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID()
-  return `contact_${Math.random().toString(36).slice(2, 18)}`
-}
 
 const initialForm = {
   name: '',
@@ -27,9 +20,6 @@ function App() {
   const [form, setForm] = useState(initialForm)
   const [status, setStatus] = useState('')
   const [sending, setSending] = useState(false)
-  const [turnstileToken, setTurnstileToken] = useState('')
-  const [turnstileCData, setTurnstileCData] = useState(buildCData)
-  const [captchaModalOpen, setCaptchaModalOpen] = useState(false)
 
   const onChange = (event) => {
     const { name, value } = event.target
@@ -49,17 +39,12 @@ function App() {
           email: form.email,
           subject: form.subject,
           message: form.message,
-          turnstileToken,
-          turnstileCData,
         }),
       })
 
       if (!response.ok) throw new Error('Error')
 
       setForm(initialForm)
-      setTurnstileToken('')
-      setTurnstileCData(buildCData())
-      setCaptchaModalOpen(false)
       setStatus('Mensaje enviado.')
     } catch {
       setStatus('No se pudo enviar el mensaje.')
@@ -70,31 +55,7 @@ function App() {
 
   const onSubmit = async (event) => {
     event.preventDefault()
-    if (!turnstileToken) {
-      setStatus('Primero completa la verificacion de seguridad.')
-      return
-    }
     await sendContact()
-  }
-
-  const isFormValidForCaptcha = () => {
-    const name = form.name.trim()
-    const email = form.email.trim()
-    const subject = form.subject.trim()
-    const message = form.message.trim()
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return Boolean(name && subject && message && emailPattern.test(email))
-  }
-
-  const onRequestVerification = () => {
-    if (!isFormValidForCaptcha()) {
-      setStatus('Completa nombre, email valido, asunto y mensaje antes de verificar.')
-      return
-    }
-    setStatus('Abriendo verificacion de seguridad...')
-    setTurnstileToken('')
-    setTurnstileCData(buildCData())
-    setCaptchaModalOpen(true)
   }
 
   useEffect(() => {
@@ -143,14 +104,6 @@ function App() {
             form={form}
             sending={sending}
             status={status}
-            turnstileSiteKey={TURNSTILE_SITE_KEY}
-            turnstileAction={TURNSTILE_ACTION}
-            turnstileCData={turnstileCData}
-            captchaModalOpen={captchaModalOpen}
-            turnstileToken={turnstileToken}
-            onRequestVerification={onRequestVerification}
-            onCloseCaptchaModal={() => setCaptchaModalOpen(false)}
-            onTurnstileChange={setTurnstileToken}
             onChange={onChange}
             onSubmit={onSubmit}
           />
