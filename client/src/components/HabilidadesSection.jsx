@@ -28,9 +28,9 @@ function HabilidadesSection() {
         {skills.map((skill) => (
           <article
             key={skill.name}
-            className="group rounded-2xl border border-[#6959ff]/15 bg-[#060b1a] px-3 py-5 text-center lg:transition lg:duration-300 lg:hover:-translate-y-1 lg:hover:border-[#6959ff]/40"
+            className="group rounded-2xl border border-slate-600/20 bg-gradient-to-b from-[#0b1322] to-[#060b15] px-3 py-5 text-center lg:transition lg:duration-300 lg:hover:-translate-y-1 lg:hover:border-[#6959ff]/45"
           >
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#6959ff]/20 bg-[#11162a]">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-500/25 bg-[#0f1728]">
               <img src={skill.icon} alt={skill.name} className="h-9 w-9" loading="lazy" />
             </div>
 

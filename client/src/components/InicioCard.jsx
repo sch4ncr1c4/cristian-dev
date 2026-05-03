@@ -2,6 +2,7 @@ import arrowIcon from '../assets/icons/arrow-sm-right-svgrepo-com.svg'
 import githubIcon from '../assets/icons/github.svg'
 import instagramIcon from '../assets/icons/instagram.svg'
 import linkedinIcon from '../assets/icons/linkedin.svg'
+import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
 
 function InicioCard() {
   return (
@@ -20,19 +21,20 @@ function InicioCard() {
             </p>
           </div>
 
-          <div className="mt-5 flex items-center justify-center gap-2 lg:justify-start">
+          <div className="mt-5 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
             <a
               href="#proyectos"
-              className="btn-anim inline-flex items-center gap-2 rounded-xl bg-[#6959ff] px-5 py-3 text-center text-base font-semibold text-white hover:bg-[#5b4be6]"
+              className="btn-anim inline-flex items-center gap-1.5 rounded-xl bg-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#5b4be6] sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
               Ver mis proyectos
               <img src={arrowIcon} alt="Flecha hacia la derecha" className="h-4 w-4" loading="lazy" />
             </a>
             <a
               href="#contacto"
-              className="btn-anim inline-flex items-center gap-2 rounded-xl border border-[#6959ff] px-5 py-3 text-center text-base font-semibold text-white hover:bg-[#6959ff]/10"
+              className="btn-anim inline-flex items-center gap-1.5 rounded-xl border border-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#6959ff]/10 sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
               Contactarme
+              <img src={mailIcon} alt="Icono de correo electronico" className="h-4 w-4" loading="lazy" />
             </a>
           </div>
 
@@ -51,14 +53,11 @@ function InicioCard() {
 
         <div className="self-end lg:flex lg:justify-end">
           <picture>
-            <source media="(min-width: 1280px)" srcSet="/banner-660.webp" />
-            <source media="(min-width: 768px)" srcSet="/banner-480.webp" />
             <img
-              src="/banner-320.webp"
-              srcSet="/banner-256.webp 256w, /banner-320.webp 320w"
-              sizes="(max-width: 767px) 100vw, 320px"
+              src="/p-v2.png"
+              sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
               alt="Banner de Cristian Dev"
-              className="mx-auto h-auto w-full max-w-[230px] sm:max-w-[270px] md:max-w-[320px] lg:mx-0 lg:max-w-[420px] xl:max-w-[470px]"
+              className="mx-auto h-auto w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:mx-0 lg:max-w-[560px] xl:max-w-[580px]"
               loading="eager"
               fetchPriority="high"
               decoding="async"

@@ -67,7 +67,7 @@ function Header() {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#6959ff]/30 bg-[#070d1d] text-white">
+    <header className="sticky top-0 z-50 bg-gradient-to-b from-[#050b16] to-[#030811]/95 text-white backdrop-blur">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-5 px-4 py-4 sm:px-6">
         <a href="#inicio" className="text-sm font-semibold">
           <span className="mr-1 text-[#6959ff] text-base">{"</>"}</span>
@@ -110,16 +110,16 @@ function Header() {
           aria-label="Abrir menu"
           aria-expanded={open}
           onClick={() => setOpen((prev) => !prev)}
-          className="relative flex h-10 w-10 items-center justify-center rounded-md border border-[#6959ff] lg:hidden"
+          className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-[#0f1a2f]/85 shadow-[0_10px_20px_-14px_rgba(0,0,0,0.9)] lg:hidden"
         >
           <span
-            className={`absolute h-0.5 w-5 bg-white transition ${open ? "translate-y-0 rotate-45" : "-translate-y-1.5"}`}
+            className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? "translate-y-0 rotate-45" : "-translate-y-[6px]"}`}
           />
           <span
-            className={`absolute h-0.5 w-5 bg-white transition ${open ? "opacity-0" : "opacity-100"}`}
+            className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? "opacity-0 scale-x-0" : "opacity-100 scale-x-100"}`}
           />
           <span
-            className={`absolute h-0.5 w-5 bg-white transition ${open ? "translate-y-0 -rotate-45" : "translate-y-1.5"}`}
+            className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? "translate-y-0 -rotate-45" : "translate-y-[6px]"}`}
           />
         </button>
       </div>
@@ -130,10 +130,10 @@ function Header() {
       />
 
       <nav
-        className={`fixed right-0 top-0 z-50 flex h-dvh w-[min(85vw,22rem)] flex-col border-l border-[#6959ff]/30 bg-[#070d1d] shadow-2xl transition-transform duration-300 ease-out will-change-transform lg:hidden ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed right-0 top-0 z-50 flex h-dvh w-[min(85vw,22rem)] flex-col border-l border-slate-600/25 bg-gradient-to-b from-[#070f1d] to-[#040915] shadow-2xl transition-transform duration-300 ease-out will-change-transform lg:hidden ${open ? "translate-x-0" : "translate-x-full"}`}
         aria-hidden={!open}
       >
-        <div className="flex items-center justify-between border-b border-[#6959ff]/30 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-slate-600/25 px-5 py-4">
           <span className="text-sm font-semibold text-white/90">Menu</span>
           <button
             type="button"

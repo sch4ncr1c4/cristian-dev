@@ -1,7 +1,7 @@
 function Footer() {
   return (
-    <footer className="mt-20 bg-[#070d1d]">
-      <div className="mx-auto w-full max-w-5xl border-t border-[#6959ff]/30 px-4 py-8 sm:px-6">
+    <footer className="mt-20 border-t border-slate-600/20 bg-gradient-to-b from-[#040915] to-[#030811]">
+      <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
         <div className="flex items-center justify-between text-sm">
         <p className="text-gray-300">
           2026 <span className="font-semibold text-white">Cristian</span>{' '}
