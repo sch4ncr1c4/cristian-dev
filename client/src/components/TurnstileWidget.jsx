@@ -44,15 +44,7 @@ const loadTurnstileScript = () => {
   return turnstileScriptPromise
 }
 
-function TurnstileWidget({
-  siteKey,
-  action,
-  cData,
-  executeTrigger = 0,
-  onTokenChange,
-  onWidgetError,
-  onReady,
-}) {
+function TurnstileWidget({ siteKey, action, cData, onTokenChange, onWidgetError, onReady }) {
   const containerRef = useRef(null)
   const widgetIdRef = useRef(null)
 
@@ -73,8 +65,6 @@ function TurnstileWidget({
           action,
           cData,
           theme: 'dark',
-          appearance: 'interaction-only',
-          execution: 'execute',
           callback: (token) => onTokenChange(token),
           'expired-callback': () => onTokenChange(''),
           'error-callback': (code) => {
@@ -99,11 +89,6 @@ function TurnstileWidget({
       }
     }
   }, [siteKey, action, cData, onTokenChange, onWidgetError, onReady])
-
-  useEffect(() => {
-    if (!executeTrigger || !widgetIdRef.current || !window.turnstile?.execute) return
-    window.turnstile.execute(widgetIdRef.current)
-  }, [executeTrigger])
 
   return <div ref={containerRef} />
 }

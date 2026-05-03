@@ -29,9 +29,7 @@ function App() {
   const [sending, setSending] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
   const [turnstileCData, setTurnstileCData] = useState(buildCData)
-  const [captchaExecuteTrigger, setCaptchaExecuteTrigger] = useState(0)
   const [captchaVisible, setCaptchaVisible] = useState(false)
-  const [captchaReady, setCaptchaReady] = useState(false)
 
   const onChange = (event) => {
     const { name, value } = event.target
@@ -62,7 +60,6 @@ function App() {
       setTurnstileToken('')
       setTurnstileCData(buildCData())
       setCaptchaVisible(false)
-      setCaptchaReady(false)
       setStatus('Mensaje enviado.')
     } catch {
       setStatus('No se pudo enviar el mensaje.')
@@ -74,21 +71,16 @@ function App() {
   const onSubmit = async (event) => {
     event.preventDefault()
     if (!turnstileToken) {
-      setStatus('Verificando seguridad...')
+      setStatus('Completa la verificacion de seguridad para enviar.')
       return
     }
     await sendContact()
   }
 
   const onRequestVerification = () => {
-    setStatus('Verificando seguridad...')
+    setStatus('Completa la verificacion de seguridad para continuar.')
     setCaptchaVisible(true)
   }
-
-  useEffect(() => {
-    if (!captchaVisible || !captchaReady || turnstileToken) return
-    setCaptchaExecuteTrigger((prev) => prev + 1)
-  }, [captchaVisible, captchaReady, turnstileToken])
 
   useEffect(() => {
     const nodes = document.querySelectorAll('.reveal-mobile')
@@ -139,10 +131,9 @@ function App() {
             turnstileSiteKey={TURNSTILE_SITE_KEY}
             turnstileAction={TURNSTILE_ACTION}
             turnstileCData={turnstileCData}
-            captchaExecuteTrigger={captchaExecuteTrigger}
             captchaVisible={captchaVisible}
             turnstileToken={turnstileToken}
-            onCaptchaReady={() => setCaptchaReady(true)}
+            onCaptchaReady={() => setStatus('Captcha listo. Completa la verificacion.')}
             onRequestVerification={onRequestVerification}
             onTurnstileChange={setTurnstileToken}
             onChange={onChange}

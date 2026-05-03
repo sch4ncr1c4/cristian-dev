@@ -11,7 +11,6 @@ function ContactSection({
   turnstileSiteKey,
   turnstileAction,
   turnstileCData,
-  captchaExecuteTrigger,
   captchaVisible,
   turnstileToken,
   onCaptchaReady,
@@ -156,7 +155,6 @@ function ContactSection({
               siteKey={turnstileSiteKey}
               action={turnstileAction}
               cData={turnstileCData}
-              executeTrigger={captchaExecuteTrigger}
               onTokenChange={onTurnstileChange}
               onReady={onCaptchaReady}
             />

@@ -4,7 +4,6 @@ function CaptchaChallengePanel({
   siteKey,
   action,
   cData,
-  executeTrigger,
   onTokenChange,
   onReady,
 }) {
@@ -17,7 +16,6 @@ function CaptchaChallengePanel({
         siteKey={siteKey}
         action={action}
         cData={cData}
-        executeTrigger={executeTrigger}
         onTokenChange={onTokenChange}
         onReady={onReady}
       />
