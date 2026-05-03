@@ -103,7 +103,7 @@ function Header() {
               event.preventDefault()
               goToSection('#contacto')
             }}
-            className="btn-anim hidden rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-white hover:bg-[#6959ff]/10 lg:inline-flex"
+            className="btn-anim hidden rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10 lg:inline-flex"
           >
             Solicitar propuesta
           </a>

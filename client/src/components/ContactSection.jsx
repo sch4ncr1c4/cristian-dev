@@ -3,6 +3,7 @@ import calenderIcon from '../assets/icons/calender-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
 import sendIcon from '../assets/icons/send.svg'
+import viewIcon from '../assets/icons/view.svg'
 
 function ContactSection({ form, sending, submitState, status, onChange, onSubmit }) {
   const [showEmail, setShowEmail] = useState(false)
@@ -35,9 +36,10 @@ function ContactSection({ form, sending, submitState, status, onChange, onSubmit
                   <button
                     type="button"
                     onClick={() => setShowEmail(true)}
-                    className="btn-anim cursor-pointer rounded-lg border border-[#6959ff] px-3 py-1 text-xs font-semibold text-white hover:bg-[#6959ff]/10"
+                    className="inline-flex cursor-pointer items-center justify-center"
+                    aria-label="Ver correo de contacto"
                   >
-                    Ver
+                    <img src={viewIcon} alt="" aria-hidden="true" className="h-7 w-7" loading="lazy" />
                   </button>
                 )}
               </div>

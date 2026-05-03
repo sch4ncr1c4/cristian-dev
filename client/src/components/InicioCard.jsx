@@ -31,7 +31,7 @@ function InicioCard() {
             </a>
             <a
               href="#contacto"
-              className="btn-anim inline-flex items-center gap-1.5 rounded-xl border border-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#6959ff]/10 sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
+              className="btn-anim inline-flex items-center gap-1.5 rounded-xl border border-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10 sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
               Contactarme
               <img src={mailIcon} alt="Icono de correo electronico" width="16" height="16" className="h-4 w-4" loading="lazy" />
