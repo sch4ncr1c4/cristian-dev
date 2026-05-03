@@ -45,6 +45,14 @@ const contactRateLimit = rateLimit({
   message: { error: 'Too many requests' },
 })
 
+const escapeHtml = (value) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
 app.use(helmet())
 app.set('trust proxy', 1)
 app.use(
@@ -82,12 +90,19 @@ app.post('/api/contact', contactRateLimit, async (req, res) => {
   }
 
   try {
+    const safeName = escapeHtml(name)
+    const safeEmail = escapeHtml(email)
+    const safeSubject = escapeHtml(subject)
+    const safeMessage = escapeHtml(message).replace(/\n/g, '<br />')
+
     await resend.emails.send({
       from: mailFrom,
       to: mailTo,
-      subject: `Nuevo contacto: ${subject}`,
+      subject: `Nuevo contacto | ${subject}`,
       replyTo: email,
       text: [
+        'Nuevo mensaje desde el formulario de contacto',
+        '',
         `Nombre: ${name}`,
         `Email: ${email}`,
         `Asunto: ${subject}`,
@@ -95,6 +110,27 @@ app.post('/api/contact', contactRateLimit, async (req, res) => {
         'Mensaje:',
         message,
       ].join('\n'),
+      html: `
+        <div style="font-family: Arial, sans-serif; background:#f4f6fb; padding:24px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; margin:0 auto; background:#ffffff; border:1px solid #e6e8ef; border-radius:12px; overflow:hidden;">
+            <tr>
+              <td style="background:#111827; color:#ffffff; padding:18px 22px;">
+                <h1 style="margin:0; font-size:18px; line-height:1.4;">Nuevo mensaje de contacto</h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 22px; color:#111827;">
+                <p style="margin:0 0 14px 0; font-size:14px;"><strong>Nombre:</strong> ${safeName}</p>
+                <p style="margin:0 0 14px 0; font-size:14px;"><strong>Email:</strong> ${safeEmail}</p>
+                <p style="margin:0 0 18px 0; font-size:14px;"><strong>Asunto:</strong> ${safeSubject}</p>
+                <div style="margin:0; padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:8px; font-size:14px; line-height:1.6;">
+                  ${safeMessage}
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      `,
     })
 
     return res.status(201).json({ ok: true })
