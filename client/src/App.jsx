@@ -8,6 +8,13 @@ import Footer from './components/Footer'
 import SobreMiSection from './components/SobreMiSection'
 
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000'
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ''
+const TURNSTILE_ACTION = 'contact_form'
+
+const buildCData = () => {
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID()
+  return `contact_${Math.random().toString(36).slice(2, 18)}`
+}
 
 const initialForm = {
   name: '',
@@ -20,6 +27,8 @@ function App() {
   const [form, setForm] = useState(initialForm)
   const [status, setStatus] = useState('')
   const [sending, setSending] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const [turnstileCData, setTurnstileCData] = useState(buildCData)
 
   const onChange = (event) => {
     const { name, value } = event.target
@@ -28,6 +37,11 @@ function App() {
 
   const onSubmit = async (event) => {
     event.preventDefault()
+    if (!turnstileToken) {
+      setStatus('Completa la verificacion de seguridad.')
+      return
+    }
+
     setSending(true)
     setStatus('')
 
@@ -38,13 +52,18 @@ function App() {
         body: JSON.stringify({
           name: form.name,
           email: form.email,
-          message: `Asunto: ${form.subject}\n\n${form.message}`,
+          subject: form.subject,
+          message: form.message,
+          turnstileToken,
+          turnstileCData,
         }),
       })
 
       if (!response.ok) throw new Error('Error')
 
       setForm(initialForm)
+      setTurnstileToken('')
+      setTurnstileCData(buildCData())
       setStatus('Mensaje enviado.')
     } catch {
       setStatus('No se pudo enviar el mensaje.')
@@ -99,6 +118,11 @@ function App() {
             form={form}
             sending={sending}
             status={status}
+            turnstileSiteKey={TURNSTILE_SITE_KEY}
+            turnstileAction={TURNSTILE_ACTION}
+            turnstileCData={turnstileCData}
+            turnstileToken={turnstileToken}
+            onTurnstileChange={setTurnstileToken}
             onChange={onChange}
             onSubmit={onSubmit}
           />

@@ -1,9 +1,21 @@
 import { useState } from 'react'
+import Turnstile from 'react-turnstile'
 import calenderIcon from '../assets/icons/calender-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
 
-function ContactSection({ form, sending, status, onChange, onSubmit }) {
+function ContactSection({
+  form,
+  sending,
+  status,
+  turnstileSiteKey,
+  turnstileAction,
+  turnstileCData,
+  turnstileToken,
+  onTurnstileChange,
+  onChange,
+  onSubmit,
+}) {
   const [showEmail, setShowEmail] = useState(false)
 
   return (
@@ -65,6 +77,7 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
             name="name"
             placeholder="Nombre"
             autoComplete="off"
+            maxLength={80}
             value={form.name}
             onChange={onChange}
             required
@@ -76,6 +89,7 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
             type="email"
             placeholder="Correo electronico"
             autoComplete="off"
+            maxLength={120}
             value={form.email}
             onChange={onChange}
             required
@@ -86,6 +100,7 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
             name="subject"
             placeholder="Asunto"
             autoComplete="off"
+            maxLength={120}
             value={form.subject}
             onChange={onChange}
             required
@@ -96,14 +111,25 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
             name="message"
             placeholder="Contame tu proceso actual y te digo que se puede automatizar"
             autoComplete="off"
+            maxLength={2000}
             value={form.message}
             onChange={onChange}
             required
           />
 
+          {turnstileSiteKey && (
+            <Turnstile
+              sitekey={turnstileSiteKey}
+              onVerify={(token) => onTurnstileChange(token)}
+              onExpire={() => onTurnstileChange('')}
+              onError={() => onTurnstileChange('')}
+              options={{ theme: 'dark', action: turnstileAction, cData: turnstileCData }}
+            />
+          )}
+
           <button
             className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg"
-            disabled={sending}
+            disabled={sending || !turnstileToken}
             type="submit"
           >
             {sending ? 'Enviando...' : 'Solicitar propuesta'}
