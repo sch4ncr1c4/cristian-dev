@@ -11,6 +11,7 @@ function ContactSection({
   turnstileSiteKey,
   turnstileAction,
   turnstileCData,
+  captchaExecuteTrigger,
   turnstileToken,
   onTurnstileChange,
   onChange,
@@ -152,13 +153,14 @@ function ContactSection({
               siteKey={turnstileSiteKey}
               action={turnstileAction}
               cData={turnstileCData}
+              executeTrigger={captchaExecuteTrigger}
               onTokenChange={onTurnstileChange}
             />
           )}
 
           <button
             className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg"
-            disabled={sending || !turnstileToken}
+            disabled={sending}
             type="submit"
           >
             {sending ? 'Enviando...' : 'Solicitar propuesta'}

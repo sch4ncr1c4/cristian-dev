@@ -44,15 +44,14 @@ const loadTurnstileScript = () => {
   return turnstileScriptPromise
 }
 
-function TurnstileWidget({ siteKey, action, cData, onTokenChange, onWidgetError }) {
+function TurnstileWidget({ siteKey, action, cData, executeTrigger = 0, onTokenChange, onWidgetError }) {
   const containerRef = useRef(null)
+  const widgetIdRef = useRef(null)
 
   useEffect(() => {
     if (!siteKey || !containerRef.current) return undefined
 
     let cancelled = false
-    let widgetId = null
-
     onTokenChange('')
 
     const renderWidget = async () => {
@@ -61,11 +60,13 @@ function TurnstileWidget({ siteKey, action, cData, onTokenChange, onWidgetError 
         if (cancelled || !containerRef.current || !window.turnstile) return
 
         containerRef.current.innerHTML = ''
-        widgetId = window.turnstile.render(containerRef.current, {
+        widgetIdRef.current = window.turnstile.render(containerRef.current, {
           sitekey: siteKey,
           action,
           cData,
           theme: 'dark',
+          appearance: 'interaction-only',
+          execution: 'execute',
           callback: (token) => onTokenChange(token),
           'expired-callback': () => onTokenChange(''),
           'error-callback': (code) => {
@@ -83,11 +84,17 @@ function TurnstileWidget({ siteKey, action, cData, onTokenChange, onWidgetError 
 
     return () => {
       cancelled = true
-      if (widgetId && window.turnstile?.remove) {
-        window.turnstile.remove(widgetId)
+      if (widgetIdRef.current && window.turnstile?.remove) {
+        window.turnstile.remove(widgetIdRef.current)
+        widgetIdRef.current = null
       }
     }
   }, [siteKey, action, cData, onTokenChange, onWidgetError])
+
+  useEffect(() => {
+    if (!executeTrigger || !widgetIdRef.current || !window.turnstile?.execute) return
+    window.turnstile.execute(widgetIdRef.current)
+  }, [executeTrigger])
 
   return <div ref={containerRef} />
 }

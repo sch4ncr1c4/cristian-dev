@@ -29,19 +29,15 @@ function App() {
   const [sending, setSending] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
   const [turnstileCData, setTurnstileCData] = useState(buildCData)
+  const [captchaExecuteTrigger, setCaptchaExecuteTrigger] = useState(0)
+  const [pendingSubmit, setPendingSubmit] = useState(false)
 
   const onChange = (event) => {
     const { name, value } = event.target
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
-  const onSubmit = async (event) => {
-    event.preventDefault()
-    if (!turnstileToken) {
-      setStatus('Completa la verificacion de seguridad.')
-      return
-    }
-
+  const sendContact = async () => {
     setSending(true)
     setStatus('')
 
@@ -71,6 +67,23 @@ function App() {
       setSending(false)
     }
   }
+
+  const onSubmit = async (event) => {
+    event.preventDefault()
+    if (!turnstileToken) {
+      setPendingSubmit(true)
+      setStatus('Verificando seguridad...')
+      setCaptchaExecuteTrigger((prev) => prev + 1)
+      return
+    }
+    await sendContact()
+  }
+
+  useEffect(() => {
+    if (!pendingSubmit || !turnstileToken || sending) return
+    setPendingSubmit(false)
+    sendContact()
+  }, [pendingSubmit, turnstileToken, sending])
 
   useEffect(() => {
     const nodes = document.querySelectorAll('.reveal-mobile')
@@ -121,6 +134,7 @@ function App() {
             turnstileSiteKey={TURNSTILE_SITE_KEY}
             turnstileAction={TURNSTILE_ACTION}
             turnstileCData={turnstileCData}
+            captchaExecuteTrigger={captchaExecuteTrigger}
             turnstileToken={turnstileToken}
             onTurnstileChange={setTurnstileToken}
             onChange={onChange}
