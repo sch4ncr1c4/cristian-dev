@@ -30,7 +30,8 @@ function App() {
   const [turnstileToken, setTurnstileToken] = useState('')
   const [turnstileCData, setTurnstileCData] = useState(buildCData)
   const [captchaExecuteTrigger, setCaptchaExecuteTrigger] = useState(0)
-  const [pendingSubmit, setPendingSubmit] = useState(false)
+  const [captchaVisible, setCaptchaVisible] = useState(false)
+  const [captchaReady, setCaptchaReady] = useState(false)
 
   const onChange = (event) => {
     const { name, value } = event.target
@@ -60,6 +61,8 @@ function App() {
       setForm(initialForm)
       setTurnstileToken('')
       setTurnstileCData(buildCData())
+      setCaptchaVisible(false)
+      setCaptchaReady(false)
       setStatus('Mensaje enviado.')
     } catch {
       setStatus('No se pudo enviar el mensaje.')
@@ -71,19 +74,21 @@ function App() {
   const onSubmit = async (event) => {
     event.preventDefault()
     if (!turnstileToken) {
-      setPendingSubmit(true)
       setStatus('Verificando seguridad...')
-      setCaptchaExecuteTrigger((prev) => prev + 1)
       return
     }
     await sendContact()
   }
 
+  const onRequestVerification = () => {
+    setStatus('Verificando seguridad...')
+    setCaptchaVisible(true)
+  }
+
   useEffect(() => {
-    if (!pendingSubmit || !turnstileToken || sending) return
-    setPendingSubmit(false)
-    sendContact()
-  }, [pendingSubmit, turnstileToken, sending])
+    if (!captchaVisible || !captchaReady || turnstileToken) return
+    setCaptchaExecuteTrigger((prev) => prev + 1)
+  }, [captchaVisible, captchaReady, turnstileToken])
 
   useEffect(() => {
     const nodes = document.querySelectorAll('.reveal-mobile')
@@ -135,7 +140,10 @@ function App() {
             turnstileAction={TURNSTILE_ACTION}
             turnstileCData={turnstileCData}
             captchaExecuteTrigger={captchaExecuteTrigger}
+            captchaVisible={captchaVisible}
             turnstileToken={turnstileToken}
+            onCaptchaReady={() => setCaptchaReady(true)}
+            onRequestVerification={onRequestVerification}
             onTurnstileChange={setTurnstileToken}
             onChange={onChange}
             onSubmit={onSubmit}

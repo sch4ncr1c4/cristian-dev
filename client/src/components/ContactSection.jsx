@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import calenderIcon from '../assets/icons/calender-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
-import TurnstileWidget from './TurnstileWidget'
+import CaptchaChallengePanel from './CaptchaChallengePanel'
 
 function ContactSection({
   form,
@@ -12,7 +12,10 @@ function ContactSection({
   turnstileAction,
   turnstileCData,
   captchaExecuteTrigger,
+  captchaVisible,
   turnstileToken,
+  onCaptchaReady,
+  onRequestVerification,
   onTurnstileChange,
   onChange,
   onSubmit,
@@ -148,23 +151,34 @@ function ContactSection({
             required
           />
 
-          {turnstileSiteKey && shouldLoadCaptcha && (
-            <TurnstileWidget
+          {turnstileSiteKey && shouldLoadCaptcha && captchaVisible && (
+            <CaptchaChallengePanel
               siteKey={turnstileSiteKey}
               action={turnstileAction}
               cData={turnstileCData}
               executeTrigger={captchaExecuteTrigger}
               onTokenChange={onTurnstileChange}
+              onReady={onCaptchaReady}
             />
           )}
 
-          <button
-            className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg"
-            disabled={sending}
-            type="submit"
-          >
-            {sending ? 'Enviando...' : 'Solicitar propuesta'}
-          </button>
+          {!captchaVisible ? (
+            <button
+              className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] sm:text-lg"
+              type="button"
+              onClick={onRequestVerification}
+            >
+              Solicitar propuesta
+            </button>
+          ) : (
+            <button
+              className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg"
+              disabled={sending || !turnstileToken}
+              type="submit"
+            >
+              {sending ? 'Enviando...' : 'Enviar solicitud'}
+            </button>
+          )}
 
           {status && <p className="text-sm text-gray-300">{status}</p>}
         </form>

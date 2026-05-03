@@ -44,7 +44,15 @@ const loadTurnstileScript = () => {
   return turnstileScriptPromise
 }
 
-function TurnstileWidget({ siteKey, action, cData, executeTrigger = 0, onTokenChange, onWidgetError }) {
+function TurnstileWidget({
+  siteKey,
+  action,
+  cData,
+  executeTrigger = 0,
+  onTokenChange,
+  onWidgetError,
+  onReady,
+}) {
   const containerRef = useRef(null)
   const widgetIdRef = useRef(null)
 
@@ -74,6 +82,7 @@ function TurnstileWidget({ siteKey, action, cData, executeTrigger = 0, onTokenCh
             onWidgetError?.(code)
           },
         })
+        onReady?.()
       } catch (error) {
         onTokenChange('')
         onWidgetError?.(error?.message || 'turnstile_init_error')
@@ -89,7 +98,7 @@ function TurnstileWidget({ siteKey, action, cData, executeTrigger = 0, onTokenCh
         widgetIdRef.current = null
       }
     }
-  }, [siteKey, action, cData, onTokenChange, onWidgetError])
+  }, [siteKey, action, cData, onTokenChange, onWidgetError, onReady])
 
   useEffect(() => {
     if (!executeTrigger || !widgetIdRef.current || !window.turnstile?.execute) return
