@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const links = [
   { label: 'Inicio', href: '#inicio' },
@@ -67,70 +67,72 @@ function Header() {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-b from-[#050b16] to-[#030811]/95 text-white backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-5 py-4 pl-4 pr-2 sm:px-6">
-        <a href="#inicio" className="text-sm font-semibold">
-          <span className="mr-1 text-[#6959ff] text-base">{"</>"}</span>
-          <span className="text-white text-base">Cristian </span>
-          <span className="text-[#6959ff] text-base">Dev</span>
-        </a>
+    <>
+      <header className="sticky top-0 z-50 bg-gradient-to-b from-[#050b16] to-[#030811]/95 text-white backdrop-blur">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-5 py-4 pl-4 pr-2 sm:px-6">
+          <a href="#inicio" className="text-sm font-semibold">
+            <span className="mr-1 text-[#6959ff] text-base">{"</>"}</span>
+            <span className="text-white text-base">Cristian </span>
+            <span className="text-[#6959ff] text-base">Dev</span>
+          </a>
 
-        <nav className="hidden lg:flex lg:flex-1 lg:justify-center">
-          <ul className="relative flex items-center gap-6">
-            {links.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={(event) => {
-                    event.preventDefault()
-                    goToSection(link.href)
-                  }}
-                  className="relative block px-1 py-2 text-sm font-semibold text-white/80 transition hover:text-white after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-[#6959ff] after:transition-transform after:duration-300 hover:after:scale-x-100"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <nav className="hidden lg:flex lg:flex-1 lg:justify-center">
+            <ul className="relative flex items-center gap-6">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={(event) => {
+                      event.preventDefault()
+                      goToSection(link.href)
+                    }}
+                    className="relative block px-1 py-2 text-sm font-semibold text-white/80 transition hover:text-white after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-[#6959ff] after:transition-transform after:duration-300 hover:after:scale-x-100"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        <a
-          href="#contacto"
-          onClick={(event) => {
-            event.preventDefault()
-            goToSection('#contacto')
-          }}
-          className="btn-anim hidden rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-white hover:bg-[#6959ff]/10 lg:inline-flex"
-        >
-          Solicitar propuesta
-        </a>
+          <a
+            href="#contacto"
+            onClick={(event) => {
+              event.preventDefault()
+              goToSection('#contacto')
+            }}
+            className="btn-anim hidden rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-white hover:bg-[#6959ff]/10 lg:inline-flex"
+          >
+            Solicitar propuesta
+          </a>
 
-        <button
-          type="button"
-          aria-label="Abrir menu"
-          aria-expanded={open}
-          onClick={() => setOpen((prev) => !prev)}
-          className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-[#0f1a2f]/85 shadow-[0_10px_20px_-14px_rgba(0,0,0,0.9)] lg:hidden"
-        >
-          <span
-            className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? "translate-y-0 rotate-45" : "-translate-y-[6px]"}`}
-          />
-          <span
-            className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? "opacity-0 scale-x-0" : "opacity-100 scale-x-100"}`}
-          />
-          <span
-            className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? "translate-y-0 -rotate-45" : "translate-y-[6px]"}`}
-          />
-        </button>
-      </div>
+          <button
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded={open}
+            onClick={() => setOpen((prev) => !prev)}
+            className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-[#0f1a2f]/85 shadow-[0_10px_20px_-14px_rgba(0,0,0,0.9)] lg:hidden"
+          >
+            <span
+              className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? 'translate-y-0 rotate-45' : '-translate-y-[6px]'}`}
+            />
+            <span
+              className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'}`}
+            />
+            <span
+              className={`absolute h-[2px] w-[18px] rounded-full bg-white transition-all duration-300 ${open ? 'translate-y-0 -rotate-45' : 'translate-y-[6px]'}`}
+            />
+          </button>
+        </div>
+      </header>
 
       <div
         onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 lg:hidden ${open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 lg:hidden ${open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
       />
 
       <nav
-        className={`fixed right-0 top-0 z-50 flex h-dvh w-[min(85vw,22rem)] flex-col border-l border-slate-600/25 bg-gradient-to-b from-[#070f1d] to-[#040915] shadow-2xl transition-all duration-300 ease-out will-change-transform lg:hidden ${open ? "visible translate-x-0 opacity-100" : "invisible translate-x-[105%] opacity-0 pointer-events-none"}`}
+        className={`fixed inset-y-0 right-0 z-[70] flex h-[100dvh] min-h-screen w-[min(85vw,22rem)] flex-col border-l border-slate-600/25 bg-gradient-to-b from-[#070f1d] to-[#040915] shadow-2xl transition-all duration-300 ease-out will-change-transform lg:hidden ${open ? 'visible translate-x-0 opacity-100' : 'pointer-events-none invisible translate-x-[105%] opacity-0'}`}
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between border-b border-slate-600/25 px-5 py-4">
@@ -162,12 +164,9 @@ function Header() {
           ))}
         </ul>
       </nav>
-    </header>
-  );
+    </>
+  )
 }
 
 export default Header
-
-
-
 
