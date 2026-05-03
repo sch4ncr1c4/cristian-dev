@@ -27,36 +27,49 @@ function InicioCard() {
               className="btn-anim inline-flex items-center gap-1.5 rounded-xl bg-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#5b4be6] sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
               Ver mis proyectos
-              <img src={arrowIcon} alt="Flecha hacia la derecha" className="h-4 w-4" loading="lazy" />
+              <img src={arrowIcon} alt="Flecha hacia la derecha" width="16" height="16" className="h-4 w-4" loading="lazy" />
             </a>
             <a
               href="#contacto"
               className="btn-anim inline-flex items-center gap-1.5 rounded-xl border border-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#6959ff]/10 sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
               Contactarme
-              <img src={mailIcon} alt="Icono de correo electronico" className="h-4 w-4" loading="lazy" />
+              <img src={mailIcon} alt="Icono de correo electronico" width="16" height="16" className="h-4 w-4" loading="lazy" />
             </a>
           </div>
 
           <div className="mt-5 flex justify-center gap-3 lg:justify-start">
-            <a href="#" aria-label="GitHub" className="rounded-xl bg-[#0a1122] p-2.5 transition duration-300 ease-out hover:bg-white/5 sm:rounded-2xl sm:p-4 lg:hover:-translate-y-0.5">
-              <img src={githubIcon} alt="Icono de GitHub" className="h-6 w-6 sm:h-8 sm:w-8" loading="lazy" />
+            <a href="#" aria-label="GitHub" className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-14 sm:w-14 sm:rounded-2xl lg:hover:-translate-y-0.5">
+              <img src={githubIcon} alt="Icono de GitHub" width="32" height="32" className="block h-8 w-8" loading="lazy" />
             </a>
-            <a href="#" aria-label="Instagram" className="rounded-xl bg-[#0a1122] p-2.5 transition duration-300 ease-out hover:bg-white/5 sm:rounded-2xl sm:p-4 lg:hover:-translate-y-0.5">
-              <img src={instagramIcon} alt="Icono de Instagram" className="h-6 w-6 sm:h-8 sm:w-8" loading="lazy" />
+            <a href="#" aria-label="Instagram" className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-14 sm:w-14 sm:rounded-2xl lg:hover:-translate-y-0.5">
+              <img src={instagramIcon} alt="Icono de Instagram" width="32" height="32" className="block h-8 w-8" loading="lazy" />
             </a>
-            <a href="#" aria-label="LinkedIn" className="rounded-xl bg-[#0a1122] p-2.5 transition duration-300 ease-out hover:bg-white/5 sm:rounded-2xl sm:p-4 lg:hover:-translate-y-0.5">
-              <img src={linkedinIcon} alt="Icono de LinkedIn" className="h-6 w-6 sm:h-8 sm:w-8" loading="lazy" />
+            <a href="#" aria-label="LinkedIn" className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-14 sm:w-14 sm:rounded-2xl lg:hover:-translate-y-0.5">
+              <img src={linkedinIcon} alt="Icono de LinkedIn" width="32" height="32" className="block h-8 w-8" loading="lazy" />
             </a>
           </div>
         </div>
 
         <div className="self-end lg:flex lg:justify-end">
           <picture>
+            <source
+              type="image/avif"
+              srcSet="/p-v2-320.avif 320w, /p-v2-480.avif 480w, /p-v2-640.avif 640w, /p-v2-960.avif 960w, /p-v2-1160.avif 1160w"
+              sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
+            />
+            <source
+              type="image/webp"
+              srcSet="/p-v2-320.webp 320w, /p-v2-480.webp 480w, /p-v2-640.webp 640w, /p-v2-960.webp 960w, /p-v2-1160.webp 1160w"
+              sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
+            />
             <img
-              src="/p-v2.png"
+              src="/p-v2-640.jpg"
+              srcSet="/p-v2-320.jpg 320w, /p-v2-640.jpg 640w, /p-v2-1160.jpg 1160w"
               sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
               alt="Banner de Cristian Dev"
+              width="1160"
+              height="1227"
               className="mx-auto h-auto w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:mx-0 lg:max-w-[560px] xl:max-w-[580px]"
               loading="eager"
               fetchPriority="high"

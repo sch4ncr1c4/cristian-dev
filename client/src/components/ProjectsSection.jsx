@@ -46,7 +46,7 @@ function ProjectsSection() {
                 aria-label={`Abrir ${project.title}`}
                 className="mt-1 lg:transition lg:duration-300 lg:hover:scale-110"
               >
-                <img src={externalLinkIcon} alt="Icono de enlace externo" className="h-5 w-5" loading="lazy" />
+                <img src={externalLinkIcon} alt="Icono de enlace externo" width="20" height="20" className="h-5 w-5" loading="lazy" />
               </a>
             </div>
 

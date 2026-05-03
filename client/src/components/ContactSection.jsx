@@ -16,7 +16,7 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
           </h2>
 
           <div className="grid grid-cols-[24px_1fr] items-start gap-x-4">
-            <img src={mailIcon} alt="Icono de correo electronico" className="mt-0.5 h-6 w-6" loading="lazy" />
+            <img src={mailIcon} alt="Icono de correo electronico" width="24" height="24" className="mt-0.5 h-6 w-6" loading="lazy" />
             <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-400">Email</p>
               <div className="flex items-center gap-2">
@@ -43,7 +43,7 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
           </div>
 
           <div className="grid grid-cols-[24px_1fr] items-start gap-x-4">
-            <img src={locationIcon} alt="Icono de ubicacion" className="mt-0.5 h-6 w-6" loading="lazy" />
+            <img src={locationIcon} alt="Icono de ubicacion" width="24" height="24" className="mt-0.5 h-6 w-6" loading="lazy" />
             <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-400">Ubicacion</p>
               <p className="text-sm font-medium text-[#a8b5d8] sm:text-base">Buenos Aires, Argentina</p>
@@ -51,7 +51,7 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
           </div>
 
           <div className="grid grid-cols-[24px_1fr] items-start gap-x-4">
-            <img src={calenderIcon} alt="Icono de calendario" className="mt-0.5 h-6 w-6" loading="lazy" />
+            <img src={calenderIcon} alt="Icono de calendario" width="24" height="24" className="mt-0.5 h-6 w-6" loading="lazy" />
             <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gray-400">Disponibilidad</p>
               <p className="text-sm font-medium text-[#a8b5d8] sm:text-base">Agenda abierta para nuevos proyectos</p>
