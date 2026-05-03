@@ -140,7 +140,7 @@ function Header() {
         <div className="border-b border-slate-500/25 px-5 py-4">
           <div className="relative flex items-center justify-between gap-4">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#8ea3ff]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
                 Navegacion
               </p>
             </div>
@@ -165,8 +165,9 @@ function Header() {
                   event.preventDefault()
                   goToSection(link.href)
                 }}
-                className="group flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3.5 transition hover:border-slate-300/30 hover:bg-[#0e1a31] active:scale-[0.99]"
+                className="group flex items-center gap-3 rounded-xl border border-[#2a3650]/55 bg-[#0b1426]/60 px-3 py-3.5 transition hover:border-[#425a87]/60 hover:bg-[#12203a]/80 active:scale-[0.99]"
               >
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#6959ff]" aria-hidden="true" />
                 <span className="flex min-w-0 flex-col">
                   <span className="text-sm font-semibold text-white">{link.label}</span>
                   <span className="truncate text-xs text-white/65 transition group-hover:text-white/80">
@@ -185,7 +186,7 @@ function Header() {
               event.preventDefault()
               goToSection('#contacto')
             }}
-            className="btn-anim inline-flex w-full items-center justify-center rounded-xl border border-slate-300/30 bg-[#15233f]/85 px-4 py-3 text-sm font-semibold text-white hover:bg-[#1b2d4f]"
+            className="btn-anim inline-flex w-full items-center justify-center rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10"
           >
             Solicitar propuesta
           </a>
