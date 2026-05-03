@@ -107,7 +107,7 @@ function ContactSection({
           className="self-start space-y-4"
         >
           <input
-            className="w-full rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-sm text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff] sm:text-base"
+            className="w-full rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-base text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff]"
             name="name"
             placeholder="Nombre"
             autoComplete="off"
@@ -118,7 +118,7 @@ function ContactSection({
           />
 
           <input
-            className="w-full rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-sm text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff] sm:text-base"
+            className="w-full rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-base text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff]"
             name="email"
             type="email"
             placeholder="Correo electronico"
@@ -130,7 +130,7 @@ function ContactSection({
           />
 
           <input
-            className="w-full rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-sm text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff] sm:text-base"
+            className="w-full rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-base text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff]"
             name="subject"
             placeholder="Asunto"
             autoComplete="off"
@@ -141,7 +141,7 @@ function ContactSection({
           />
 
           <textarea
-            className="h-32 w-full resize-none rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-sm text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff] sm:text-base"
+            className="h-32 w-full resize-none rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-base text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff]"
             name="message"
             placeholder="Contame tu proceso actual y te digo que se puede automatizar"
             autoComplete="off"
