@@ -36,10 +36,16 @@ function ContactSection({ form, sending, submitState, status, onChange, onSubmit
                   <button
                     type="button"
                     onClick={() => setShowEmail(true)}
-                    className="inline-flex cursor-pointer items-center justify-center"
+                    className="group inline-flex cursor-pointer items-center justify-center"
                     aria-label="Ver correo de contacto"
                   >
-                    <img src={viewIcon} alt="" aria-hidden="true" className="h-7 w-7" loading="lazy" />
+                    <img
+                      src={viewIcon}
+                      alt=""
+                      aria-hidden="true"
+                      className="h-7 w-7 transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-110"
+                      loading="lazy"
+                    />
                   </button>
                 )}
               </div>
