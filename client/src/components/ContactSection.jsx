@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import Turnstile from 'react-turnstile'
 import calenderIcon from '../assets/icons/calender-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
+import TurnstileWidget from './TurnstileWidget'
 
 function ContactSection({
   form,
@@ -118,12 +118,11 @@ function ContactSection({
           />
 
           {turnstileSiteKey && (
-            <Turnstile
-              sitekey={turnstileSiteKey}
-              onVerify={(token) => onTurnstileChange(token)}
-              onExpire={() => onTurnstileChange('')}
-              onError={() => onTurnstileChange('')}
-              options={{ theme: 'dark', action: turnstileAction, cData: turnstileCData }}
+            <TurnstileWidget
+              siteKey={turnstileSiteKey}
+              action={turnstileAction}
+              cData={turnstileCData}
+              onTokenChange={onTurnstileChange}
             />
           )}
 

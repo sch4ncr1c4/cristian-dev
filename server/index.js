@@ -140,10 +140,7 @@ app.post('/api/contact', contactRateLimit, async (req, res) => {
       name: error?.name,
       stack: error?.stack,
     })
-    return res.status(500).json({
-      error: 'Email error',
-      details: error?.message || 'unknown_error',
-    })
+    return res.status(500).json({ error: 'Email error' })
   }
 })
 
