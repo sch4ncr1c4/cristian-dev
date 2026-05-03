@@ -72,10 +72,10 @@ function Header() {
 
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-gradient-to-b from-[#050b16]/82 to-[#030811]/72 text-white backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-5 px-5 py-4 sm:px-8">
-          <a href="#inicio" className="text-sm font-semibold">
-            <span className="mr-1 text-[#6959ff] text-base">{"</>"}</span>
-            <span className="text-white text-base">Cristian </span>
-            <span className="text-[#6959ff] text-base">Dev</span>
+          <a href="#inicio" className="text-base font-extrabold tracking-wide">
+            <span className="mr-1 text-lg font-extrabold text-[#6959ff]">{"</>"}</span>
+            <span className="text-lg font-extrabold text-white">Cristian </span>
+            <span className="text-lg font-extrabold text-[#6959ff]">Dev</span>
           </a>
 
           <nav className="hidden lg:flex lg:flex-1 lg:justify-center">
