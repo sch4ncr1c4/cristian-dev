@@ -18,6 +18,14 @@ html {
   text-size-adjust: 100%;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: clamp(14px, 1.05vw, 16px);

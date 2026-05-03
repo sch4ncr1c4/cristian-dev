@@ -68,7 +68,7 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-b from-[#050b16] to-[#030811]/95 text-white backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-5 px-4 py-4 sm:px-6">
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-5 py-4 pl-4 pr-2 sm:px-6">
         <a href="#inicio" className="text-sm font-semibold">
           <span className="mr-1 text-[#6959ff] text-base">{"</>"}</span>
           <span className="text-white text-base">Cristian </span>
