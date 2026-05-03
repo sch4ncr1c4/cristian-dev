@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import calenderIcon from '../assets/icons/calender-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
-import CaptchaChallengePanel from './CaptchaChallengePanel'
+import CaptchaModal from './CaptchaModal'
 
 function ContactSection({
   form,
@@ -11,39 +11,15 @@ function ContactSection({
   turnstileSiteKey,
   turnstileAction,
   turnstileCData,
-  captchaVisible,
+  captchaModalOpen,
   turnstileToken,
-  onCaptchaReady,
   onRequestVerification,
+  onCloseCaptchaModal,
   onTurnstileChange,
   onChange,
   onSubmit,
 }) {
   const [showEmail, setShowEmail] = useState(false)
-  const [shouldLoadCaptcha, setShouldLoadCaptcha] = useState(false)
-  const formRef = useRef(null)
-
-  useEffect(() => {
-    if (!turnstileSiteKey || shouldLoadCaptcha || !formRef.current) return undefined
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries
-        if (!entry?.isIntersecting) return
-        setShouldLoadCaptcha(true)
-        observer.disconnect()
-      },
-      { rootMargin: '200px 0px', threshold: 0.01 },
-    )
-
-    observer.observe(formRef.current)
-
-    return () => observer.disconnect()
-  }, [turnstileSiteKey, shouldLoadCaptcha])
-
-  const handleFocusCapture = () => {
-    if (!shouldLoadCaptcha) setShouldLoadCaptcha(true)
-  }
 
   return (
     <section className="card-surface rounded-[2rem] p-5 text-white sm:p-6">
@@ -98,13 +74,7 @@ function ContactSection({
           </div>
         </div>
 
-        <form
-          ref={formRef}
-          onSubmit={onSubmit}
-          onFocusCapture={handleFocusCapture}
-          autoComplete="off"
-          className="self-start space-y-4"
-        >
+        <form onSubmit={onSubmit} autoComplete="off" className="self-start space-y-4">
           <input
             className="w-full rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-base text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff]"
             name="name"
@@ -150,37 +120,35 @@ function ContactSection({
             required
           />
 
-          {turnstileSiteKey && shouldLoadCaptcha && captchaVisible && (
-            <CaptchaChallengePanel
-              siteKey={turnstileSiteKey}
-              action={turnstileAction}
-              cData={turnstileCData}
-              onTokenChange={onTurnstileChange}
-              onReady={onCaptchaReady}
-            />
-          )}
+          <button
+            className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] sm:text-lg"
+            type="button"
+            onClick={onRequestVerification}
+          >
+            Solicitar propuesta
+          </button>
 
-          {!captchaVisible ? (
-            <button
-              className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] sm:text-lg"
-              type="button"
-              onClick={onRequestVerification}
-            >
-              Solicitar propuesta
-            </button>
-          ) : (
-            <button
-              className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg"
-              disabled={sending || !turnstileToken}
-              type="submit"
-            >
-              {sending ? 'Enviando...' : 'Enviar solicitud'}
-            </button>
-          )}
+          <button
+            className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg"
+            disabled={sending || !turnstileToken}
+            type="submit"
+          >
+            {sending ? 'Enviando...' : 'Enviar solicitud'}
+          </button>
 
           {status && <p className="text-sm text-gray-300">{status}</p>}
         </form>
       </div>
+
+      <CaptchaModal
+        open={captchaModalOpen}
+        siteKey={turnstileSiteKey}
+        action={turnstileAction}
+        cData={turnstileCData}
+        turnstileToken={turnstileToken}
+        onTokenChange={onTurnstileChange}
+        onClose={onCloseCaptchaModal}
+      />
     </section>
   )
 }

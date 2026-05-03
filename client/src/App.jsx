@@ -29,7 +29,7 @@ function App() {
   const [sending, setSending] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
   const [turnstileCData, setTurnstileCData] = useState(buildCData)
-  const [captchaVisible, setCaptchaVisible] = useState(false)
+  const [captchaModalOpen, setCaptchaModalOpen] = useState(false)
 
   const onChange = (event) => {
     const { name, value } = event.target
@@ -59,7 +59,7 @@ function App() {
       setForm(initialForm)
       setTurnstileToken('')
       setTurnstileCData(buildCData())
-      setCaptchaVisible(false)
+      setCaptchaModalOpen(false)
       setStatus('Mensaje enviado.')
     } catch {
       setStatus('No se pudo enviar el mensaje.')
@@ -71,15 +71,30 @@ function App() {
   const onSubmit = async (event) => {
     event.preventDefault()
     if (!turnstileToken) {
-      setStatus('Completa la verificacion de seguridad para enviar.')
+      setStatus('Primero completa la verificacion de seguridad.')
       return
     }
     await sendContact()
   }
 
+  const isFormValidForCaptcha = () => {
+    const name = form.name.trim()
+    const email = form.email.trim()
+    const subject = form.subject.trim()
+    const message = form.message.trim()
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return Boolean(name && subject && message && emailPattern.test(email))
+  }
+
   const onRequestVerification = () => {
-    setStatus('Completa la verificacion de seguridad para continuar.')
-    setCaptchaVisible(true)
+    if (!isFormValidForCaptcha()) {
+      setStatus('Completa nombre, email valido, asunto y mensaje antes de verificar.')
+      return
+    }
+    setStatus('Abriendo verificacion de seguridad...')
+    setTurnstileToken('')
+    setTurnstileCData(buildCData())
+    setCaptchaModalOpen(true)
   }
 
   useEffect(() => {
@@ -131,10 +146,10 @@ function App() {
             turnstileSiteKey={TURNSTILE_SITE_KEY}
             turnstileAction={TURNSTILE_ACTION}
             turnstileCData={turnstileCData}
-            captchaVisible={captchaVisible}
+            captchaModalOpen={captchaModalOpen}
             turnstileToken={turnstileToken}
-            onCaptchaReady={() => setStatus('Captcha listo. Completa la verificacion.')}
             onRequestVerification={onRequestVerification}
+            onCloseCaptchaModal={() => setCaptchaModalOpen(false)}
             onTurnstileChange={setTurnstileToken}
             onChange={onChange}
             onSubmit={onSubmit}
