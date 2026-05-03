@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import calenderIcon from '../assets/icons/calender-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
@@ -17,6 +17,30 @@ function ContactSection({
   onSubmit,
 }) {
   const [showEmail, setShowEmail] = useState(false)
+  const [shouldLoadCaptcha, setShouldLoadCaptcha] = useState(false)
+  const formRef = useRef(null)
+
+  useEffect(() => {
+    if (!turnstileSiteKey || shouldLoadCaptcha || !formRef.current) return undefined
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        if (!entry?.isIntersecting) return
+        setShouldLoadCaptcha(true)
+        observer.disconnect()
+      },
+      { rootMargin: '200px 0px', threshold: 0.01 },
+    )
+
+    observer.observe(formRef.current)
+
+    return () => observer.disconnect()
+  }, [turnstileSiteKey, shouldLoadCaptcha])
+
+  const handleFocusCapture = () => {
+    if (!shouldLoadCaptcha) setShouldLoadCaptcha(true)
+  }
 
   return (
     <section className="card-surface rounded-[2rem] p-5 text-white sm:p-6">
@@ -71,7 +95,13 @@ function ContactSection({
           </div>
         </div>
 
-        <form onSubmit={onSubmit} autoComplete="off" className="self-start space-y-4">
+        <form
+          ref={formRef}
+          onSubmit={onSubmit}
+          onFocusCapture={handleFocusCapture}
+          autoComplete="off"
+          className="self-start space-y-4"
+        >
           <input
             className="w-full rounded-xl border border-[#242631] bg-[#111420] px-5 py-4 text-sm text-white placeholder:text-gray-400 outline-none transition duration-300 hover:border-[#6959ff] focus:border-[#6959ff] active:border-[#6959ff] sm:text-base"
             name="name"
@@ -117,7 +147,7 @@ function ContactSection({
             required
           />
 
-          {turnstileSiteKey && (
+          {turnstileSiteKey && shouldLoadCaptcha && (
             <TurnstileWidget
               siteKey={turnstileSiteKey}
               action={turnstileAction}
