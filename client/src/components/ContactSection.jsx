@@ -2,9 +2,11 @@ import { useState } from 'react'
 import calenderIcon from '../assets/icons/calender-svgrepo-com.svg'
 import locationIcon from '../assets/icons/location-svgrepo-com.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
+import sendIcon from '../assets/icons/send.svg'
 
-function ContactSection({ form, sending, status, onChange, onSubmit }) {
+function ContactSection({ form, sending, submitState, status, onChange, onSubmit }) {
   const [showEmail, setShowEmail] = useState(false)
+  const isSent = submitState === 'sent'
 
   return (
     <section className="card-surface rounded-[2rem] p-5 text-white sm:p-6">
@@ -106,11 +108,20 @@ function ContactSection({ form, sending, status, onChange, onSubmit }) {
           />
 
           <button
-            className="btn-anim w-full cursor-pointer rounded-3xl bg-[#6959ff] px-6 py-4 text-base font-bold text-white hover:bg-[#5b4be6] disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg"
-            disabled={sending}
+            className={`btn-anim flex w-full items-center justify-between gap-3 cursor-pointer rounded-xl px-6 py-4 text-base font-bold text-white disabled:cursor-not-allowed disabled:opacity-70 sm:text-lg ${
+              isSent ? 'bg-[#22c55e] hover:bg-[#16a34a]' : 'bg-[#6959ff] hover:bg-[#5b4be6]'
+            }`}
+            disabled={sending || isSent}
             type="submit"
           >
-            {sending ? 'Enviando...' : 'Solicitar propuesta'}
+            <span>
+              {submitState === 'sending'
+                ? 'Enviando...'
+                : submitState === 'sent'
+                  ? 'Enviado'
+                  : 'Solicitar propuesta'}
+            </span>
+            <img src={sendIcon} alt="" aria-hidden="true" className="h-5 w-5 shrink-0" loading="lazy" />
           </button>
 
           {status && <p className="text-sm text-gray-300">{status}</p>}

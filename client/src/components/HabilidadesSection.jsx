@@ -18,7 +18,7 @@ function HabilidadesSection() {
   return (
     <section id="habilidades" className="card-surface rounded-[2rem] p-5 text-white sm:p-6">
       <div className="mb-5">
-        <h2 className="flex items-center gap-3 text-lg font-bold sm:text-[1.75rem]">
+        <h2 className="flex items-center gap-3 text-lg font-bold sm:text-xl">
           <span className="h-3 w-3 rounded-full bg-[#6959ff]" />
           Habilidades
         </h2>

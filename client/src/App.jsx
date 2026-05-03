@@ -20,6 +20,7 @@ function App() {
   const [form, setForm] = useState(initialForm)
   const [status, setStatus] = useState('')
   const [sending, setSending] = useState(false)
+  const [submitState, setSubmitState] = useState('idle')
 
   const onChange = (event) => {
     const { name, value } = event.target
@@ -28,6 +29,7 @@ function App() {
 
   const sendContact = async () => {
     setSending(true)
+    setSubmitState('sending')
     setStatus('')
 
     try {
@@ -46,8 +48,13 @@ function App() {
 
       setForm(initialForm)
       setStatus('Mensaje enviado.')
+      setSubmitState('sent')
+      setTimeout(() => {
+        setSubmitState('idle')
+      }, 2000)
     } catch {
       setStatus('No se pudo enviar el mensaje.')
+      setSubmitState('idle')
     } finally {
       setSending(false)
     }
@@ -103,6 +110,7 @@ function App() {
           <ContactSection
             form={form}
             sending={sending}
+            submitState={submitState}
             status={status}
             onChange={onChange}
             onSubmit={onSubmit}

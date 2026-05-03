@@ -11,7 +11,7 @@ function InicioCard() {
         <div className="p-5 sm:p-6">
           <div className="space-y-4 text-center lg:text-left">
             <p className="text-2xl font-extrabold leading-tight text-[#6959ff] sm:text-3xl">Hola, soy</p>
-            <h1 className="flex items-baseline justify-center gap-2 whitespace-nowrap text-3xl font-extrabold leading-tight sm:text-4xl lg:justify-start lg:text-[5.625rem] lg:leading-[1]">
+            <h1 className="flex items-baseline justify-center gap-2 whitespace-nowrap text-4xl font-extrabold leading-tight sm:text-4xl lg:justify-start lg:text-[5.625rem] lg:leading-[1]">
               Cristian <span className="text-[#6959ff]">Dev</span>
             </h1>
             <p className="text-xl font-bold text-white sm:text-2xl">Sistemas web y automatizaciones a medida</p>
@@ -21,7 +21,7 @@ function InicioCard() {
             </p>
           </div>
 
-          <div className="mt-5 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
+          <div className="mt-5 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-2 lg:justify-start">
             <a
               href="#proyectos"
               className="btn-anim inline-flex items-center gap-1.5 rounded-xl bg-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#5b4be6] sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
@@ -39,14 +39,14 @@ function InicioCard() {
           </div>
 
           <div className="mt-5 flex justify-center gap-3 lg:justify-start">
-            <a href="#" aria-label="GitHub" className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-14 sm:w-14 sm:rounded-2xl lg:hover:-translate-y-0.5">
-              <img src={githubIcon} alt="Icono de GitHub" width="32" height="32" className="block h-8 w-8" loading="lazy" />
+            <a href="#" aria-label="GitHub" className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-12 sm:w-12 sm:rounded-2xl lg:hover:-translate-y-0.5">
+              <img src={githubIcon} alt="Icono de GitHub" width="32" height="32" className="block h-6 w-6 sm:h-7 sm:w-7" loading="lazy" />
             </a>
-            <a href="#" aria-label="Instagram" className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-14 sm:w-14 sm:rounded-2xl lg:hover:-translate-y-0.5">
-              <img src={instagramIcon} alt="Icono de Instagram" width="32" height="32" className="block h-8 w-8" loading="lazy" />
+            <a href="#" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-12 sm:w-12 sm:rounded-2xl lg:hover:-translate-y-0.5">
+              <img src={instagramIcon} alt="Icono de Instagram" width="32" height="32" className="block h-6 w-6 sm:h-7 sm:w-7" loading="lazy" />
             </a>
-            <a href="#" aria-label="LinkedIn" className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-14 sm:w-14 sm:rounded-2xl lg:hover:-translate-y-0.5">
-              <img src={linkedinIcon} alt="Icono de LinkedIn" width="32" height="32" className="block h-8 w-8" loading="lazy" />
+            <a href="#" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-12 sm:w-12 sm:rounded-2xl lg:hover:-translate-y-0.5">
+              <img src={linkedinIcon} alt="Icono de LinkedIn" width="32" height="32" className="block h-6 w-6 sm:h-7 sm:w-7" loading="lazy" />
             </a>
           </div>
         </div>
