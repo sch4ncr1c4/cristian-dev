@@ -39,14 +39,14 @@ function InicioCard() {
           </div>
 
           <div className="mt-5 flex justify-center gap-3 lg:justify-start">
-            <a href="#" aria-label="GitHub" className="rounded-2xl bg-[#0a1122] p-4 transition duration-300 ease-out hover:bg-white/5 lg:hover:-translate-y-0.5">
-              <img src={githubIcon} alt="Icono de GitHub" className="h-8 w-8" loading="lazy" />
+            <a href="#" aria-label="GitHub" className="rounded-xl bg-[#0a1122] p-2.5 transition duration-300 ease-out hover:bg-white/5 sm:rounded-2xl sm:p-4 lg:hover:-translate-y-0.5">
+              <img src={githubIcon} alt="Icono de GitHub" className="h-6 w-6 sm:h-8 sm:w-8" loading="lazy" />
             </a>
-            <a href="#" aria-label="Instagram" className="rounded-2xl bg-[#0a1122] p-4 transition duration-300 ease-out hover:bg-white/5 lg:hover:-translate-y-0.5">
-              <img src={instagramIcon} alt="Icono de Instagram" className="h-8 w-8" loading="lazy" />
+            <a href="#" aria-label="Instagram" className="rounded-xl bg-[#0a1122] p-2.5 transition duration-300 ease-out hover:bg-white/5 sm:rounded-2xl sm:p-4 lg:hover:-translate-y-0.5">
+              <img src={instagramIcon} alt="Icono de Instagram" className="h-6 w-6 sm:h-8 sm:w-8" loading="lazy" />
             </a>
-            <a href="#" aria-label="LinkedIn" className="rounded-2xl bg-[#0a1122] p-4 transition duration-300 ease-out hover:bg-white/5 lg:hover:-translate-y-0.5">
-              <img src={linkedinIcon} alt="Icono de LinkedIn" className="h-8 w-8" loading="lazy" />
+            <a href="#" aria-label="LinkedIn" className="rounded-xl bg-[#0a1122] p-2.5 transition duration-300 ease-out hover:bg-white/5 sm:rounded-2xl sm:p-4 lg:hover:-translate-y-0.5">
+              <img src={linkedinIcon} alt="Icono de LinkedIn" className="h-6 w-6 sm:h-8 sm:w-8" loading="lazy" />
             </a>
           </div>
         </div>

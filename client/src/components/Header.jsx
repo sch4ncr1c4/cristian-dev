@@ -130,7 +130,7 @@ function Header() {
       />
 
       <nav
-        className={`fixed right-0 top-0 z-50 flex h-dvh w-[min(85vw,22rem)] flex-col border-l border-slate-600/25 bg-gradient-to-b from-[#070f1d] to-[#040915] shadow-2xl transition-transform duration-300 ease-out will-change-transform lg:hidden ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed right-0 top-0 z-50 flex h-dvh w-[min(85vw,22rem)] flex-col border-l border-slate-600/25 bg-gradient-to-b from-[#070f1d] to-[#040915] shadow-2xl transition-all duration-300 ease-out will-change-transform lg:hidden ${open ? "visible translate-x-0 opacity-100" : "invisible translate-x-[105%] opacity-0 pointer-events-none"}`}
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between border-b border-slate-600/25 px-5 py-4">
