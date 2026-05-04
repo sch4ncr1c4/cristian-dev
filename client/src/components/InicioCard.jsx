@@ -5,6 +5,21 @@ import linkedinIcon from '../assets/icons/linkedin.svg'
 import mailIcon from '../assets/icons/mail-svgrepo-com.svg'
 
 function InicioCard() {
+  const goToSection = (href) => {
+    const target = document.querySelector(href)
+    if (!target) return
+
+    const headerOffset = 96
+    const targetTop = target.getBoundingClientRect().top + window.scrollY - headerOffset
+
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: 'smooth',
+    })
+
+    window.history.replaceState(null, '', href)
+  }
+
   return (
     <section className="card-surface overflow-hidden rounded-[2rem] text-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pt-8">
@@ -24,6 +39,10 @@ function InicioCard() {
           <div className="mt-5 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-2 lg:justify-start">
             <a
               href="#proyectos"
+              onClick={(event) => {
+                event.preventDefault()
+                goToSection('#proyectos')
+              }}
               className="btn-anim inline-flex items-center gap-1.5 rounded-xl bg-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#5b4be6] sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
               Ver mis proyectos
@@ -31,6 +50,10 @@ function InicioCard() {
             </a>
             <a
               href="#contacto"
+              onClick={(event) => {
+                event.preventDefault()
+                goToSection('#contacto')
+              }}
               className="btn-anim inline-flex items-center gap-1.5 rounded-xl border border-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10 sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
               Contactarme
