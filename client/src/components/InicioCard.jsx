@@ -84,8 +84,8 @@ function InicioCard() {
               </span>
             </div>
             <div className="absolute bottom-16 left-[11px] z-10 flex h-14 w-14 items-center justify-center rounded-xl border border-slate-400/20 bg-[rgba(2,6,15,0.92)] text-lg font-extrabold text-[#22c55e] shadow-[0_10px_25px_-14px_rgba(0,0,0,0.95)] sm:bottom-20 sm:left-[7px] sm:h-16 sm:w-16 sm:text-xl md:bottom-28 md:left-[23px] md:h-[4.5rem] md:w-[4.5rem] md:text-2xl lg:h-20 lg:w-20">
-              <span className="code-terminal" aria-label="<_|">
-                <span className="code-terminal-text">{'<_'}</span>
+              <span className="code-terminal" aria-label=">_|">
+                <span className="code-terminal-text">{'>_'}</span>
                 <span className="code-cursor">{'|'}</span>
               </span>
             </div>

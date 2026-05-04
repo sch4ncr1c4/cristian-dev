@@ -164,16 +164,21 @@ h6 {
 .code-terminal {
   display: inline-block;
   position: relative;
-  width: 2.2ch;
-  line-height: 1;
+  width: 3ch;
+  height: 1em;
+  line-height: 1em;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .code-terminal .code-terminal-text {
   display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 50%;
   overflow: hidden;
   white-space: nowrap;
   width: 0ch;
+  transform: translateY(-50%);
   transform-origin: left center;
   animation: terminalText 3.3s linear infinite;
 }
@@ -182,9 +187,9 @@ h6 {
   display: inline-block;
   position: absolute;
   left: 0;
-  top: 0;
+  top: 50%;
   opacity: 0;
-  transform: translateY(0);
+  transform: translateY(-50%);
   animation: terminalCursor 3.3s linear infinite;
 }
 
