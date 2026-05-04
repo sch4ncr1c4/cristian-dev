@@ -191,6 +191,7 @@ h6 {
   opacity: 0;
   transform: translateY(-50%);
   animation: terminalCursor 3.3s linear infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes terminalText {
@@ -214,28 +215,36 @@ h6 {
 
 @keyframes terminalCursor {
   0%,
-  22% {
+  20% {
     opacity: 0;
-    left: 0ch;
+    transform: translate3d(0ch, -50%, 0);
   }
-  24%,
+  24% {
+    opacity: 0.55;
+    transform: translate3d(1ch, -50%, 0);
+  }
+  28%,
   34% {
     opacity: 1;
-    left: 1ch;
+    transform: translate3d(1ch, -50%, 0);
   }
   52%,
   68% {
     opacity: 1;
-    left: 2ch;
+    transform: translate3d(2ch, -50%, 0);
+  }
+  78% {
+    opacity: 0.7;
+    transform: translate3d(1ch, -50%, 0);
   }
   88% {
-    opacity: 1;
-    left: 0ch;
+    opacity: 0.35;
+    transform: translate3d(0ch, -50%, 0);
   }
   92%,
   100% {
     opacity: 0;
-    left: 0ch;
+    transform: translate3d(0ch, -50%, 0);
   }
 }
 
@@ -253,7 +262,6 @@ h6 {
     opacity: 1;
     transform: none;
     width: auto;
-    left: auto;
   }
 }
 
