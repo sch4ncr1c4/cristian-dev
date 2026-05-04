@@ -57,10 +57,10 @@ h6 {
 }
 
 .card-surface {
-  background-color: rgba(2, 6, 15, 0.62);
+  background-color: rgba(2, 6, 15, 0.5);
   background-image:
-    radial-gradient(120% 120% at 0% 0%, rgba(115, 138, 255, 0.09) 0%, transparent 42%),
-    linear-gradient(165deg, rgba(6, 15, 31, 0.78) 0%, rgba(2, 6, 15, 0.72) 52%, rgba(1, 4, 11, 0.76) 100%);
+    radial-gradient(120% 120% at 0% 0%, rgba(115, 138, 255, 0.08) 0%, transparent 42%),
+    linear-gradient(165deg, rgba(6, 15, 31, 0.66) 0%, rgba(2, 6, 15, 0.58) 52%, rgba(1, 4, 11, 0.62) 100%);
   border: 1px solid rgba(148, 163, 184, 0.08);
   -webkit-backdrop-filter: blur(14px) saturate(120%);
   backdrop-filter: blur(14px) saturate(120%);
@@ -117,5 +117,138 @@ h6 {
 .reveal-mobile.in-view {
   opacity: 1;
   transform: translate3d(0, 0, 0);
+}
+
+.code-typing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.code-typing > span {
+  opacity: 0;
+  transform: translateY(2px);
+  animation: codeCharIn 1.8s ease-in-out infinite;
+}
+
+.code-typing > span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.code-typing > span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.code-typing > span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes codeCharIn {
+  0% {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  20%,
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+}
+
+.code-terminal {
+  display: inline-block;
+  position: relative;
+  width: 2.2ch;
+  line-height: 1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.code-terminal .code-terminal-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0ch;
+  transform-origin: left center;
+  animation: terminalText 3.3s linear infinite;
+}
+
+.code-terminal .code-cursor {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(0);
+  animation: terminalCursor 3.3s linear infinite;
+}
+
+@keyframes terminalText {
+  0%,
+  14% {
+    width: 0ch;
+  }
+  24%,
+  34% {
+    width: 1ch;
+  }
+  52%,
+  68% {
+    width: 2ch;
+  }
+  88%,
+  100% {
+    width: 0ch;
+  }
+}
+
+@keyframes terminalCursor {
+  0%,
+  22% {
+    opacity: 0;
+    left: 0ch;
+  }
+  24%,
+  34% {
+    opacity: 1;
+    left: 1ch;
+  }
+  52%,
+  68% {
+    opacity: 1;
+    left: 2ch;
+  }
+  88% {
+    opacity: 1;
+    left: 0ch;
+  }
+  92%,
+  100% {
+    opacity: 0;
+    left: 0ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-typing > span {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .code-terminal > span,
+  .code-terminal .code-terminal-text,
+  .code-terminal .code-cursor {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    width: auto;
+    left: auto;
+  }
 }
 

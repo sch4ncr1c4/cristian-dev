@@ -1,5 +1,5 @@
 {
-  "name": "cristian-nuevo",
+  "name": "cristian-dev",
   "private": true,
   "scripts": {
     "dev": "npm run dev --prefix server",
