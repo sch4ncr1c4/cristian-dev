@@ -13,6 +13,8 @@ const port = process.env.PORT || 4000
 const resend = new Resend(process.env.RESEND_API_KEY)
 const mailFrom = process.env.RESEND_FROM
 const mailTo = process.env.RESEND_TO
+const trustProxyHops = Number(process.env.TRUST_PROXY_HOPS)
+const trustProxy = Number.isInteger(trustProxyHops) && trustProxyHops >= 1 ? trustProxyHops : false
 const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
   .split(',')
   .map((origin) => origin.trim())
@@ -47,7 +49,7 @@ const contactRateLimit = rateLimit({
 })
 
 app.use(helmet())
-app.set('trust proxy', 1)
+app.set('trust proxy', trustProxy)
 app.use(
   cors({
     origin: (origin, callback) => {
