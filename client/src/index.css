@@ -196,18 +196,18 @@ h6 {
 
 @keyframes terminalText {
   0%,
-  14% {
+  24% {
     width: 0ch;
   }
-  24%,
-  34% {
+  34%,
+  48% {
     width: 1ch;
   }
-  52%,
-  68% {
+  58%,
+  72% {
     width: 2ch;
   }
-  88%,
+  90%,
   100% {
     width: 0ch;
   }
@@ -221,30 +221,46 @@ h6 {
   }
   24% {
     opacity: 0.55;
-    transform: translate3d(1ch, -50%, 0);
+    transform: translate3d(0ch, -50%, 0);
   }
-  28%,
   34% {
     opacity: 1;
     transform: translate3d(1ch, -50%, 0);
   }
-  52%,
-  68% {
+  48% {
+    opacity: 1;
+    transform: translate3d(1ch, -50%, 0);
+  }
+  58% {
     opacity: 1;
     transform: translate3d(2ch, -50%, 0);
   }
-  78% {
-    opacity: 0.7;
-    transform: translate3d(1ch, -50%, 0);
+  72% {
+    opacity: 1;
+    transform: translate3d(2ch, -50%, 0);
   }
-  88% {
-    opacity: 0.35;
+  90% {
+    opacity: 0.55;
     transform: translate3d(0ch, -50%, 0);
   }
-  92%,
+  94% {
+    opacity: 0.2;
+    transform: translate3d(0ch, -50%, 0);
+  }
+  96%,
   100% {
     opacity: 0;
     transform: translate3d(0ch, -50%, 0);
+  }
+}
+
+@media (max-width: 767px) {
+  .code-terminal .code-terminal-text {
+    animation-duration: 3.8s;
+  }
+
+  .code-terminal .code-cursor {
+    animation-duration: 3.8s;
   }
 }
 
