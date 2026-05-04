@@ -69,7 +69,7 @@ function InicioCard() {
               <img src={instagramIcon} alt="Icono de Instagram" width="32" height="32" className="block h-6 w-6 sm:h-7 sm:w-7" loading="lazy" />
             </a>
             <a href="https://www.linkedin.com/in/cristian-schinocca-0a1632404/" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0a1122] transition duration-300 ease-out hover:bg-white/5 sm:h-12 sm:w-12 sm:rounded-2xl lg:hover:-translate-y-0.5">
-              <img src={linkedinIcon} alt="Icono de LinkedIn" width="32" height="32" className="block h-6 w-6 sm:h-7 sm:w-7" loading="lazy" />
+              <img src={linkedinIcon} alt="Icono de LinkedIn" width="32" height="32" className="block h-[22px] w-[22px] sm:h-[26px] sm:w-[26px]" loading="lazy" />
             </a>
           </div>
         </div>
