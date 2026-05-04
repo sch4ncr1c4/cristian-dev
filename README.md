@@ -1,73 +1,90 @@
 # cristian-dev
 
-Portfolio personal con formulario de contacto en produccion.
+Personal portfolio with a production-ready contact form.
 
-## Stack
+## Tech Stack
 
-- Frontend: React + Vite (Cloudflare Pages)
-- Backend: Node.js + Express (Render)
-- Email: Resend
+- Frontend: React + Vite
+- Backend: Node.js + Express
+- Email delivery: Resend
+- Security middleware: Helmet + CORS allowlist + rate limiting
 
-## Estructura
+## Project Structure
 
-- `client/`: app frontend
-- `server/`: API backend
+- `client/`: frontend app
+- `server/`: backend API
 
-## Flujo de contacto
+## Contact Flow
 
-1. El usuario completa el formulario en el frontend.
-2. El frontend hace `POST` a `/api/contact`.
-3. El backend valida campos, aplica rate limit y envia email con Resend.
+1. A user submits the form on the frontend.
+2. The frontend sends a `POST` request to `/api/contact`.
+3. The backend sanitizes and validates input.
+4. The backend applies rate limiting.
+5. The backend sends the email using Resend.
 
-## Variables de entorno
-
-### Frontend (`Cloudflare Pages`)
-
-- `VITE_API_URL=https://TU-BACKEND.onrender.com`
-
-### Backend (`Render`)
-
-- `NODE_ENV=production`
-- `PORT=4000`
-- `CORS_ORIGIN=https://TU-PROYECTO.pages.dev`
-- `RESEND_API_KEY=re_...`
-- `RESEND_FROM=Portfolio <onboarding@resend.dev>` (o dominio propio verificado)
-- `RESEND_TO=tu-email@dominio.com`
-
-## Desarrollo local
+## Environment Variables
 
 ### Frontend
 
-```bash
-cd client
-npm install
-npm run dev
-```
+- `VITE_API_URL=https://your-backend-domain.com`
 
 ### Backend
 
+- `NODE_ENV=production`
+- `PORT=4000`
+- `TRUST_PROXY_HOPS=1` (set this only when running behind a trusted proxy)
+- `CORS_ORIGIN=https://your-frontend.pages.dev,https://yourdomain.com`
+- `RESEND_API_KEY=re_...`
+- `RESEND_FROM=Portfolio <onboarding@resend.dev>` (or your verified domain sender)
+- `RESEND_TO=your-email@domain.com`
+- `PUBLIC_SITE_URL=https://your-frontend.pages.dev` (used to build the fallback logo URL)
+- `RESEND_LOGO_URL=https://your-frontend.pages.dev/favicon.svg` (optional override)
+
+See `server/.env.example` and `client/.env.example` for templates.
+
+## Local Development
+
+Install dependencies:
+
 ```bash
-cd server
 npm install
+npm install --prefix client
+npm install --prefix server
+```
+
+Run backend:
+
+```bash
 npm run dev
 ```
 
-## Deploy
+Run frontend in another terminal:
 
-### Cloudflare Pages
+```bash
+npm run dev:client
+```
+
+## Deployment
+
+### Frontend (Cloudflare Pages)
 
 - Root directory: `client`
 - Build command: `npm run build`
 - Output directory: `dist`
 
-### Render
+### Backend (Render)
 
 - Root directory: `server`
 - Build command: `npm install`
 - Start command: `npm start`
 - Health check path: `/api/health`
 
-## Notas
+## Notes
 
-- El proyecto no almacena contactos en base de datos.
-- Los banners `banner-256/320/480/660.webp` se usan activamente en `InicioCard` y `index.html`.
+- The project does not store contact submissions in a database.
+- Hero images currently used in `InicioCard` are:
+  - `banner-v2-320.*`
+  - `banner-v2-480.*`
+  - `banner-v2-640.*`
+  - `banner-v2-960.*`
+  - `banner-v2-1160.*`
