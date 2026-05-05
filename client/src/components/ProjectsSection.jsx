@@ -1,32 +1,41 @@
-import externalLinkIcon from '../assets/icons/external-link.svg'
+import externalLinkIcon from "../assets/icons/external-link.svg";
 
 const projects = [
   {
-    title: 'TaskFlow',
-    description: 'App de gestion de tareas con autenticacion, tableros y notificaciones.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'PostgreSQL'],
+    title: "TaskFlow",
+    description:
+      "App de gestion de tareas con autenticacion, tableros y notificaciones.",
+    tags: ["React", "TypeScript", "Tailwind", "PostgreSQL"],
   },
   {
-    title: 'ShopHub',
-    description: 'E-commerce moderno con carrito, pagos y panel de administracion.',
-    tags: ['React', 'Node.js', 'Express', 'PostgreSQL'],
+    title: "ShopHub",
+    description:
+      "E-commerce moderno con carrito, pagos y panel de administracion.",
+    tags: ["React", "Node.js", "Express", "PostgreSQL"],
   },
   {
-    title: 'FitTrack',
-    description: 'Dashboard de seguimiento de rutinas, ejercicios y estadisticas.',
-    tags: ['React', 'TypeScript', 'Chart.js', 'Tailwind'],
+    title: "FitTrack",
+    description:
+      "Dashboard de seguimiento de rutinas, ejercicios y estadisticas.",
+    tags: ["React", "TypeScript", "Chart.js", "Tailwind"],
   },
-]
+];
 
 function ProjectsSection() {
   return (
-    <section id="proyectos" className="card-surface rounded-[2rem] p-5 text-white sm:p-6">
+    <section
+      id="proyectos"
+      className="card-surface rounded-[2rem] p-5 text-white sm:p-6"
+    >
       <div className="mb-6 flex items-center justify-between gap-3">
         <h2 className="flex items-center gap-3 text-lg font-bold sm:text-xl">
           <span className="h-3 w-3 rounded-full bg-[#6959ff]" />
           Proyectos destacados
         </h2>
-        <a href="#" className="text-sm font-semibold text-[#6959ff] hover:text-[#9e8bff] sm:text-base">
+        <a
+          href="#"
+          className="text-sm font-semibold text-[#6959ff] hover:text-[#9e8bff] sm:text-base"
+        >
           Ver todos
         </a>
       </div>
@@ -46,15 +55,27 @@ function ProjectsSection() {
                 aria-label={`Abrir ${project.title}`}
                 className="mt-1 lg:transition lg:duration-300 lg:hover:scale-110"
               >
-                <img src={externalLinkIcon} alt="Icono de enlace externo" width="20" height="20" className="h-5 w-5" loading="lazy" />
+                <img
+                  src={externalLinkIcon}
+                  alt="Icono de enlace externo"
+                  width="20"
+                  height="20"
+                  className="h-5 w-5"
+                  loading="lazy"
+                />
               </a>
             </div>
 
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-300 sm:text-base">{project.description}</p>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-300 sm:text-base">
+              {project.description}
+            </p>
 
             <ul className="mt-4 flex flex-wrap gap-3">
               {project.tags.map((tag) => (
-                <li key={tag} className="rounded-full bg-[#0e162c] px-3 py-1.5 text-xs font-semibold text-gray-300 lg:text-[13px]">
+                <li
+                  key={tag}
+                  className="rounded-full bg-[#0e162c] px-3 py-1.5 text-xs font-semibold text-gray-300 lg:text-[13px]"
+                >
                   {tag}
                 </li>
               ))}
@@ -63,11 +84,7 @@ function ProjectsSection() {
         ))}
       </div>
     </section>
-  )
+  );
 }
 
-export default ProjectsSection
-
-
-
-
+export default ProjectsSection;

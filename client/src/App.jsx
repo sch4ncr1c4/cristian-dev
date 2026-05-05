@@ -1,89 +1,103 @@
-import { useEffect, useState } from 'react'
-import Header from './components/Header'
-import HabilidadesSection from './components/HabilidadesSection'
-import InicioCard from './components/InicioCard'
-import ProjectsSection from './components/ProjectsSection'
-import ContactSection from './components/ContactSection'
-import Footer from './components/Footer'
-import SobreMiSection from './components/SobreMiSection'
+import { useEffect, useState } from "react";
+import Header from "./components/Header";
+import HabilidadesSection from "./components/HabilidadesSection";
+import InicioCard from "./components/InicioCard";
+import ProjectsSection from "./components/ProjectsSection";
+import ContactSection from "./components/ContactSection";
+import Footer from "./components/Footer";
+import SobreMiSection from "./components/SobreMiSection";
 
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000'
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
 const initialForm = {
-  name: '',
-  email: '',
-  subject: '',
-  message: '',
-}
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+};
 
 function App() {
-  const [form, setForm] = useState(initialForm)
-  const [status, setStatus] = useState('')
-  const [sending, setSending] = useState(false)
-  const [submitState, setSubmitState] = useState('idle')
+  const [form, setForm] = useState(initialForm);
+  const [status, setStatus] = useState("");
+  const [statusType, setStatusType] = useState("success");
+  const [sending, setSending] = useState(false);
+  const [submitState, setSubmitState] = useState("idle");
 
   const onChange = (event) => {
-    const { name, value } = event.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = event.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
   const sendContact = async () => {
-    setSending(true)
-    setSubmitState('sending')
-    setStatus('')
+    setSending(true);
+    setSubmitState("sending");
+    setStatus("");
+    setStatusType("success");
 
     try {
       const response = await fetch(`${API_URL}/api/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
           subject: form.subject,
           message: form.message,
         }),
-      })
+      });
 
-      if (!response.ok) throw new Error('Error')
+      if (!response.ok) throw new Error("Error");
 
-      setForm(initialForm)
-      setStatus('Mensaje enviado.')
-      setSubmitState('sent')
+      setForm(initialForm);
+      setStatus("Mensaje enviado.");
+      setStatusType("success");
+      setSubmitState("sent");
       setTimeout(() => {
-        setSubmitState('idle')
-      }, 2000)
+        setSubmitState("idle");
+      }, 2000);
     } catch {
-      setStatus('No se pudo enviar el mensaje.')
-      setSubmitState('idle')
+      setStatus("No se pudo enviar el mensaje.");
+      setStatusType("error");
+      setSubmitState("idle");
     } finally {
-      setSending(false)
+      setSending(false);
     }
-  }
-
-  const onSubmit = async (event) => {
-    event.preventDefault()
-    await sendContact()
-  }
+  };
 
   useEffect(() => {
-    const nodes = document.querySelectorAll('.reveal-mobile')
-    if (!nodes.length) return undefined
+    if (!status) return undefined;
+
+    const timer = setTimeout(() => {
+      setStatus("");
+    }, 3500);
+
+    return () => clearTimeout(timer);
+  }, [status]);
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    await sendContact();
+  };
+
+  useEffect(() => {
+    const nodes = document.querySelectorAll(".reveal-mobile");
+    if (!nodes.length) return undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          entry.target.classList.add('in-view')
-          observer.unobserve(entry.target)
-        })
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        });
       },
-      { threshold: 0.2, rootMargin: '0px 0px -8% 0px' },
-    )
+      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
+    );
 
-    nodes.forEach((node) => observer.observe(node))
+    nodes.forEach((node) => observer.observe(node));
 
-    return () => observer.disconnect()
-  }, [])
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -112,6 +126,7 @@ function App() {
             sending={sending}
             submitState={submitState}
             status={status}
+            statusType={statusType}
             onChange={onChange}
             onSubmit={onSubmit}
           />
@@ -119,9 +134,7 @@ function App() {
       </main>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
-
-
+export default App;

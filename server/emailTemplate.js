@@ -1,31 +1,31 @@
-const escapeHtml = (value = '') =>
+const escapeHtml = (value = "") =>
   String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 
 const normalizeBaseUrl = (value) =>
-  typeof value === 'string' ? value.trim().replace(/\/+$/, '') : ''
+  typeof value === "string" ? value.trim().replace(/\/+$/, "") : "";
 
 const buildContactEmail = ({ name, email, subject, message, logoUrl }) => {
-  const safeName = escapeHtml(name)
-  const safeEmail = escapeHtml(email)
-  const safeSubject = escapeHtml(subject)
-  const safeMessage = escapeHtml(message).replace(/\r?\n/g, '<br />')
-  const safeLogoUrl = escapeHtml(logoUrl || '')
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeSubject = escapeHtml(subject);
+  const safeMessage = escapeHtml(message).replace(/\r?\n/g, "<br />");
+  const safeLogoUrl = escapeHtml(logoUrl || "");
 
   const text = [
-    'Nuevo mensaje desde el formulario de contacto',
-    '',
+    "Nuevo mensaje desde el formulario de contacto",
+    "",
     `Nombre: ${name}`,
     `Email: ${email}`,
     `Asunto: ${subject}`,
-    '',
-    'Mensaje:',
+    "",
+    "Mensaje:",
     message,
-  ].join('\n')
+  ].join("\n");
 
   const logoBlock = safeLogoUrl
     ? `
@@ -41,7 +41,7 @@ const buildContactEmail = ({ name, email, subject, message, logoUrl }) => {
       <div style="width:36px; height:36px; border-radius:10px; background:#111827; color:#ffffff; font:700 14px Arial,Helvetica,sans-serif; line-height:36px; text-align:center;">
         CD
       </div>
-    `
+    `;
 
   const html = `
 <!doctype html>
@@ -184,22 +184,22 @@ const buildContactEmail = ({ name, email, subject, message, logoUrl }) => {
     </table>
   </body>
 </html>
-  `
+  `;
 
-  return { text, html }
-}
+  return { text, html };
+};
 
 const getLogoUrl = () => {
-  const explicitLogoUrl = normalizeBaseUrl(process.env.RESEND_LOGO_URL)
-  if (explicitLogoUrl) return explicitLogoUrl
+  const explicitLogoUrl = normalizeBaseUrl(process.env.RESEND_LOGO_URL);
+  if (explicitLogoUrl) return explicitLogoUrl;
 
-  const publicSiteUrl = normalizeBaseUrl(process.env.PUBLIC_SITE_URL)
-  if (!publicSiteUrl) return ''
+  const publicSiteUrl = normalizeBaseUrl(process.env.PUBLIC_SITE_URL);
+  if (!publicSiteUrl) return "";
 
-  return `${publicSiteUrl}/favicon.svg`
-}
+  return `${publicSiteUrl}/favicon.svg`;
+};
 
 module.exports = {
   buildContactEmail,
   getLogoUrl,
-}
+};
