@@ -1,5 +1,6 @@
 const escapeHtml = (value = "") =>
   String(value)
+    // Escape dynamic values because this HTML is rendered by email clients.
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -190,6 +191,7 @@ const buildContactEmail = ({ name, email, subject, message, logoUrl }) => {
 };
 
 const getLogoUrl = () => {
+  // Prefer explicit config, fallback to site's favicon for brand continuity.
   const explicitLogoUrl = normalizeBaseUrl(process.env.RESEND_LOGO_URL);
   if (explicitLogoUrl) return explicitLogoUrl;
 

@@ -25,6 +25,7 @@ const allowedOrigins = process.env.CORS_ORIGIN
   : [];
 
 if (!isProduction && allowedOrigins.length === 0) {
+  // Local default to keep DX simple without weakening production checks.
   allowedOrigins.push("http://localhost:5173");
 }
 
@@ -57,6 +58,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const sanitizeText = (value) =>
   value
+    // Strip risky characters/control bytes before length checks and storage.
     .replace(/[<>"'`]/g, "")
     .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
     .trim();
@@ -67,6 +69,7 @@ const normalizeField = (value, maxLen) => {
 };
 
 const contactRateLimit = rateLimit({
+  // Tight limit for contact endpoint to reduce spam and abuse.
   windowMs: 10 * 60 * 1000,
   max: 5,
   standardHeaders: true,
@@ -81,6 +84,7 @@ app.set("trust proxy", trustProxy);
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow same-origin/server calls with no Origin header (e.g. health checks).
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) return callback(null, true);
       return callback(new Error("Not allowed by CORS"));
@@ -95,6 +99,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.post("/api/contact", contactRateLimit, async (req, res) => {
+  // Normalize + cap input early to enforce a single validation path.
   const name = normalizeField(req.body?.name, CONTACT_LIMITS.name);
   const email = normalizeField(
     req.body?.email,

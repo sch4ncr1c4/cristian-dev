@@ -15,6 +15,7 @@ function ContactSection({
   onSubmit,
 }) {
   const [showEmail, setShowEmail] = useState(false);
+  // Reuse submitState to style the button and avoid extra UI-only state.
   const isSent = submitState === "sent";
 
   return (
@@ -43,6 +44,7 @@ function ContactSection({
                 <a
                   href="mailto:crschinocca@gmail.com"
                   className={`text-sm font-medium text-[#a8b5d8] transition sm:text-base ${
+                    // Basic anti-scraping friction until the user explicitly reveals it.
                     showEmail
                       ? "hover:text-white"
                       : "pointer-events-none select-none blur-[4px]"
@@ -189,6 +191,7 @@ function ContactSection({
             <div
               role="status"
               aria-live="polite"
+              // Toast variant is selected by API result: success vs error.
               className={`status-toast ${
                 statusType === "error"
                   ? "status-toast-error"

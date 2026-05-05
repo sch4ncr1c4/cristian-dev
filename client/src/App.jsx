@@ -29,6 +29,7 @@ function App() {
   };
 
   const sendContact = async () => {
+    // Keep the CTA and toast states in sync to prevent duplicate submissions.
     setSending(true);
     setSubmitState("sending");
     setStatus("");
@@ -67,6 +68,7 @@ function App() {
   useEffect(() => {
     if (!status) return undefined;
 
+    // Auto-dismiss feedback so the toast does not stay stuck between attempts.
     const timer = setTimeout(() => {
       setStatus("");
     }, 3500);
@@ -83,6 +85,7 @@ function App() {
     const nodes = document.querySelectorAll(".reveal-mobile");
     if (!nodes.length) return undefined;
 
+    // Reveal animation runs only once per section when it enters the viewport.
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
