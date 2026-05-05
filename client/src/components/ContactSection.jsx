@@ -186,21 +186,6 @@ function ContactSection({
               loading="lazy"
             />
           </button>
-
-          {status && (
-            <div
-              role="status"
-              aria-live="polite"
-              // Toast variant is selected by API result: success vs error.
-              className={`status-toast ${
-                statusType === "error"
-                  ? "status-toast-error"
-                  : "status-toast-success"
-              }`}
-            >
-              <p className="text-sm font-semibold">{status}</p>
-            </div>
-          )}
         </form>
       </div>
     </section>

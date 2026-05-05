@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Header from "./components/Header";
 import HabilidadesSection from "./components/HabilidadesSection";
 import InicioCard from "./components/InicioCard";
@@ -136,6 +137,21 @@ function App() {
         </section>
       </main>
       <Footer />
+      {status &&
+        createPortal(
+          <div
+            role="status"
+            aria-live="polite"
+            className={`status-toast ${
+              statusType === "error"
+                ? "status-toast-error"
+                : "status-toast-success"
+            }`}
+          >
+            <p className="text-sm font-semibold">{status}</p>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
