@@ -338,6 +338,20 @@ html.light textarea:focus-visible {
   transform: scale(1) rotate(0deg);
 }
 
+/* Keep mobile drawer actions visible on Android dynamic viewport/safe area. */
+.site-mobile-menu {
+  max-height: 100svh;
+  overflow: hidden;
+}
+
+.site-mobile-list {
+  min-height: 0;
+}
+
+.site-mobile-actions {
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
 html.light .theme-icon {
   filter: brightness(0);
 }

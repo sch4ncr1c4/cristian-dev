@@ -177,7 +177,7 @@ function Header() {
       />
 
       <nav
-        className={`site-mobile-menu fixed inset-y-0 right-0 z-[70] flex h-[100dvh] min-h-screen w-[min(88vw,24rem)] flex-col border-l border-slate-500/25 bg-gradient-to-b from-[#050b16]/82 to-[#030811]/72 backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out will-change-transform lg:hidden ${open ? 'visible translate-x-0 opacity-100' : 'pointer-events-none invisible translate-x-[105%] opacity-0'}`}
+        className={`site-mobile-menu fixed inset-y-0 right-0 z-[70] grid h-[100svh] min-h-0 w-[min(88vw,24rem)] grid-rows-[auto_1fr_auto] border-l border-slate-500/25 bg-gradient-to-b from-[#050b16]/82 to-[#030811]/72 backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out will-change-transform lg:hidden ${open ? 'visible translate-x-0 opacity-100' : 'pointer-events-none invisible translate-x-[105%] opacity-0'}`}
         aria-hidden={!open}
       >
         <div className="border-b border-slate-500/25 px-5 py-4">
@@ -199,7 +199,7 @@ function Header() {
           </div>
         </div>
 
-        <ul className="flex flex-1 flex-col gap-3 px-4 py-4">
+        <ul className="site-mobile-list flex flex-col gap-3 overflow-y-auto px-4 py-4">
           {links.map((link) => (
             <li key={link.href}>
               <a
@@ -222,7 +222,7 @@ function Header() {
           ))}
         </ul>
 
-        <div className="border-t border-slate-500/25 px-4 py-4">
+        <div className="site-mobile-actions border-t border-slate-500/25 px-4 py-4">
           <button
             type="button"
             onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
