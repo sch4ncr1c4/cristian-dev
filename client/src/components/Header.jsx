@@ -1,4 +1,6 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import sunIcon from '../assets/icons/sun.svg'
+import moonIcon from '../assets/icons/moon.svg'
 
 const links = [
   { label: 'Inicio', href: '#inicio', hint: 'Presentacion principal' },
@@ -10,6 +12,21 @@ const links = [
 
 function Header() {
   const [open, setOpen] = useState(false)
+  const [theme, setTheme] = useState('dark')
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem('theme')
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+    const initialTheme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : (prefersLight ? 'light' : 'dark')
+    setTheme(initialTheme)
+  }, [])
+
+  useEffect(() => {
+    const root = document.documentElement
+    root.classList.remove('light', 'dark')
+    root.classList.add(theme)
+    window.localStorage.setItem('theme', theme)
+  }, [theme])
 
   const goToSection = (href) => {
     const target = document.querySelector(href)
@@ -70,7 +87,7 @@ function Header() {
     <>
       <div aria-hidden className="h-[72px]" />
 
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-gradient-to-b from-[#050b16]/82 to-[#030811]/72 text-white backdrop-blur-xl">
+      <header className="site-header fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-gradient-to-b from-[#050b16]/82 to-[#030811]/72 text-white backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-5 px-5 py-4 sm:px-8">
           <a href="#inicio" className="text-base font-extrabold tracking-wide">
             <span className="mr-1 text-lg font-extrabold text-[#6959ff]">{"</>"}</span>
@@ -97,16 +114,39 @@ function Header() {
             </ul>
           </nav>
 
-          <a
-            href="#contacto"
-            onClick={(event) => {
-              event.preventDefault()
-              goToSection('#contacto')
-            }}
-            className="btn-anim hidden rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10 lg:inline-flex"
-          >
-            Solicitar propuesta
-          </a>
+          <div className="hidden items-center gap-2 lg:flex">
+            <a
+              href="#contacto"
+              onClick={(event) => {
+                event.preventDefault()
+                goToSection('#contacto')
+              }}
+              className="btn-anim rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10"
+            >
+              Solicitar propuesta
+            </a>
+            <button
+              type="button"
+              onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
+              className="theme-toggle btn-anim inline-flex h-[38px] w-11 cursor-pointer items-center justify-center rounded-2xl border border-[#6959ff]/60 bg-[#10162a]/70 shadow-[0_10px_24px_-16px_rgba(105,89,255,0.9)] hover:bg-[#6959ff]/15"
+              aria-label={theme === 'dark' ? 'Activate light mode' : 'Activate dark mode'}
+            >
+              <span className="theme-toggle-stack">
+                <img
+                  src={sunIcon}
+                  alt=""
+                  aria-hidden="true"
+                  className={`theme-icon theme-icon-sun ${theme === 'light' ? 'is-active' : ''}`}
+                />
+                <img
+                  src={moonIcon}
+                  alt=""
+                  aria-hidden="true"
+                  className={`theme-icon theme-icon-moon ${theme === 'dark' ? 'is-active' : ''}`}
+                />
+              </span>
+            </button>
+          </div>
 
           <button
             type="button"
@@ -130,11 +170,11 @@ function Header() {
 
       <div
         onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-[60] bg-[#01040c]/65 backdrop-blur-[1px] transition-opacity duration-300 lg:hidden ${open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`site-menu-backdrop fixed inset-0 z-[60] bg-[#01040c]/65 backdrop-blur-[1px] transition-opacity duration-300 lg:hidden ${open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
       />
 
       <nav
-        className={`fixed inset-y-0 right-0 z-[70] flex h-[100dvh] min-h-screen w-[min(88vw,24rem)] flex-col border-l border-slate-500/25 bg-gradient-to-b from-[#050b16]/82 to-[#030811]/72 backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out will-change-transform lg:hidden ${open ? 'visible translate-x-0 opacity-100' : 'pointer-events-none invisible translate-x-[105%] opacity-0'}`}
+        className={`site-mobile-menu fixed inset-y-0 right-0 z-[70] flex h-[100dvh] min-h-screen w-[min(88vw,24rem)] flex-col border-l border-slate-500/25 bg-gradient-to-b from-[#050b16]/82 to-[#030811]/72 backdrop-blur-xl shadow-2xl transition-all duration-300 ease-out will-change-transform lg:hidden ${open ? 'visible translate-x-0 opacity-100' : 'pointer-events-none invisible translate-x-[105%] opacity-0'}`}
         aria-hidden={!open}
       >
         <div className="border-b border-slate-500/25 px-5 py-4">
@@ -144,15 +184,15 @@ function Header() {
                 Navegacion
               </p>
             </div>
-          
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="inline-flex h-12 w-12 items-center justify-center bg-transparent text-slate-100 transition hover:text-white active:scale-95"
-            aria-label="Cerrar menu"
-          >
-            <span className="text-3xl leading-none">×</span>
-          </button>
+
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="inline-flex h-12 w-12 items-center justify-center bg-transparent text-slate-100 transition hover:text-white active:scale-95"
+              aria-label="Cerrar menu"
+            >
+              <span className="text-3xl leading-none">×</span>
+            </button>
           </div>
         </div>
 
@@ -180,13 +220,35 @@ function Header() {
         </ul>
 
         <div className="border-t border-slate-500/25 px-4 py-4">
+          <button
+            type="button"
+            onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
+            className="theme-toggle btn-anim mb-3 inline-flex h-[38px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10"
+            aria-label={theme === 'dark' ? 'Activate light mode' : 'Activate dark mode'}
+          >
+            <span className="theme-toggle-stack">
+              <img
+                src={sunIcon}
+                alt=""
+                aria-hidden="true"
+                className={`theme-icon theme-icon-sun ${theme === 'light' ? 'is-active' : ''}`}
+              />
+              <img
+                src={moonIcon}
+                alt=""
+                aria-hidden="true"
+                className={`theme-icon theme-icon-moon ${theme === 'dark' ? 'is-active' : ''}`}
+              />
+            </span>
+            <span>{theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}</span>
+          </button>
           <a
             href="#contacto"
             onClick={(event) => {
               event.preventDefault()
               goToSection('#contacto')
             }}
-            className="btn-anim inline-flex w-full items-center justify-center rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10"
+            className="btn-anim inline-flex h-[38px] w-full items-center justify-center rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10"
           >
             Solicitar propuesta
           </a>
@@ -197,4 +259,3 @@ function Header() {
 }
 
 export default Header
-

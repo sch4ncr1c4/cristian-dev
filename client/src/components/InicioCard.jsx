@@ -90,28 +90,28 @@ function InicioCard() {
               </span>
             </div>
             <picture>
-            <source
-              type="image/avif"
-              srcSet="/banner-v2-320.avif 320w, /banner-v2-480.avif 480w, /banner-v2-640.avif 640w, /banner-v2-960.avif 960w, /banner-v2-1160.avif 1160w"
-              sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
-            />
-            <source
-              type="image/webp"
-              srcSet="/banner-v2-320.webp 320w, /banner-v2-480.webp 480w, /banner-v2-640.webp 640w, /banner-v2-960.webp 960w, /banner-v2-1160.webp 1160w"
-              sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
-            />
-            <img
-              src="/banner-v2-640.jpg"
-              srcSet="/banner-v2-320.jpg 320w, /banner-v2-640.jpg 640w, /banner-v2-1160.jpg 1160w"
-              sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
-              alt="Banner de Cristian Dev"
-              width="1160"
-              height="1227"
-              className="mx-auto h-auto w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:mx-0 lg:max-w-[560px] xl:max-w-[580px]"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
+              <source
+                type="image/avif"
+                srcSet="/banner-v2-320.avif 320w, /banner-v2-480.avif 480w, /banner-v2-640.avif 640w, /banner-v2-960.avif 960w, /banner-v2-1160.avif 1160w"
+                sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
+              />
+              <source
+                type="image/webp"
+                srcSet="/banner-v2-320.webp 320w, /banner-v2-480.webp 480w, /banner-v2-640.webp 640w, /banner-v2-960.webp 960w, /banner-v2-1160.webp 1160w"
+                sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
+              />
+              <img
+                src="/banner-v2-640.jpg"
+                srcSet="/banner-v2-320.jpg 320w, /banner-v2-640.jpg 640w, /banner-v2-1160.jpg 1160w"
+                sizes="(max-width: 767px) 92vw, (max-width: 1279px) 500px, 580px"
+                alt="Banner de Cristian Dev"
+                width="1084"
+                height="1084"
+                className="mx-auto h-auto w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:mx-0 lg:max-w-[560px] xl:max-w-[580px]"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
             </picture>
           </div>
         </div>
