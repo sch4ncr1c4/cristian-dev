@@ -131,7 +131,7 @@ function Header() {
             <button
               type="button"
               onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
-              className="theme-toggle btn-anim inline-flex h-[38px] w-11 cursor-pointer items-center justify-center rounded-2xl border border-[#6959ff] hover:bg-[#6959ff]/10"
+              className="theme-toggle btn-anim inline-flex h-[38px] w-11 cursor-pointer items-center justify-center rounded-xl border border-[#6959ff] hover:bg-[#6959ff]/10"
               aria-label={theme === 'dark' ? 'Activate light mode' : 'Activate dark mode'}
             >
               <span className="theme-toggle-stack">
