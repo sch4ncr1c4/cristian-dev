@@ -12,20 +12,23 @@ const links = [
 
 function Header() {
   const [open, setOpen] = useState(false)
-  const [theme, setTheme] = useState('dark')
-
-  useEffect(() => {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'dark'
     const savedTheme = window.localStorage.getItem('theme')
     const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
-    const initialTheme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : (prefersLight ? 'light' : 'dark')
-    setTheme(initialTheme)
-  }, [])
+    return savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : (prefersLight ? 'light' : 'dark')
+  })
 
   useEffect(() => {
     const root = document.documentElement
     root.classList.remove('light', 'dark')
     root.classList.add(theme)
     window.localStorage.setItem('theme', theme)
+    root.classList.add('theme-animating')
+    const timeoutId = window.setTimeout(() => {
+      root.classList.remove('theme-animating')
+    }, 460)
+    return () => window.clearTimeout(timeoutId)
   }, [theme])
 
   const goToSection = (href) => {
@@ -128,7 +131,7 @@ function Header() {
             <button
               type="button"
               onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
-              className="theme-toggle btn-anim inline-flex h-[38px] w-11 cursor-pointer items-center justify-center rounded-2xl border border-[#6959ff]/60 bg-[#10162a]/70 shadow-[0_10px_24px_-16px_rgba(105,89,255,0.9)] hover:bg-[#6959ff]/15"
+              className="theme-toggle btn-anim inline-flex h-[38px] w-11 cursor-pointer items-center justify-center rounded-2xl border border-[#6959ff] hover:bg-[#6959ff]/10"
               aria-label={theme === 'dark' ? 'Activate light mode' : 'Activate dark mode'}
             >
               <span className="theme-toggle-stack">

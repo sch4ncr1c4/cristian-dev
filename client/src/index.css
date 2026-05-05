@@ -77,6 +77,27 @@ body {
   transition: background-color 220ms ease, color 220ms ease;
 }
 
+html.theme-animating body,
+html.theme-animating .card-surface,
+html.theme-animating .site-header,
+html.theme-animating .site-footer,
+html.theme-animating .site-mobile-menu,
+html.theme-animating .site-menu-backdrop,
+html.theme-animating a,
+html.theme-animating button,
+html.theme-animating input,
+html.theme-animating textarea,
+html.theme-animating span,
+html.theme-animating p {
+  transition:
+    background-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
 html.light body {
   background-image:
     linear-gradient(rgba(140, 120, 210, 0.16) 1px, transparent 1px),
@@ -322,6 +343,21 @@ html.light .theme-icon {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html.theme-animating body,
+  html.theme-animating .card-surface,
+  html.theme-animating .site-header,
+  html.theme-animating .site-footer,
+  html.theme-animating .site-mobile-menu,
+  html.theme-animating .site-menu-backdrop,
+  html.theme-animating a,
+  html.theme-animating button,
+  html.theme-animating input,
+  html.theme-animating textarea,
+  html.theme-animating span,
+  html.theme-animating p {
+    transition: none !important;
+  }
+
   .btn-anim,
   .btn-anim:hover,
   .btn-anim:active {
