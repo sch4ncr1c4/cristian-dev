@@ -2,7 +2,7 @@ import boltGreenIcon from "../assets/icons/bolt-green.svg";
 import reloadIcon from "../assets/icons/reload.svg";
 import graphIcon from "../assets/icons/graph.svg";
 
-function SobreMiSection() {
+function FocusSection() {
   const highlights = [
     {
       icon: boltGreenIcon,
@@ -152,5 +152,5 @@ function SobreMiSection() {
   );
 }
 
-export default SobreMiSection;
+export default FocusSection;
 

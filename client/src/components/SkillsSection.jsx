@@ -29,7 +29,7 @@ const capabilityCards = [
   { label: "Cloud & Despliegue", icon: cloudIcon },
 ];
 
-function HabilidadesSection() {
+function SkillsSection() {
   return (
     <section
       id="habilidades"
@@ -112,5 +112,5 @@ function HabilidadesSection() {
   );
 }
 
-export default HabilidadesSection;
+export default SkillsSection;
 

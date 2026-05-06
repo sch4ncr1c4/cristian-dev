@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Header from "./components/Header";
-import HabilidadesSection from "./components/HabilidadesSection";
-import InicioCard from "./components/InicioCard";
+import SkillsSection from "./components/SkillsSection";
+import HomeCard from "./components/HomeCard";
 import ProjectsSection from "./components/ProjectsSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
-import SobreMiSection from "./components/SobreMiSection";
+import FocusSection from "./components/FocusSection";
 import TopDivider from "./components/TopDivider";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
@@ -112,11 +112,11 @@ function App() {
         <TopDivider className="mt-10 mb-10" />
 
         <section id="inicio" className="reveal-mobile from-right pt-0 pb-[30px]">
-          <InicioCard />
+          <HomeCard />
         </section>
 
         <section className="reveal-mobile from-left py-[30px]">
-          <HabilidadesSection />
+          <SkillsSection />
         </section>
 
         <section className="reveal-mobile from-right py-[30px]">
@@ -124,7 +124,7 @@ function App() {
         </section>
 
         <section className="reveal-mobile from-left py-[30px]">
-          <SobreMiSection />
+          <FocusSection />
         </section>
 
         <section id="contacto" className="reveal-mobile from-right py-[30px]">

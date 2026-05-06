@@ -4,7 +4,7 @@ import instagramIcon from "../assets/icons/instagram.svg";
 import linkedinIcon from "../assets/icons/linkedin.svg";
 import mailIcon from "../assets/icons/mail-svgrepo-com.svg";
 
-function InicioCard() {
+function HomeCard() {
   const goToSection = (href) => {
     const target = document.querySelector(href);
     if (!target) return;
@@ -177,5 +177,5 @@ function InicioCard() {
   );
 }
 
-export default InicioCard;
+export default HomeCard;
 
