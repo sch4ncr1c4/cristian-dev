@@ -50,7 +50,7 @@ function SkillsSection() {
       </div>
 
       <div className="mt-9">
-        <h3 className="mb-5 text-2xl font-bold text-white">
+        <h3 className="mb-5 text-lg font-bold text-white sm:text-xl lg:text-2xl">
           Desarrollo web y backend
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
@@ -80,7 +80,7 @@ function SkillsSection() {
       </div>
 
       <div className="mt-11">
-        <h3 className="mb-5 text-2xl font-bold text-white">
+        <h3 className="mb-5 text-lg font-bold text-white sm:text-xl lg:text-2xl">
           Automatización e integraciones
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
