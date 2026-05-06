@@ -7,6 +7,7 @@ import ProjectsSection from "./components/ProjectsSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import SobreMiSection from "./components/SobreMiSection";
+import TopDivider from "./components/TopDivider";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
@@ -108,7 +109,9 @@ function App() {
       <Header />
 
       <main className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <section id="inicio" className="reveal-mobile from-right py-[30px]">
+        <TopDivider className="mt-10 mb-10" />
+
+        <section id="inicio" className="reveal-mobile from-right pt-0 pb-[30px]">
           <InicioCard />
         </section>
 
@@ -136,6 +139,7 @@ function App() {
           />
         </section>
       </main>
+      <TopDivider className="mt-8 mb-12" />
       <Footer />
       {status &&
         createPortal(
@@ -157,3 +161,5 @@ function App() {
 }
 
 export default App;
+
+

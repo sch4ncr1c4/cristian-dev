@@ -26,18 +26,17 @@ function InicioCard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pt-8">
         <div className="p-5 sm:p-6">
           <div className="space-y-4 text-center lg:text-left">
-            <p className="text-2xl font-extrabold leading-tight text-[#6959ff] sm:text-3xl">
+            <p className="text-2xl font-extrabold leading-tight text-[#5545fa] sm:text-3xl">
               Hola, soy
             </p>
             <h1 className="flex items-baseline justify-center gap-2 whitespace-nowrap text-4xl font-extrabold leading-tight sm:text-4xl lg:justify-start lg:text-[5.625rem] lg:leading-[1]">
-              Cristian <span className="text-[#6959ff]">Dev</span>
+              Cristian <span className="text-[#5545fa]">Dev</span>
             </h1>
             <p className="text-xl font-bold text-white sm:text-2xl">
-              Sistemas web y automatizaciones a medida
+              Desarrollo Web y Automatizaciones Inteligentes
             </p>
             <p className="mx-auto max-w-xl text-base text-gray-300 sm:text-lg lg:mx-0">
-              Desarrollo sistemas y automatizaciones a medida para ordenar
-              procesos, reducir trabajo manual y ahorrar tiempo.
+              Desarrollo sistemas y automatizaciones a medida para optimizar procesos, reducir tareas manuales y mejorar la eficiencia de tu negocio.
             </p>
           </div>
 
@@ -48,9 +47,9 @@ function InicioCard() {
                 event.preventDefault();
                 goToSection("#proyectos");
               }}
-              className="btn-anim inline-flex items-center gap-1.5 rounded-xl bg-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#5b4be6] sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
+              className="btn-anim inline-flex items-center gap-1.5 rounded-xl bg-[#5545fa] px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#4839e0] sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
-              Ver mis proyectos
+              Ver proyectos
               <img
                 src={arrowIcon}
                 alt="Flecha hacia la derecha"
@@ -66,9 +65,9 @@ function InicioCard() {
                 event.preventDefault();
                 goToSection("#contacto");
               }}
-              className="btn-anim inline-flex items-center gap-1.5 rounded-xl border border-[#6959ff] px-3.5 py-2.5 text-center text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10 sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
+              className="btn-anim inline-flex items-center gap-1.5 rounded-xl border border-[#5545fa] px-3.5 py-2.5 text-center text-sm font-semibold text-[#5545fa] hover:bg-[#5545fa]/10 sm:gap-2 sm:px-5 sm:py-3 sm:text-base"
             >
-              Contactarme
+              Hablemos
               <img
                 src={mailIcon}
                 alt="Icono de correo electronico"
@@ -134,7 +133,7 @@ function InicioCard() {
 
         <div className="self-end lg:flex lg:justify-end">
           <div className="relative mx-auto w-fit lg:mx-0">
-            <div className="absolute right-4 top-[42px] z-10 flex h-14 w-14 items-center justify-center rounded-xl border border-slate-400/20 bg-[rgba(2,6,15,0.92)] text-lg font-extrabold text-[#6959ff] shadow-[0_10px_25px_-14px_rgba(0,0,0,0.95)] sm:right-3 sm:top-[46px] sm:h-16 sm:w-16 sm:text-xl md:right-14 md:top-[50px] md:h-[4.5rem] md:w-[4.5rem] md:text-2xl lg:top-[50px] lg:h-20 lg:w-20">
+            <div className="absolute right-4 top-[42px] z-10 flex h-14 w-14 items-center justify-center rounded-xl border border-slate-400/20 bg-[rgba(2,6,15,0.92)] text-lg font-extrabold text-[#5545fa] shadow-[0_10px_25px_-14px_rgba(0,0,0,0.95)] sm:right-3 sm:top-[46px] sm:h-16 sm:w-16 sm:text-xl md:right-14 md:top-[50px] md:h-[4.5rem] md:w-[4.5rem] md:text-2xl lg:top-[50px] lg:h-20 lg:w-20">
               <span className="code-typing" aria-label="</>">
                 <span>{"<"}</span>
                 <span>{"/"}</span>
@@ -179,3 +178,4 @@ function InicioCard() {
 }
 
 export default InicioCard;
+

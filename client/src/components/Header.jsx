@@ -4,9 +4,9 @@ import moonIcon from "../assets/icons/moon.svg";
 
 const links = [
   { label: "Inicio", href: "#inicio", hint: "Presentacion principal" },
-  { label: "Habilidades", href: "#habilidades", hint: "Stack y fortalezas" },
+  { label: "Tecnologías", href: "#habilidades", hint: "Tecnologías principales" },
   { label: "Proyectos", href: "#proyectos", hint: "Trabajos destacados" },
-  { label: "Sobre mi", href: "#sobre-mi", hint: "Perfil y experiencia" },
+  { label: "Mi enfoque", href: "#sobre-mi", hint: "Metodologia y servicios" },
   { label: "Contacto", href: "#contacto", hint: "Hablemos de tu idea" },
 ];
 
@@ -101,11 +101,11 @@ function Header() {
       <header className="site-header fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-gradient-to-b from-[#050b16]/82 to-[#030811]/72 text-white backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-5 px-5 py-4 sm:px-8">
           <a href="#inicio" className="text-base font-extrabold tracking-wide">
-            <span className="mr-1 text-lg font-extrabold text-[#6959ff]">
+            <span className="mr-1 text-lg font-extrabold text-[#5545fa]">
               {"</>"}
             </span>
             <span className="text-lg font-extrabold text-white">Cristian </span>
-            <span className="text-lg font-extrabold text-[#6959ff]">Dev</span>
+            <span className="text-lg font-extrabold text-[#5545fa]">Dev</span>
           </a>
 
           <nav className="hidden lg:flex lg:flex-1 lg:justify-center">
@@ -118,7 +118,7 @@ function Header() {
                       event.preventDefault();
                       goToSection(link.href);
                     }}
-                    className="relative block px-1 py-2 text-sm font-semibold text-white/80 transition hover:text-white after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-[#6959ff] after:transition-transform after:duration-300 hover:after:scale-x-100"
+                    className="relative block px-1 py-2 text-sm font-semibold text-white/80 transition hover:text-white after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-[#5545fa] after:transition-transform after:duration-300 hover:after:scale-x-100"
                   >
                     {link.label}
                   </a>
@@ -134,7 +134,7 @@ function Header() {
                 event.preventDefault();
                 goToSection("#contacto");
               }}
-              className="btn-anim rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10"
+              className="btn-anim rounded-xl border border-[#5545fa] px-6 py-2 text-sm font-semibold text-[#5545fa] hover:bg-[#5545fa]/10"
             >
               Solicitar propuesta
             </a>
@@ -143,7 +143,7 @@ function Header() {
               onClick={() =>
                 setTheme((prev) => (prev === "dark" ? "light" : "dark"))
               }
-              className="theme-toggle btn-anim inline-flex h-[38px] w-11 cursor-pointer items-center justify-center rounded-xl border border-[#6959ff] hover:bg-[#6959ff]/10"
+              className="theme-toggle btn-anim inline-flex h-[38px] w-11 cursor-pointer items-center justify-center rounded-xl border border-[#5545fa] hover:bg-[#5545fa]/10"
               aria-label={
                 theme === "dark" ? "Activate light mode" : "Activate dark mode"
               }
@@ -225,7 +225,7 @@ function Header() {
                 className="group flex items-center gap-3 rounded-xl border border-[#2a3650]/55 bg-[#0b1426]/60 px-3 py-3.5 transition hover:border-[#425a87]/60 hover:bg-[#12203a]/80 active:scale-[0.99]"
               >
                 <span
-                  className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#6959ff]"
+                  className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#5545fa]"
                   aria-hidden="true"
                 />
                 <span className="flex min-w-0 flex-col">
@@ -247,7 +247,7 @@ function Header() {
             onClick={() =>
               setTheme((prev) => (prev === "dark" ? "light" : "dark"))
             }
-            className="theme-toggle btn-anim mb-3 inline-flex h-[38px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10"
+            className="theme-toggle btn-anim mb-3 inline-flex h-[38px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#5545fa] px-6 py-2 text-sm font-semibold text-[#5545fa] hover:bg-[#5545fa]/10"
             aria-label={
               theme === "dark" ? "Activate light mode" : "Activate dark mode"
             }
@@ -274,7 +274,7 @@ function Header() {
               event.preventDefault();
               goToSection("#contacto");
             }}
-            className="btn-anim inline-flex h-[38px] w-full items-center justify-center rounded-xl border border-[#6959ff] px-6 py-2 text-sm font-semibold text-[#6959ff] hover:bg-[#6959ff]/10"
+            className="btn-anim inline-flex h-[38px] w-full items-center justify-center rounded-xl border border-[#5545fa] px-6 py-2 text-sm font-semibold text-[#5545fa] hover:bg-[#5545fa]/10"
           >
             Solicitar propuesta
           </a>
@@ -285,3 +285,4 @@ function Header() {
 }
 
 export default Header;
+

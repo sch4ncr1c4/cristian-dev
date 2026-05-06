@@ -29,12 +29,12 @@ function ProjectsSection() {
     >
       <div className="mb-6 flex items-center justify-between gap-3">
         <h2 className="flex items-center gap-3 text-lg font-bold sm:text-xl">
-          <span className="h-3 w-3 rounded-full bg-[#6959ff]" />
+          <span className="h-3 w-3 rounded-full bg-[#5545fa]" />
           Proyectos destacados
         </h2>
         <a
           href="#"
-          className="text-sm font-semibold text-[#6959ff] hover:text-[#9e8bff] sm:text-base"
+          className="text-sm font-semibold text-[#5545fa] hover:text-[#8072ff] sm:text-base"
         >
           Ver todos
         </a>
@@ -88,3 +88,4 @@ function ProjectsSection() {
 }
 
 export default ProjectsSection;
+
